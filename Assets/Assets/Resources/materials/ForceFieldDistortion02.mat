@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ForceFieldDistortion02
+  m_Shader: {fileID: 4800000, guid: 996476ebd23abe9489967b05d473a6f9, type: 3}
+  m_ValidKeywords:
+  - _LOCALNOISEPOSITION_ON
+  - _MASKAPPEARINVERT_ON
+  - _MASKAPPEARNOISETRIPLANAR_ON
+  - _MASKSOFTBORDERS_ON
+  - _NOISEDISTORTIONENABLED_ON
+  m_InvalidKeywords: []
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MaskAppearNoise:
+        m_Texture: {fileID: 2800000, guid: b42fa4333ffb2b24caa018a84cf7aceb, type: 3}
+        m_Scale: {x: 3, y: 0.25}
+        m_Offset: {x: 0, y: 0}
+    - _MaskAppearRamp:
+        m_Texture: {fileID: 2800000, guid: 61396c6cd84c4ee40b961fb8acedd7af, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise01:
+        m_Texture: {fileID: 2800000, guid: 0a137175baffa1644abe2fa9ee24f9e6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise02:
+        m_Texture: {fileID: 2800000, guid: 0a137175baffa1644abe2fa9ee24f9e6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseDistortion:
+        m_Texture: {fileID: 2800000, guid: 29f0c2f8fbfa10340a19ffef62ff9e84, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+    - _DepthFadeDistance: 2
+    - _DepthFadeExp: 4
+    - _FinalPower: 0
+    - _Float0: 0
+    - _Float4: 0.25
+    - _FresnelExp: 4
+    - _LocalNoisePosition: 1
+    - _MaskAppearInvert: 1
+    - _MaskAppearLocalYAdd: 0
+    - _MaskAppearLocalYRemap: 0.5
+    - _MaskAppearNoiseTriplanar: 1
+    - _MaskAppearNoiseTriplanarTiling: 0.1
+    - _MaskAppearProgress: -1.1115869
+    - _MaskAppearUseWorldPosition: 0
+    - _MaskDepthFadeDistance: 12
+    - _MaskDepthFadeEnabled: 1
+    - _MaskDepthFadeExp: 2
+    - _MaskFresnelExp: 0.2
+    - _MaskSoftBorders: 1
+    - _MaskSoftBordersExp: 20
+    - _MaskSoftBordersMultiply: 1.01
+    - _Noise01ScrollSpeed: 0.25
+    - _Noise01Tiling: 0.2
+    - _Noise02Enabled: 0
+    - _Noise02ScrollSpeed: 0.1
+    - _Noise02Tiling: 0.35
+    - _NoiseDistortionEnabled: 1
+    - _NoiseDistortionPower: 1
+    - _NoiseDistortionTiling: 0.15
+    - _NoiseMaskAdd: 0.25
+    - _NoiseMaskPower: 2
+    - _NoisePower: 1
+    - _NormalVertexOffset: 0.02
+    - _RampFlip: 0
+    - _RampMultiplyTiling: 1
+    - _ScreenDistortionPower: 0.015
+    - _VisualizeMask: 0
+    - _VisualizeMaskDebug: 0
+    - __dirty: 0
+    m_Colors:
+    - _RampColorTint: {r: 1, g: 0.53676474, b: 0.53676474, a: 1}
+  m_BuildTextureStacks: []
