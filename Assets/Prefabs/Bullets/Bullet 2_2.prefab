@@ -4944,7 +4944,7 @@ GameObject:
   - component: {fileID: 65816659777082307}
   - component: {fileID: 54550882776256296}
   - component: {fileID: 514991330479227857}
-  m_Layer: 11
+  m_Layer: 6
   m_Name: Bullet 2_2
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -4977,7 +4977,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1797268760539527}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.31112337, y: 0.24661338, z: 1.115181}
@@ -4993,7 +4993,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -5011,6 +5011,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitParticle: {fileID: 198398215289276048}
+  bulletRigidbody: {fileID: 54550882776256296}
+  speed: 50
 --- !u!1 &1941674630650640
 GameObject:
   m_ObjectHideFlags: 0

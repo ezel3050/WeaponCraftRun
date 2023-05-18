@@ -7,6 +7,7 @@ namespace Models
     [Serializable]
     public class WeaponModel
     {
+        public float Year;
         public Weapon Weapon;
         public Bullet Bullet;
         public float Rate;

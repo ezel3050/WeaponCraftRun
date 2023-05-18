@@ -12,6 +12,7 @@ namespace Level
         public override void InitializeLevel(BaseLevelConfig config)
         {
             base.InitializeLevel(config);
+            playerController.Initialize();
             SetPlayerToInputManager();
         }
         

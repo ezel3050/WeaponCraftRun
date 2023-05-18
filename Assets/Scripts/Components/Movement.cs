@@ -29,6 +29,7 @@ namespace DefaultNamespace.Components
         bool m_HasInput;
         bool m_ManualInputHandler;
         float m_MaxXPosition;
+        float m_MinXPosition;
         float m_XPos;
         float m_ZPos;
         float m_TargetPosition;
@@ -91,11 +92,12 @@ namespace DefaultNamespace.Components
                 return;
             }
             
-            m_MaxXPosition = 4;
+            m_MaxXPosition = 3.2f;
+            m_MinXPosition = -4f;
         
             float fullWidth = m_MaxXPosition * 2.0f;
             m_TargetPosition += fullWidth * normalizedDeltaPosition;
-            m_TargetPosition = Mathf.Clamp(m_TargetPosition, -m_MaxXPosition, m_MaxXPosition);
+            m_TargetPosition = Mathf.Clamp(m_TargetPosition, m_MinXPosition, m_MaxXPosition);
             m_HasInput = true;
         }
         
