@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
 using DefaultNamespace.Components;
-using Managers;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 
-namespace DefaultNamespace
+namespace Entities
 {
-    public class PlayerController : MonoBehaviour
+    public class Player : MonoBehaviour
     {
         [SerializeField] private Movement movement;
         [SerializeField] private Transform weaponSpot;

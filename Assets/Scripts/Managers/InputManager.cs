@@ -1,4 +1,5 @@
 using DefaultNamespace;
+using Entities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -16,7 +17,7 @@ namespace Managers
         bool m_HasInput;
         Vector3 m_InputPosition;
         Vector3 m_PreviousInputPosition;
-        private PlayerController _player;
+        private Player _player;
 
         void Awake()
         {
@@ -90,7 +91,7 @@ namespace Managers
             m_PreviousInputPosition = m_InputPosition;
         }
 
-        public void SetPlayer(PlayerController playerController)
+        public void SetPlayer(Player playerController)
         {
             _player = playerController;
         }

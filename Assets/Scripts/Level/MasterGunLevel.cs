@@ -1,12 +1,13 @@
 using DefaultNamespace.Core;
+using Entities;
 using Managers;
 using UnityEngine;
 
-namespace DefaultNamespace.Level
+namespace Level
 {
     public class MasterGunLevel : BaseLevel
     {
-        [SerializeField] private PlayerController playerController;
+        [SerializeField] private Player playerController;
 
         public override void InitializeLevel(BaseLevelConfig config)
         {
