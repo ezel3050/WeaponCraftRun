@@ -36,6 +36,11 @@ namespace Entities
             hitParticle.Play();
         }
 
+        public WeaponModel GetWeaponModel()
+        {
+            return _weaponModel;
+        }
+
         private void DestroyItself()
         {
             Destroy(gameObject);

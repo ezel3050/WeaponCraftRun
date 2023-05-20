@@ -1,6 +1,7 @@
 using System;
 using DefaultNamespace.Entities;
 using Entities;
+using UnityEngine;
 
 namespace Models
 {
@@ -13,5 +14,7 @@ namespace Models
         public float Rate;
         public float Range;
         public float Power;
+        public Material OuterBulletMaterial;
+        public Material InnerBulletMaterial;
     }
 }
