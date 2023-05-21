@@ -10,6 +10,12 @@ namespace Statics
             set => PlayerPrefs.SetInt("Money", value);
         }
         
+        public static int MagazineLevel
+        {
+            get => PlayerPrefs.GetInt("MagazineLevel", 1);
+            set => PlayerPrefs.SetInt("MagazineLevel", value);
+        }
+        
         public static float WeaponLevel
         {
             get => PlayerPrefs.GetFloat("WeaponLevel", 1800);

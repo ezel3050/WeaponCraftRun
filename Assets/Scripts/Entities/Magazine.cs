@@ -9,10 +9,14 @@ namespace Entities
     {
         [SerializeField] private List<MagazineHole> holes;
         [SerializeField] private Transform rotationObject;
+        [SerializeField] private int level;
 
         private float _tempRotationZ;
         private float _tempTime;
         private Quaternion _defaultRotation;
+
+        public int Level => level;
+        public Action onMagazineGotFull;
 
         private void Start()
         {
@@ -32,6 +36,9 @@ namespace Entities
             var model = bullet.GetWeaponModel();
             var availableHole = holes.Find(hole => !hole.IsFilled);
             availableHole.Initialize(model);
+            bullet.BulletHit();
+            if (!IsEmptyHoleAvailable())
+                onMagazineGotFull?.Invoke();
             _tempRotationZ += 360 / holes.Count;
             _tempTime = 0;
         }

@@ -2,11 +2,11 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!1 &1277216101595066
 GameObject:
-  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4411766510718815}
   - component: {fileID: 137325707573699704}
@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277216101595066}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34,7 +34,6 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &137325707573699704
 SkinnedMeshRenderer:
-  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -53,7 +52,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42a2c3820a1d88e41ae5680ead966709, type: 2}
+  - {fileID: 2100000, guid: 8336e1e0e544862478ab4e2fb65c9da3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -74,22 +73,23 @@ SkinnedMeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 4300000, guid: a6c2e6b6cb6d59f4c80c2d23fe3754c3, type: 2}
   m_Bones:
-  - {fileID: 4241281029516288, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 2}
-  - {fileID: 4736513301986232, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 2}
-  - {fileID: 4172767560173101, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 2}
-  - {fileID: 4085973070102659, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 2}
-  - {fileID: 4493471346422828, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 2}
-  - {fileID: 4447191214009406, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 2}
-  - {fileID: 4551599672345717, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 2}
-  - {fileID: 4466683690877974, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 2}
-  - {fileID: 4207211790541606, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 2}
+  - {fileID: 4241281029516288, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 3}
+  - {fileID: 4736513301986232, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 3}
+  - {fileID: 4172767560173101, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 3}
+  - {fileID: 4085973070102659, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 3}
+  - {fileID: 4493471346422828, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 3}
+  - {fileID: 4447191214009406, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 3}
+  - {fileID: 4551599672345717, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 3}
+  - {fileID: 4466683690877974, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 3}
+  - {fileID: 4207211790541606, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 3}
   m_BlendShapeWeights: []
-  m_RootBone: {fileID: 4207211790541606, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 2}
+  m_RootBone: {fileID: 4207211790541606, guid: b01b00d97cd33cc45ae80b108b9c132b, type: 3}
   m_AABB:
     m_Center: {x: 0, y: 0.0958554, z: 0.71264225}
     m_Extent: {x: 0.008987376, y: 0.014183231, z: 0.0040465593}

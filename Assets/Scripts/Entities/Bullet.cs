@@ -8,6 +8,7 @@ namespace Entities
     {
         [SerializeField] private ParticleSystem hitParticle;
         [SerializeField] private Rigidbody bulletRigidbody;
+        [SerializeField] private GameObject visual;
         [SerializeField] private float speed = 10f;
 
         private WeaponModel _weaponModel;
@@ -26,19 +27,27 @@ namespace Entities
             if (!_canCountDown) return;
             _tempTime += Time.deltaTime;
             if (_tempTime >= _weaponModel.Range)
-                DestroyItself();
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            _canCountDown = false;
-            _tempTime = 0;
-            hitParticle.Play();
+                DisableItself();
         }
 
         public WeaponModel GetWeaponModel()
         {
             return _weaponModel;
+        }
+
+        public void BulletHit()
+        {
+            _canCountDown = false;
+            _tempTime = 0;
+            hitParticle.Play();
+            DisableItself();
+        }
+
+        private void DisableItself()
+        {
+            bulletRigidbody.velocity = Vector3.zero;
+            visual.gameObject.SetActive(false);
+            Invoke(nameof(DestroyItself), 1f);
         }
 
         private void DestroyItself()
