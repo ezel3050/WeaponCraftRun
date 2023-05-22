@@ -19,6 +19,7 @@ namespace Entities
         [SerializeField] private GateBullet gateBulletPrefab;
         [SerializeField] private Vector3 moveTargetForPushingHand;
         [SerializeField] private Vector3 spreadBulletYZPos;
+        [SerializeField] private TriggerInvoker gateBulletTaker;
         [SerializeField] private int maxCapacity;
         [SerializeField] private float bulletMoveAmount;
         [SerializeField] private float spreadBulletMoveAmount;
@@ -26,6 +27,7 @@ namespace Entities
         private Vector3 _pushingHandInitSpot;
         private GateBullet _currentGateBullet;
         private float _coefficient = 1.4f;
+        private float _wholeResults = 0;
         private int _bulletToCreate;
         private bool _passedOnce;
 
@@ -38,6 +40,21 @@ namespace Entities
                 bulletGates[i].onPassedFromGate += PlayerPassedFromGate;
                 bulletGates[i].Initialize(gateYears[i]);
             }
+
+            gateBulletTaker.onTriggerEnter += GateTookBullet;
+        }
+
+        private void GateTookBullet(Collider obj)
+        {
+            if (_passedOnce)
+            {
+                _bulletToCreate = 0;
+                return;
+            }
+            if (!obj.CompareTag("Bullet")) return;
+            var bullet = obj.GetComponent<Bullet>();
+            bullet.BulletHit();
+            AddBulletsBaseOnMagazine(1);
         }
 
         private void PlayerPassedFromGate(int gateNumber, bool isActive)
@@ -92,9 +109,11 @@ namespace Entities
 
         private void AddBulletsBaseOnMagazine(int count)
         {
+            var intResultBefore = Mathf.FloorToInt(_wholeResults);
             var result = count / _coefficient;
-            var intResult = Mathf.FloorToInt(result);
-            _bulletToCreate += intResult;
+            _wholeResults += result;
+            var intResultNew = Mathf.FloorToInt(_wholeResults);
+            _bulletToCreate += intResultNew - intResultBefore;
             LoopHandler();
         }
 
