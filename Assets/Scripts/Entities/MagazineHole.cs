@@ -7,7 +7,8 @@ namespace Entities
     {
         [SerializeField] private MeshRenderer outerMeshRenderer;
         [SerializeField] private MeshRenderer innerMeshRenderer;
-        
+        [SerializeField] private Rigidbody rb;
+
         private bool _isFilled;
 
         public bool IsFilled => _isFilled;
@@ -18,6 +19,13 @@ namespace Entities
             innerMeshRenderer.gameObject.SetActive(true);
             innerMeshRenderer.material = model.InnerBulletMaterial;
             _isFilled = true;
+        }
+
+        public void ActiveGravity()
+        {
+            transform.SetParent(null);
+            rb.isKinematic = false;
+            rb.useGravity = true;
         }
     }
 }

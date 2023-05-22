@@ -1,59 +1,147 @@
 using System;
 using System.Collections.Generic;
+using Components;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Entities
 {
     public class BulletGateSystem : MonoBehaviour
     {
+        [SerializeField] private List<GateBullet> gateBullets;
         [SerializeField] private List<BulletGate> bulletGates;
+        [SerializeField] private List<int> gateYears;
         [SerializeField] private Transform pushingHandTransform;
         [SerializeField] private Transform bulletSpotOnPushingHand;
         [SerializeField] private Transform wholeBulletSpot;
-        [SerializeField] private BulletGate bulletGatePrefab;
+        [SerializeField] private Transform magazineSpot;
+        [SerializeField] private GateBullet gateBulletPrefab;
         [SerializeField] private Vector3 moveTargetForPushingHand;
+        [SerializeField] private Vector3 spreadBulletYZPos;
         [SerializeField] private int maxCapacity;
         [SerializeField] private float bulletMoveAmount;
+        [SerializeField] private float spreadBulletMoveAmount;
 
         private Vector3 _pushingHandInitSpot;
-        private BulletGate _currentBullet;
+        private GateBullet _currentGateBullet;
+        private float _coefficient = 1.4f;
+        private int _bulletToCreate;
+        private bool _passedOnce;
 
         private void Start()
         {
             _pushingHandInitSpot = pushingHandTransform.localPosition;
-            Invoke("CreateBullet" , 3f);
+            
+            for (var i = 0; i < bulletGates.Count; i++)
+            {
+                bulletGates[i].onPassedFromGate += PlayerPassedFromGate;
+                bulletGates[i].Initialize(gateYears[i]);
+            }
         }
 
-        public void CreateBullet()
+        private void PlayerPassedFromGate(int gateNumber, bool isActive)
         {
-            if (bulletGates.Count >= maxCapacity) return;
-            _currentBullet = Instantiate(bulletGatePrefab, bulletSpotOnPushingHand);
-            _currentBullet.transform.localPosition = Vector3.zero;
+            if (_passedOnce) return;
+            _passedOnce = true;
+            gateBullets.Reverse();
+            var bulletCounts = gateBullets.Count;
+            var firstBulletIndex = (gateNumber - 1) * 5;
+            if (firstBulletIndex >= bulletCounts) return;
+            var targetBulletList = new List<GateBullet>();
+            if (firstBulletIndex + 5 <= bulletCounts)
+            {
+                targetBulletList.AddRange(gateBullets.GetRange(firstBulletIndex, 5));
+            }
+            if (!isActive)
+            {
+                var indexToCheck = bulletCounts - firstBulletIndex;
+                targetBulletList.AddRange(gateBullets.GetRange(firstBulletIndex, indexToCheck));
+            }
+            
+            if (isActive)
+            {
+                var firstBullet = targetBulletList[0];
+                var targetXPos = firstBullet.transform.localPosition.x - bulletMoveAmount * 2;
+                var targetPos = new Vector3(targetXPos, spreadBulletYZPos.y, spreadBulletYZPos.z);
+                foreach (var bullet in targetBulletList)
+                {
+                    targetPos.x += spreadBulletMoveAmount;
+                    bullet.PlayWinSequence(targetPos);
+                }
+            }
+            else
+            {
+                foreach (var bullet in targetBulletList)
+                {
+                    bullet.PlayLoseSequence();
+                }
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!other.CompareTag("MagazineHandler")) return;
+            var magazineHandler = other.GetComponent<MagazineHandler>();
+            magazineHandler.StopMoving();
+            magazineHandler.Rotate(-90);
+            magazineHandler.ManualMove(magazineSpot.position);
+            magazineHandler.ShrinkSize();
+            AddBulletsBaseOnMagazine(magazineHandler.GetFilledHolesCount());
+        }
+
+        private void AddBulletsBaseOnMagazine(int count)
+        {
+            var result = count / _coefficient;
+            var intResult = Mathf.FloorToInt(result);
+            _bulletToCreate += intResult;
+            LoopHandler();
+        }
+
+        private void LoopHandler()
+        {
+            if (_bulletToCreate <= 0) return;
+            _bulletToCreate--;
+            CreateBullet();
+        }
+        private void CreateBullet()
+        {
+            if (gateBullets.Count >= maxCapacity) return;
+            _currentGateBullet = Instantiate(gateBulletPrefab, bulletSpotOnPushingHand);
+            _currentGateBullet.transform.localPosition = Vector3.zero;
             MovePushingHand();
             MoveBulletList();
-            bulletGates.Add(_currentBullet);
+            gateBullets.Add(_currentGateBullet);
+            CheckToActiveGate();
         }
 
         private void MoveBulletList()
         {
-            foreach (var bullet in bulletGates)
+            foreach (var bullet in gateBullets)
             {
-                bullet.transform.DOLocalMoveX(bullet.transform.localPosition.x + bulletMoveAmount, 0.5f);
+                bullet.transform.DOLocalMoveX(bullet.transform.localPosition.x + bulletMoveAmount, 0.1f);
             }
         }
 
         private void MovePushingHand()
         {
-            pushingHandTransform.DOLocalMove(moveTargetForPushingHand, 0.5f).onComplete = PushingHandReached;
+            pushingHandTransform.DOLocalMove(moveTargetForPushingHand, 0.1f).onComplete = PushingHandReached;
         }
 
         private void PushingHandReached()
         {
-            pushingHandTransform.DOLocalMove(_pushingHandInitSpot, 0.5f).onComplete = CreateBullet;
-            var bulletTransform = _currentBullet.transform;
+            pushingHandTransform.DOLocalMove(_pushingHandInitSpot, 0.1f).onComplete = LoopHandler;
+            var bulletTransform = _currentGateBullet.transform;
             bulletTransform.SetParent(wholeBulletSpot);
             bulletTransform.localPosition = Vector3.zero;
+        }
+
+        private void CheckToActiveGate()
+        {
+            var bulletCount = gateBullets.Count;
+            if (bulletCount % 5 != 0) return;
+            var gateNumber = bulletCount / 5;
+            bulletGates[gateNumber - 1].Active();
         }
     }
 }

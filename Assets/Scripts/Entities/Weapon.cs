@@ -13,10 +13,17 @@ namespace DefaultNamespace.Entities
         private WeaponModel _weaponModel;
         private WaitForSeconds _waitingTime;
 
+        public Action<Collider> onTriggerEnter;
+
         public void Initialize(WeaponModel weaponModel)
         {
             _weaponModel = weaponModel;
             _waitingTime = new WaitForSeconds(1 / _weaponModel.Rate);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            onTriggerEnter?.Invoke(other);
         }
 
         public void ShootActivateHandler(bool isOn)

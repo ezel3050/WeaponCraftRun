@@ -51,6 +51,20 @@ namespace Entities
             rotationObject.localRotation = Quaternion.Lerp(rotationObject.localRotation, targetRotation, _tempTime);
         }
 
+        public void ReleaseBullets()
+        {
+            foreach (var hole in holes)
+            {
+                hole.ActiveGravity();
+            }
+        }
+
+        public int GetFilledHolesCount()
+        {
+            var count = holes.FindAll(hole => hole.IsFilled).Count;
+            return count;
+        }
+
         private bool IsEmptyHoleAvailable()
         {
             return holes.Any(hole => !hole.IsFilled);
