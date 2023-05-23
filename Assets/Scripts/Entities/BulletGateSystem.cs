@@ -54,7 +54,7 @@ namespace Entities
             if (!obj.CompareTag("Bullet")) return;
             var bullet = obj.GetComponent<Bullet>();
             bullet.BulletHit();
-            AddBulletsBaseOnMagazine(1);
+            AddBulletsBaseOnMagazine(0.1f);
         }
 
         private void PlayerPassedFromGate(int gateNumber, bool isActive)
@@ -107,7 +107,7 @@ namespace Entities
             AddBulletsBaseOnMagazine(magazineHandler.GetFilledHolesCount());
         }
 
-        private void AddBulletsBaseOnMagazine(int count)
+        private void AddBulletsBaseOnMagazine(float count)
         {
             var intResultBefore = Mathf.FloorToInt(_wholeResults);
             var result = count / _coefficient;

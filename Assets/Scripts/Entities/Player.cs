@@ -1,6 +1,7 @@
 using System;
 using DefaultNamespace.Components;
 using DefaultNamespace.Entities;
+using DG.Tweening;
 using Enums;
 using Managers;
 using Models;
@@ -14,6 +15,7 @@ namespace Entities
         [SerializeField] private Movement movement;
         [SerializeField] private Transform weaponSpot;
         [SerializeField] private Transform gloveSpot;
+        [SerializeField] private Transform body;
 
         private WeaponModel _weaponModel;
         private Weapon _cloneWeapon;
@@ -51,33 +53,49 @@ namespace Entities
         {
             if (obj.CompareTag("Gate"))
                 GatePassed(obj);
+            if (obj.CompareTag("BulletGate"))
+                BulletGatePassed(obj);
         }
 
         private void GatePassed(Collider obj)
         {
             var gate = obj.GetComponent<Gate>();
 
-            switch (gate.GateTypes)
+            HandleGateEntry(gate.GateTypes, gate.CurrentValue);
+            
+            gate.DestroyItself();
+        }
+        
+        private void BulletGatePassed(Collider obj)
+        {
+            var gate = obj.GetComponent<BulletGate>();
+
+            HandleGateEntry(GateTypes.Year, gate.GetValue());
+            
+            gate.PassedFromGate();
+        }
+
+        private void HandleGateEntry(GateTypes gateType, float gateValue)
+        {
+            switch (gateType)
             {
                 case GateTypes.Year:
-                    YearChanged(gate.CurrentValue);
+                    YearChanged(gateValue);
                     break;
                 case GateTypes.Month:
-                    YearChanged(Utility.ConvertMonthIntoYear(gate.CurrentValue));
+                    YearChanged(Utility.ConvertMonthIntoYear(gateValue));
                     break;
                 case GateTypes.FireRate:
-                    FireRateChanged(gate.CurrentValue);
+                    FireRateChanged(gateValue);
                     break;
                 case GateTypes.FireRange:
-                    FireRangeChanged(gate.CurrentValue);
+                    FireRangeChanged(gateValue);
                     break;
                 case GateTypes.Money:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
-            gate.DestroyItself();
         }
 
         private void YearChanged(float value)
@@ -90,10 +108,17 @@ namespace Entities
         {
             var currentYear = _weaponModel.Year;
             var newModel = ContentManager.Instance.GetProperWeaponModel(currentYear);
-            if (newModel.Weapon != _weaponModel.Weapon) return;
+            if (newModel.Weapon == _weaponModel.Weapon) return;
             FillModel(newModel);
             _weaponModel.Year = currentYear;
+            RotationAction();
             CreateWeapon();
+        }
+
+        private void RotationAction()
+        {
+            var rotation = new Vector3(0, 360, 0);
+            body.DOLocalRotate(rotation, 0.3f, RotateMode.FastBeyond360);
         }
 
         private void CreateWeapon()

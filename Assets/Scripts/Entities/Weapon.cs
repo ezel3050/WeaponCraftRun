@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using Components;
 using Models;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace DefaultNamespace.Entities
@@ -9,11 +11,27 @@ namespace DefaultNamespace.Entities
     {
         [SerializeField] private Transform shootingSpot;
         [SerializeField] private ParticleSystem shootingParticle;
+        [SerializeField] private TriggerInvoker gunInvoker;
 
         private WeaponModel _weaponModel;
         private WaitForSeconds _waitingTime;
 
         public Action<Collider> onTriggerEnter;
+
+        [Button]
+        public void besmellah()
+        {
+            var q = shootingSpot.gameObject.AddComponent<SphereCollider>();
+            q.radius = 0.1f;
+            q.isTrigger = true;
+            gunInvoker = shootingSpot.gameObject.AddComponent<TriggerInvoker>();
+            shootingSpot.gameObject.tag = "WeaponPoint";
+        }
+
+        private void Start()
+        {
+            gunInvoker.onTriggerEnter += TriggerEnter;
+        }
 
         public void Initialize(WeaponModel weaponModel)
         {
@@ -21,7 +39,7 @@ namespace DefaultNamespace.Entities
             _waitingTime = new WaitForSeconds(1 / _weaponModel.Rate);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void TriggerEnter(Collider other)
         {
             onTriggerEnter?.Invoke(other);
         }

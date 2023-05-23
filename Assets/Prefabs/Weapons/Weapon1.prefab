@@ -2437,9 +2437,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4755920516128617}
+  - component: {fileID: -4137555754472937188}
+  - component: {fileID: -588618311175339332}
   m_Layer: 10
   m_Name: SpawnPoint
-  m_TagString: Untagged
+  m_TagString: WeaponPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2460,6 +2462,31 @@ Transform:
   m_Father: {fileID: 4134490515658806}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &-4137555754472937188
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501016923910547}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-588618311175339332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501016923910547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dcb8cae1c6c4cb683d8968c5660d9d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1560582059625192
 GameObject:
   m_ObjectHideFlags: 0
@@ -2522,6 +2549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingSpot: {fileID: 4755920516128617}
   shootingParticle: {fileID: 198059836178048170}
+  gunInvoker: {fileID: -588618311175339332}
 --- !u!1 &1902806391860409
 GameObject:
   m_ObjectHideFlags: 0

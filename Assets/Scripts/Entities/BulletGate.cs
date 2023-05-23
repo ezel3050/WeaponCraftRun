@@ -39,11 +39,15 @@ namespace Entities
             _isActive = true;
         }
 
-        private void OnTriggerEnter(Collider other)
+        public void PassedFromGate()
         {
-            if (!other.CompareTag("Weapon")) return;
             onPassedFromGate?.Invoke(gateNumber, _isActive);
             DeActiveChosenObjects();
+        }
+
+        public int GetValue()
+        {
+            return _isActive ? _yearAmount : 0;
         }
 
         private void DeActiveChosenObjects()
