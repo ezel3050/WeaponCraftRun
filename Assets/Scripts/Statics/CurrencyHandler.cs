@@ -7,7 +7,7 @@ namespace Statics
         private static int _currentMoney;
 
         public static int CurrentMoney => _currentMoney;
-        public static Action<bool> onValueChanged;
+        public static Action<int> onValueChanged;
 
         public static void Initialize()
         {
@@ -18,7 +18,7 @@ namespace Statics
         {
             _currentMoney += value;
             SaveMoney();
-            onValueChanged?.Invoke(true);
+            onValueChanged?.Invoke(value);
         }
 
         private static void SaveMoney()
@@ -29,7 +29,7 @@ namespace Statics
         public static void DecreaseMoney(int value)
         {
             _currentMoney -= value;
-            onValueChanged?.Invoke(false);
+            onValueChanged?.Invoke(value);
         }
 
         public static bool CanDecrease(int value)

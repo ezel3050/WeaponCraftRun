@@ -19,6 +19,7 @@ namespace Level
         public override void InitializeLevel(BaseLevelConfig config)
         {
             base.InitializeLevel(config);
+            UIManager.Instance.SetLevelText(config.LevelNumber);
             playerController.Initialize();
             SetPlayerToInputManager();
             foreach (var magazineHandler in magazineHandlers)
