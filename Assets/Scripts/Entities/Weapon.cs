@@ -18,16 +18,6 @@ namespace DefaultNamespace.Entities
 
         public Action<Collider> onTriggerEnter;
 
-        [Button]
-        public void besmellah()
-        {
-            var q = shootingSpot.gameObject.AddComponent<SphereCollider>();
-            q.radius = 0.1f;
-            q.isTrigger = true;
-            gunInvoker = shootingSpot.gameObject.AddComponent<TriggerInvoker>();
-            shootingSpot.gameObject.tag = "WeaponPoint";
-        }
-
         private void Start()
         {
             gunInvoker.onTriggerEnter += TriggerEnter;

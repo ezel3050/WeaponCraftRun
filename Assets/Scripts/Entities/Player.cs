@@ -21,7 +21,7 @@ namespace Entities
         private Weapon _cloneWeapon;
         private float _fireRate;
         private float _fireRange;
-        private float _power;
+        private int _power;
         public void Initialize()
         {
             FillVariables();

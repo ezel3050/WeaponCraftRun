@@ -54,7 +54,7 @@ namespace Entities
             if (!obj.CompareTag("Bullet")) return;
             var bullet = obj.GetComponent<Bullet>();
             bullet.BulletHit();
-            AddBulletsBaseOnMagazine(0.1f);
+            AddBulletsBaseOnMagazine(1f);
         }
 
         private void PlayerPassedFromGate(int gateNumber, bool isActive)
