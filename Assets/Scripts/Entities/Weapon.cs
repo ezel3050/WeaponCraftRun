@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Components;
 using Models;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace DefaultNamespace.Entities

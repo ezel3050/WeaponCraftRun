@@ -10,6 +10,12 @@ namespace Statics
             set => PlayerPrefs.SetInt("Money", value);
         }
         
+        public static float Income
+        {
+            get => PlayerPrefs.GetFloat("Income", 1);
+            set => PlayerPrefs.GetFloat("Income", value);
+        }
+        
         public static int MagazineLevel
         {
             get => PlayerPrefs.GetInt("MagazineLevel", 1);

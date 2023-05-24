@@ -1,5 +1,6 @@
 using DefaultNamespace;
 using DefaultNamespace.Core;
+using Statics;
 using UnityEngine;
 
 namespace Managers
@@ -27,6 +28,7 @@ namespace Managers
         private void Start()
         {
             InitializeLevelManager();
+            CurrencyHandler.Initialize();
         }
 
         private void OnEnable()
