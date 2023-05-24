@@ -44,11 +44,5 @@ namespace Entities
                 countText.text = value.ToString();
             }
         }
-
-        public void SetValue(int x)
-        {
-            value = x;
-            countText.text = value.ToString();
-        }
     }
 }

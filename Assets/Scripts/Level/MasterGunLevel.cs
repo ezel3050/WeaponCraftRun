@@ -12,6 +12,9 @@ namespace Level
         [SerializeField] private Player playerController;
         [SerializeField] private List<MagazineHandler> magazineHandlers;
         [SerializeField] private GameObject rail;
+        [SerializeField] private FinishLine finishLine;
+
+        private bool _isFinishLinePassed;
 
         public override void InitializeLevel(BaseLevelConfig config)
         {
@@ -22,11 +25,19 @@ namespace Level
             {
                 magazineHandler.onMagazineGotFull += OneMagazineGotFull;
             }
-        }
 
+            finishLine.onFinishLinePassed += PlayerPassedFinishLine;
+            playerController.onPlayerDied += PlayerDied;
+        }
+        
         protected internal override void StartLevel()
         {
             base.StartLevel();
+        }
+        
+        private void PlayerPassedFinishLine()
+        {
+            _isFinishLinePassed = true;
         }
 
         private void SetPlayerToInputManager()
@@ -63,14 +74,25 @@ namespace Level
         {
             return 0;
         }
+        
+        private void PlayerDied()
+        {
+            FinishLevel();
+        }
 
         protected internal override bool IsWon()
         {
-            return false;
+            return _isFinishLinePassed;
         }
 
         protected internal override void PrepareUIRequirementsabstract()
         {
+            
+        }
+
+        protected internal override void FinishLevel()
+        {
+            base.FinishLevel();
             
         }
     }

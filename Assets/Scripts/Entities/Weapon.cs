@@ -14,12 +14,14 @@ namespace DefaultNamespace.Entities
 
         private WeaponModel _weaponModel;
         private WaitForSeconds _waitingTime;
+        private bool _isShooting;
 
-        public Action<Collider> onTriggerEnter;
+        public Action<Collider> onWeaponHoleTriggerEnter;
+        public Action<Collider> onWeaponTriggerEnter;
 
         private void Start()
         {
-            gunInvoker.onTriggerEnter += TriggerEnter;
+            gunInvoker.onTriggerEnter += WeaponHoleTriggerEnter;
         }
 
         public void Initialize(WeaponModel weaponModel)
@@ -28,22 +30,33 @@ namespace DefaultNamespace.Entities
             _waitingTime = new WaitForSeconds(1 / _weaponModel.Rate);
         }
 
-        private void TriggerEnter(Collider other)
+        private void WeaponHoleTriggerEnter(Collider other)
         {
-            onTriggerEnter?.Invoke(other);
+            onWeaponHoleTriggerEnter?.Invoke(other);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            onWeaponTriggerEnter?.Invoke(other);
         }
 
         public void ShootActivateHandler(bool isOn)
         {
             if (isOn)
+            {
+                _isShooting = true;
                 StartCoroutine(Shooting());
-            else 
+            }
+            else
+            {
+                _isShooting = false;
                 StopCoroutine(Shooting());
+            }
         }
 
         private IEnumerator Shooting()
         {
-            while (true)
+            while (_isShooting)
             {
                 CreateBullet();
                 yield return _waitingTime;

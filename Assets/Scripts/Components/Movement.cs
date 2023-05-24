@@ -28,6 +28,7 @@ namespace DefaultNamespace.Components
         Transform m_Transform;
         bool m_HasInput;
         bool m_ManualInputHandler;
+        private bool m_FullStop;
         float m_MaxXPosition;
         float m_MinXPosition;
         float m_XPos;
@@ -107,6 +108,7 @@ namespace DefaultNamespace.Components
         }
         void Update()
         {
+            if (m_FullStop) return;
             float deltaTime = Time.deltaTime;
 
             if (!m_AutoMoveForward && !m_HasInput)
@@ -159,6 +161,11 @@ namespace DefaultNamespace.Components
         public void SetCustomZPos(float value)
         {
             m_ZPos = value;
+        }
+
+        public void FullStop()
+        {
+            m_FullStop = true;
         }
     }
 }

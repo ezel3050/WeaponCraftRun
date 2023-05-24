@@ -22,6 +22,9 @@ namespace Entities
         private float _fireRate;
         private float _fireRange;
         private int _power;
+
+        public Action onPlayerDied;
+        
         public void Initialize()
         {
             FillVariables();
@@ -50,6 +53,22 @@ namespace Entities
         }
 
         private void WeaponTriggerEnter(Collider obj)
+        {
+            if (obj.CompareTag("EndingBlock"))
+            {
+                ApplyDeath();
+            }
+        }
+
+        private void ApplyDeath()
+        {
+            movement.FullStop();
+            _cloneWeapon.ShootActivateHandler(false);
+            var targetRotation = new Vector3(0, 0, -90);
+            body.DOLocalRotate(targetRotation, 0.5f).onComplete = () => onPlayerDied?.Invoke();
+        }
+
+        private void WeaponHoleTriggerEnter(Collider obj)
         {
             if (obj.CompareTag("Gate"))
                 GatePassed(obj);
@@ -129,7 +148,8 @@ namespace Entities
             ApplyChangesOnModel();
             _cloneWeapon.Initialize(_weaponModel);
             _cloneWeapon.ShootActivateHandler(true);
-            _cloneWeapon.onTriggerEnter += WeaponTriggerEnter;
+            _cloneWeapon.onWeaponHoleTriggerEnter += WeaponHoleTriggerEnter;
+            _cloneWeapon.onWeaponTriggerEnter += WeaponTriggerEnter;
         }
 
         private void ApplyChangesOnModel()
