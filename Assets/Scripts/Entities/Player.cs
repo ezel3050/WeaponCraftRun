@@ -33,8 +33,11 @@ namespace Entities
 
         private void FillVariables()
         {
-            var model  = ContentManager.Instance.GetProperWeaponModel(Prefs.WeaponLevel);
+            var currentYear = Prefs.WeaponLevel;
+            var model  = ContentManager.Instance.GetProperWeaponModel(currentYear);
             FillModel(model);
+            _weaponModel.Year = currentYear;
+            UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year);
         }
 
         private void FillModel(WeaponModel model)
@@ -119,7 +122,8 @@ namespace Entities
 
         private void YearChanged(float value)
         {
-            _weaponModel.Year += value;
+            _weaponModel.Year += Mathf.CeilToInt(value);
+            UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year);
             CheckIfIsThereNewGunAvailable();
         }
 

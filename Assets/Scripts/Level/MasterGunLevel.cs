@@ -30,7 +30,7 @@ namespace Level
             finishLine.onFinishLinePassed += PlayerPassedFinishLine;
             playerController.onPlayerDied += PlayerDied;
         }
-        
+
         protected internal override void StartLevel()
         {
             base.StartLevel();

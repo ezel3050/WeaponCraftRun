@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Data;
 using Models;
 using UnityEngine;
@@ -29,6 +30,17 @@ namespace Managers
             var properLevel = weaponYear - (weaponYear % 10);
             var properModel = weaponData.WeaponModels.Find(model => Math.Abs(model.Year - properLevel) < 0.1f);
             return properModel;
+        }
+
+        public List<WeaponModel> GetTwoSideModel(int year)
+        {
+            var modelList = new List<WeaponModel>();
+            var properLevel = year - (year % 10);
+            var properModel = weaponData.WeaponModels.Find(model => Math.Abs(model.Year - properLevel) < 0.1f);
+            modelList.Add(properModel);
+            var nextProperModel = weaponData.WeaponModels.Find(model => Math.Abs(model.Year - (properLevel + 10)) < 0.1f);
+            modelList.Add(nextProperModel);
+            return modelList;
         }
     }
 }

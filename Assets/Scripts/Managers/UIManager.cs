@@ -1,6 +1,7 @@
 using System;
 using Statics;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ namespace Managers
     {
         [SerializeField] private Text levelText;
         [SerializeField] private TextMeshProUGUI moneyText;
+        [SerializeField] private UIWeaponProgress uiWeaponProgress;
 
         public static UIManager Instance;
         
@@ -42,6 +44,11 @@ namespace Managers
         private void CurrencyChanged(int value)
         {
             moneyText.text = "$" + value;
+        }
+
+        public void SyncWeaponUIProgress(int year)
+        {
+            uiWeaponProgress.Initialize(year);
         }
     }
 }

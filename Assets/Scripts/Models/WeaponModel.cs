@@ -8,7 +8,7 @@ namespace Models
     [Serializable]
     public class WeaponModel
     {
-        public float Year;
+        public int Year;
         public Weapon Weapon;
         public Bullet Bullet;
         public float Rate;
@@ -16,5 +16,7 @@ namespace Models
         public int Power;
         public Material OuterBulletMaterial;
         public Material InnerBulletMaterial;
+        public Sprite WeaponSprite;
+        public Sprite WeaponBlackSprite;
     }
 }

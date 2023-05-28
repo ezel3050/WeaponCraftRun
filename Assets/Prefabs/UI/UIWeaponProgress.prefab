@@ -895,6 +895,7 @@ GameObject:
   - component: {fileID: 224447343465370548}
   - component: {fileID: 222195530226978910}
   - component: {fileID: 114485241438264955}
+  - component: {fileID: 3396834618691707708}
   m_Layer: 5
   m_Name: UIWeaponProgress
   m_TagString: Untagged
@@ -947,6 +948,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 0
   m_AspectRatio: 3.9986365
+--- !u!114 &3396834618691707708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773546615005908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e53c7c580b5148c89acf784ef6bd4f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentImage: {fileID: 114426155133839877}
+  nextImage: {fileID: 114883430136667313}
+  currentYearText: {fileID: 7482179920025778044}
+  nextYearText: {fileID: 4482812054832069885}
+  progressBarTransform: {fileID: 224773144013799470}
+  zeroPercentProgressBarSpot: {fileID: 6023151059705548479}
+  fullProgressBarSpot: {fileID: 6693179905330294723}
 --- !u!1 &1899750322521401
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,6 +999,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 224773144013799470}
+  - {fileID: 6023151059705548479}
+  - {fileID: 6693179905330294723}
   m_Father: {fileID: 224447343465370548}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1038,3 +1060,75 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!1 &2391367342381098732
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6023151059705548479}
+  m_Layer: 5
+  m_Name: ZeroPercentSpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6023151059705548479
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2391367342381098732}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8449943, y: 0.8449943, z: 0.8449943}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 224113321894002759}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -239.1, y: 0.2525}
+  m_SizeDelta: {x: 1954.2, y: 41.4223}
+  m_Pivot: {x: 1, y: 0.5}
+--- !u!1 &6431392955002539672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6693179905330294723}
+  m_Layer: 5
+  m_Name: FullPercentSpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6693179905330294723
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6431392955002539672}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8449943, y: 0.8449943, z: 0.8449943}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 224113321894002759}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -22, y: 0.2525}
+  m_SizeDelta: {x: 1954.2, y: 41.4223}
+  m_Pivot: {x: 1, y: 0.5}

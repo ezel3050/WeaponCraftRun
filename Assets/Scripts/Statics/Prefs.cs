@@ -22,10 +22,10 @@ namespace Statics
             set => PlayerPrefs.SetInt("MagazineLevel", value);
         }
         
-        public static float WeaponLevel
+        public static int WeaponLevel
         {
-            get => PlayerPrefs.GetFloat("WeaponLevel", 1800);
-            set => PlayerPrefs.SetFloat("WeaponLevel", value);
+            get => PlayerPrefs.GetInt("WeaponLevel", 1800);
+            set => PlayerPrefs.SetInt("WeaponLevel", value);
         }
     }
 }
