@@ -62,6 +62,10 @@ namespace Entities
             if (_passedOnce) return;
             _passedOnce = true;
             gateBullets.Reverse();
+            foreach (var gate in bulletGates)
+            {
+                gate.DisableCollider();
+            }
             var bulletCounts = gateBullets.Count;
             var firstBulletIndex = (gateNumber - 1) * 5;
             if (firstBulletIndex >= bulletCounts) return;

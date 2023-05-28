@@ -15,6 +15,7 @@ namespace Entities
         [SerializeField] private int gateNumber;
         [SerializeField] private TextMeshPro yearAmountText;
         [SerializeField] private GameObject textObject;
+        [SerializeField] private Collider gateCollider;
 
         private bool _isActive;
         private int _yearAmount;
@@ -58,6 +59,11 @@ namespace Entities
             }
             
             textObject.SetActive(false);
+        }
+
+        public void DisableCollider()
+        {
+            gateCollider.enabled = false;
         }
     }
 }

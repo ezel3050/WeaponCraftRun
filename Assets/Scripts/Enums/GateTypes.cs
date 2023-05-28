@@ -6,6 +6,7 @@ namespace Enums
         Month,
         FireRate,
         FireRange,
-        Money
+        Money,
+        DualGun
     }
 }

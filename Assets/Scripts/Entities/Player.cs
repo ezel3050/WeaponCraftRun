@@ -7,21 +7,27 @@ using Managers;
 using Models;
 using Statics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Entities
 {
     public class Player : MonoBehaviour
     {
         [SerializeField] private Movement movement;
-        [SerializeField] private Transform weaponSpot;
+        [SerializeField] private Transform weaponRightSpot;
+        [SerializeField] private Transform weaponLeftSpot;
         [SerializeField] private Transform gloveSpot;
-        [SerializeField] private Transform body;
+        [SerializeField] private Transform bodyRight;
+        [SerializeField] private Transform bodyLeft;
 
         private WeaponModel _weaponModel;
         private Weapon _cloneWeapon;
+        private Weapon _cloneSecondWeapon;
         private float _fireRate;
         private float _fireRange;
         private int _power;
+        private bool _isTwoHandModeOn;
+        private bool _isDied;
 
         public Action onPlayerDied;
         
@@ -59,16 +65,39 @@ namespace Entities
         {
             if (obj.CompareTag("EndingBlock"))
             {
-                ApplyDeath();
+                if (_isDied) return;
+                _isDied = true;
+                movement.FullStop(true);
+                transform.DOMoveZ(transform.localPosition.z - 2, 0.3f).onComplete = () =>
+                {
+                    movement.SyncZPos();
+                    ApplyDeath();
+                };
             }
+        }
+
+        private void ActiveTwoGun()
+        {
+            _isTwoHandModeOn = true;
+            bodyRight.DOLocalMoveX(0.5f, 0.2f);
+            bodyLeft.gameObject.SetActive(true);
+            bodyLeft.DOLocalMoveX(-0.5f, 0);
+            CreateSecondWeapon();
         }
 
         private void ApplyDeath()
         {
-            movement.FullStop();
             _cloneWeapon.ShootActivateHandler(false);
-            var targetRotation = new Vector3(0, 0, -90);
-            body.DOLocalRotate(targetRotation, 0.5f).onComplete = () => onPlayerDied?.Invoke();
+            var firstTargetRotation = new Vector3(0, 0, -90);
+            bodyRight.DOLocalRotate(firstTargetRotation, 0.5f).onComplete = () => onPlayerDied?.Invoke();
+            if (_isTwoHandModeOn)
+            {
+                var secondTargetRotation = new Vector3(0, 0, 90);
+                _cloneSecondWeapon.ShootActivateHandler(false);
+                bodyLeft.DOLocalRotate(secondTargetRotation, 0.5f).onComplete = () => onPlayerDied?.Invoke();
+                bodyLeft.DOLocalMoveX(-1.5f, 0.3f);
+                bodyRight.DOLocalMoveX(1.5f, 0.3f);
+            }
         }
 
         private void WeaponHoleTriggerEnter(Collider obj)
@@ -115,6 +144,9 @@ namespace Entities
                     break;
                 case GateTypes.Money:
                     break;
+                case GateTypes.DualGun:
+                    ActiveTwoGun();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -134,26 +166,40 @@ namespace Entities
             if (newModel.Weapon == _weaponModel.Weapon) return;
             FillModel(newModel);
             _weaponModel.Year = currentYear;
+            ApplyChangesOnModel();
             RotationAction();
             CreateWeapon();
+            if (_isTwoHandModeOn)
+                CreateSecondWeapon();
         }
 
         private void RotationAction()
         {
             var rotation = new Vector3(0, 360, 0);
-            body.DOLocalRotate(rotation, 0.3f, RotateMode.FastBeyond360);
+            bodyRight.DOLocalRotate(rotation, 0.3f, RotateMode.FastBeyond360);
+            bodyLeft.DOLocalRotate(rotation, 0.3f, RotateMode.FastBeyond360);
         }
 
         private void CreateWeapon()
         {
             DestroyCurrentWeapon();
-            _cloneWeapon = Instantiate(_weaponModel.Weapon, weaponSpot);
+            _cloneWeapon = Instantiate(_weaponModel.Weapon, weaponRightSpot);
             _cloneWeapon.transform.localPosition = Vector3.zero;
-            ApplyChangesOnModel();
             _cloneWeapon.Initialize(_weaponModel);
             _cloneWeapon.ShootActivateHandler(true);
             _cloneWeapon.onWeaponHoleTriggerEnter += WeaponHoleTriggerEnter;
             _cloneWeapon.onWeaponTriggerEnter += WeaponTriggerEnter;
+        }
+        
+        private void CreateSecondWeapon()
+        {
+            DestroySecondWeapon();
+            _cloneSecondWeapon = Instantiate(_weaponModel.Weapon, weaponLeftSpot);
+            _cloneSecondWeapon.transform.localPosition = Vector3.zero;
+            _cloneSecondWeapon.Initialize(_weaponModel);
+            _cloneSecondWeapon.ShootActivateHandler(true);
+            // _cloneSecondWeapon.onWeaponHoleTriggerEnter += WeaponHoleTriggerEnter;
+            // _cloneSecondWeapon.onWeaponTriggerEnter += WeaponTriggerEnter;
         }
 
         private void ApplyChangesOnModel()
@@ -169,6 +215,15 @@ namespace Entities
             {
                 _cloneWeapon.ShootActivateHandler(false);
                 Destroy(_cloneWeapon.gameObject);
+            }
+        }
+        
+        private void DestroySecondWeapon()
+        {
+            if (_cloneSecondWeapon)
+            {
+                _cloneSecondWeapon.ShootActivateHandler(false);
+                Destroy(_cloneSecondWeapon.gameObject);
             }
         }
 

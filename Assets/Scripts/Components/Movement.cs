@@ -163,9 +163,14 @@ namespace DefaultNamespace.Components
             m_ZPos = value;
         }
 
-        public void FullStop()
+        public void FullStop(bool isActive)
         {
-            m_FullStop = true;
+            m_FullStop = isActive;
+        }
+
+        public void SyncZPos()
+        {
+            m_ZPos = transform.position.z;
         }
     }
 }
