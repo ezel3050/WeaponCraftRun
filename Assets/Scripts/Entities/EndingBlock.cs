@@ -10,6 +10,7 @@ namespace Entities
         [SerializeField] private TextMeshPro countText;
         [SerializeField] private MeshRenderer blockRenderer;
         [SerializeField] private CapsuleCollider blockCollider;
+        [SerializeField] private BoxCollider moneyCollider;
         [SerializeField] private Rigidbody moneyRigidbody;
         [SerializeField] private ParticleSystem destroyParticle;
         [SerializeField] private int value;
@@ -38,6 +39,7 @@ namespace Entities
                 countText.enabled = false;
                 destroyParticle.Play();
                 moneyRigidbody.isKinematic = false;
+                moneyCollider.enabled = true;
             }
             else
             {

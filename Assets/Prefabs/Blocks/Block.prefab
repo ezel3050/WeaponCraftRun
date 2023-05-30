@@ -117,6 +117,7 @@ MonoBehaviour:
   countText: {fileID: 6781271134406039047}
   blockRenderer: {fileID: 23198775965164351}
   blockCollider: {fileID: 136970700328968426}
+  moneyCollider: {fileID: 65789622933204327}
   moneyRigidbody: {fileID: 1356621886333301777}
   destroyParticle: {fileID: 198636229703232361}
   value: 0
@@ -5045,11 +5046,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2787309100116246441, guid: 990f7c3722c991c45a46ca7a0735b382, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 990f7c3722c991c45a46ca7a0735b382, type: 3}
 --- !u!4 &4267451472000423 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2758473132454373225, guid: 990f7c3722c991c45a46ca7a0735b382, type: 3}
+  m_PrefabInstance: {fileID: 2758236568491872974}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &65789622933204327 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 2787309100116246441, guid: 990f7c3722c991c45a46ca7a0735b382, type: 3}
   m_PrefabInstance: {fileID: 2758236568491872974}
   m_PrefabAsset: {fileID: 0}
 --- !u!54 &1356621886333301777 stripped
