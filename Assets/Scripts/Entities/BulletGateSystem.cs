@@ -26,7 +26,9 @@ namespace Entities
 
         private Vector3 _pushingHandInitSpot;
         private GateBullet _currentGateBullet;
-        private float _coefficient = 1.4f;
+        
+        // need to get dynamic
+        private float _coefficient = 3f;
         private float _wholeResults = 0;
         private int _bulletToCreate;
         private bool _passedOnce;
@@ -54,7 +56,7 @@ namespace Entities
             if (!obj.CompareTag("Bullet")) return;
             var bullet = obj.GetComponent<Bullet>();
             bullet.BulletHit();
-            AddBulletsBaseOnMagazine(1f);
+            AddBulletsBaseOnMagazine(0.1f);
         }
 
         private void PlayerPassedFromGate(int gateNumber, bool isActive)
@@ -117,14 +119,15 @@ namespace Entities
             var result = count / _coefficient;
             _wholeResults += result;
             var intResultNew = Mathf.FloorToInt(_wholeResults);
+            var canGoOnLoop = _bulletToCreate == 0;
             _bulletToCreate += intResultNew - intResultBefore;
-            LoopHandler();
+            if (canGoOnLoop)
+                LoopHandler();
         }
 
         private void LoopHandler()
         {
             if (_bulletToCreate <= 0) return;
-            _bulletToCreate--;
             CreateBullet();
         }
         private void CreateBullet()
@@ -153,10 +156,16 @@ namespace Entities
 
         private void PushingHandReached()
         {
-            pushingHandTransform.DOLocalMove(_pushingHandInitSpot, 0.1f).onComplete = LoopHandler;
+            pushingHandTransform.DOLocalMove(_pushingHandInitSpot, 0.1f).onComplete = LoopProcessFinished;
             var bulletTransform = _currentGateBullet.transform;
             bulletTransform.SetParent(wholeBulletSpot);
             bulletTransform.localPosition = Vector3.zero;
+        }
+
+        private void LoopProcessFinished()
+        {
+            _bulletToCreate--;
+            LoopHandler();
         }
 
         private void CheckToActiveGate()
