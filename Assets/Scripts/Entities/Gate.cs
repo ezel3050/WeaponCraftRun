@@ -13,10 +13,14 @@ namespace Entities
         [SerializeField] private TextMeshPro coefficientText;
         [SerializeField] private TextMeshPro valueText;
         [SerializeField] private MeshRenderer gateRenderer;
+        [SerializeField] private MeshRenderer gate2Renderer;
         [SerializeField] private Material positiveMaterial;
         [SerializeField] private Material positiveMaterialFade;
         [SerializeField] private Material negativeMaterial;
         [SerializeField] private Material negativeMaterialFade;
+        [SerializeField] private GameObject visual1;
+        [SerializeField] private GameObject visual2;
+        [SerializeField] private GameObject dualGunVisual;
         [SerializeField] private float initValue;
         [SerializeField] private float initCoefficient;
 
@@ -32,6 +36,27 @@ namespace Entities
             valueText.text = (_currentValue >= 0 ? "+" : "") + _currentValue;
             coefficientText.text = initCoefficient.ToString(CultureInfo.InvariantCulture);
             ChangeColorBaseOnValue();
+            ChangeVisualBaseOnType();
+        }
+
+        private void ChangeVisualBaseOnType()
+        {
+            if (gateType is GateTypes.Money or GateTypes.DUALWEAPON)
+            {
+                visual1.SetActive(false);
+                visual2.SetActive(true);
+                if (gateType == GateTypes.DUALWEAPON)
+                {
+                    dualGunVisual.SetActive(true);
+                    coefficientText.gameObject.SetActive(false);
+                    valueText.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                visual1.SetActive(true);
+                visual2.SetActive(false);
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -63,6 +88,7 @@ namespace Entities
             materials[0] = positiveMaterial;
             materials[1] = positiveMaterialFade;
             gateRenderer.materials = materials;
+            gate2Renderer.materials = materials;
         }
         
         private void TurnToRed()
@@ -71,6 +97,7 @@ namespace Entities
             materials[0] = negativeMaterial;
             materials[1] = negativeMaterialFade;
             gateRenderer.materials = materials;
+            gate2Renderer.materials = materials;
         }
 
         public void DestroyItself()

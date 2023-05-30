@@ -219,7 +219,7 @@ namespace Entities
                     break;
                 case GateTypes.Money:
                     break;
-                case GateTypes.DualGun:
+                case GateTypes.DUALWEAPON:
                     ActiveTwoGun();
                     break;
                 default:

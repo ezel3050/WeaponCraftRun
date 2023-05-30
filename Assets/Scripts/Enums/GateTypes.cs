@@ -7,6 +7,6 @@ namespace Enums
         FireRate,
         FireRange,
         Money,
-        DualGun
+        DUALWEAPON
     }
 }
