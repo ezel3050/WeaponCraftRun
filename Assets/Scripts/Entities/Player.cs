@@ -21,6 +21,7 @@ namespace Entities
         [SerializeField] private Transform bodyRight;
         [SerializeField] private Transform bodyLeft;
         [SerializeField] private TextMeshPro yearText;
+        [SerializeField] private GameObject yearTagObject;
 
         private WeaponModel _weaponModel;
         private WeaponModel _originalWeaponModel;
@@ -316,6 +317,11 @@ namespace Entities
         public void CancelMovement()
         {
             movement.CancelMovement();
+        }
+
+        public void DeActiveYearTag()
+        {
+            yearTagObject.SetActive(false);
         }
     }
 }

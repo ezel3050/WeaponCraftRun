@@ -92,8 +92,14 @@ namespace Managers
             _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
             _levelFinishedPanel.onLevelFinishedPanelClosed += ResetPanels;
             _levelFinishedPanel.gameObject.SetActive(false);
+            uiWeaponProgress.gameObject.SetActive(true);
             tapToStartPanel.gameObject.SetActive(true);
             GameManager.InitializeLevelManager();
+        }
+
+        public void DeActiveWeaponProgressUI()
+        {
+            uiWeaponProgress.gameObject.SetActive(false);
         }
     }
 }

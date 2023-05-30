@@ -46,6 +46,8 @@ namespace Level
         private void PlayerPassedFinishLine()
         {
             _isFinishLinePassed = true;
+            playerController.DeActiveYearTag();
+            UIManager.Instance.DeActiveWeaponProgressUI();
             CameraManager.Instance.TurnEndingCameraOn();
         }
 
