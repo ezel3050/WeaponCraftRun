@@ -7,7 +7,8 @@ namespace Managers
     {
         [SerializeField] private CinemachineVirtualCamera startCamera;
         [SerializeField] private CinemachineVirtualCamera inGameCamera;
-        
+        [SerializeField] private CinemachineVirtualCamera endingCamera;
+
         public static CameraManager Instance;
 
         private void Awake()
@@ -29,6 +30,8 @@ namespace Managers
             startCamera.LookAt = t;
             inGameCamera.Follow = t;
             inGameCamera.LookAt = t;
+            endingCamera.Follow = t;
+            endingCamera.LookAt = t;
         }
         
         public void TurnStartCameraOn()
@@ -41,6 +44,12 @@ namespace Managers
         {
             TurnAllCamerasOff();
             inGameCamera.enabled = true;
+        }
+        
+        public void TurnEndingCameraOn()
+        {
+            TurnAllCamerasOff();
+            endingCamera.enabled = true;
         }
         
         private void TurnAllCamerasOff()

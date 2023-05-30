@@ -46,6 +46,7 @@ namespace Level
         private void PlayerPassedFinishLine()
         {
             _isFinishLinePassed = true;
+            CameraManager.Instance.TurnEndingCameraOn();
         }
 
         private void SetPlayerToInputManager()
