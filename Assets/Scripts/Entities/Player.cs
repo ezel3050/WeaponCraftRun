@@ -6,6 +6,7 @@ using Enums;
 using Managers;
 using Models;
 using Statics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -19,6 +20,7 @@ namespace Entities
         [SerializeField] private Transform gloveSpot;
         [SerializeField] private Transform bodyRight;
         [SerializeField] private Transform bodyLeft;
+        [SerializeField] private TextMeshPro yearText;
 
         private WeaponModel _weaponModel;
         private WeaponModel _originalWeaponModel;
@@ -52,6 +54,7 @@ namespace Entities
             var model  = ContentManager.Instance.GetProperWeaponModel(currentYear);
             FillModel(model);
             _weaponModel.Year = currentYear;
+            yearText.text = currentYear.ToString();
             UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year, true);
             UIManager.Instance.SetUpgradeButtonsAction(UpgradeApplied);
         }
@@ -237,6 +240,7 @@ namespace Entities
         private void YearChanged(float value)
         {
             _weaponModel.Year += Mathf.CeilToInt(value);
+            yearText.text = _weaponModel.Year.ToString();
             UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year, false);
             CheckIfIsThereNewGunAvailable();
         }
