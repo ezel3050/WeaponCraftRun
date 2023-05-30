@@ -72,9 +72,9 @@ namespace Managers
             moneyText.text = "$" + CurrencyHandler.CurrentMoney;
         }
 
-        public void SyncWeaponUIProgress(int year)
+        public void SyncWeaponUIProgress(int year, bool isInitSync)
         {
-            uiWeaponProgress.Initialize(year);
+            uiWeaponProgress.Initialize(year, isInitSync);
         }
 
         public void SetUpgradeButtonsAction(Action<UpgradeType> callback)

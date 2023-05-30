@@ -24,8 +24,10 @@ namespace UI
         private List<WeaponModel> _modelList;
         private int _currentYear;
 
-        public void Initialize(int year)
+        public void Initialize(int year, bool isFirstInit)
         {
+            if (isFirstInit)
+                _currentYear = 0;
             _modelList = ContentManager.Instance.GetTwoSideModel(year);
             InitializeCurrentState();
             InitializeNextState();
@@ -54,7 +56,7 @@ namespace UI
             var wholeX = fullProgressBarSpot.position.x - zeroPercentProgressBarSpot.position.x;
             var target = (wholeX / 10) * zeroToTenScale;
             _currentYear = year;
-            progressBarTransform.DOMoveX(progressBarTransform.position.x + target, 0.3f);
+            progressBarTransform.DOMoveX(zeroPercentProgressBarSpot.position.x + target, 0.3f);
         }
     }
 }

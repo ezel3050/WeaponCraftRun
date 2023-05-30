@@ -52,7 +52,7 @@ namespace Entities
             var model  = ContentManager.Instance.GetProperWeaponModel(currentYear);
             FillModel(model);
             _weaponModel.Year = currentYear;
-            UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year);
+            UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year, true);
             UIManager.Instance.SetUpgradeButtonsAction(UpgradeApplied);
         }
         
@@ -230,7 +230,7 @@ namespace Entities
         private void YearChanged(float value)
         {
             _weaponModel.Year += Mathf.CeilToInt(value);
-            UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year);
+            UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year, false);
             CheckIfIsThereNewGunAvailable();
         }
 
