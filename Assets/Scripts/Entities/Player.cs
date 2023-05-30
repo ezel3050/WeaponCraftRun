@@ -191,7 +191,7 @@ namespace Entities
         {
             var gate = obj.GetComponent<Gate>();
 
-            HandleGateEntry(gate.GateTypes, gate.CurrentValue);
+            HandleGateEntry(gate.GateTypes, gate.CurrentValue, obj.transform.position);
             
             gate.DestroyItself();
         }
@@ -200,12 +200,12 @@ namespace Entities
         {
             var gate = obj.GetComponent<BulletGate>();
 
-            HandleGateEntry(GateTypes.Year, gate.GetValue());
+            HandleGateEntry(GateTypes.Year, gate.GetValue(), obj.transform.position);
             
             gate.PassedFromGate();
         }
 
-        private void HandleGateEntry(GateTypes gateType, float gateValue)
+        private void HandleGateEntry(GateTypes gateType, float gateValue, Vector3 position)
         {
             switch (gateType)
             {
@@ -222,7 +222,7 @@ namespace Entities
                     FireRangeChanged(gateValue);
                     break;
                 case GateTypes.Money:
-                    IncreaseMoneyFromGate(gateValue);
+                    IncreaseMoneyFromGate(gateValue, position);
                     break;
                 case GateTypes.DUALWEAPON:
                     ActiveTwoGun();
@@ -232,10 +232,10 @@ namespace Entities
             }
         }
 
-        private void IncreaseMoneyFromGate(float gateValue)
+        private void IncreaseMoneyFromGate(float gateValue, Vector3 position)
         {
             var intVal = Mathf.CeilToInt(gateValue);
-            CurrencyHandler.IncreaseMoney(intVal);
+            CurrencyHandler.IncreaseMoney(intVal, position, true);
         }
 
         private void YearChanged(float value)

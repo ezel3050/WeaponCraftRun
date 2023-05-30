@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Statics
 {
@@ -9,19 +10,19 @@ namespace Statics
 
         public static int CurrentMoney => _currentMoney;
         public static int ThisLevelCollected => _thisLevelCollected;
-        public static Action<int> onValueChanged;
+        public static Action<int, Vector3, bool> onValueChanged;
 
         public static void Initialize()
         {
             _currentMoney = Prefs.Money;
         }
 
-        public static void IncreaseMoney(int value)
+        public static void IncreaseMoney(int value, Vector3 position, bool haveFadingText)
         {
             _thisLevelCollected += value;
             _currentMoney += value;
             SaveMoney();
-            onValueChanged?.Invoke(value);
+            onValueChanged?.Invoke(value, position, haveFadingText);
         }
 
         private static void SaveMoney()
@@ -32,7 +33,7 @@ namespace Statics
         public static void DecreaseMoney(int value)
         {
             _currentMoney -= value;
-            onValueChanged?.Invoke(value);
+            onValueChanged?.Invoke(value, Vector3.zero, false);
         }
 
         public static bool CanDecrease(int value)

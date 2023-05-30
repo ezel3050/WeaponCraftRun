@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Managers;
 using Statics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,15 +14,20 @@ namespace Entities
         [SerializeField] private int minRangeValue;
         [SerializeField] private int maxRangeValue;
 
+        private bool _isUsed;
+
         private void OnTriggerEnter(Collider other)
         {
+            if (_isUsed) return;
             if (!other.CompareTag("Weapon")) return;
+            _isUsed = true;
             foreach (var moneyRenderer in moneyRenderers)
             {
                 moneyRenderer.enabled = false;
             }
             moneyParticle.Play();
-            CurrencyHandler.IncreaseMoney(GetValue());
+            var position = Camera.main!.WorldToScreenPoint(transform.position);
+            CurrencyHandler.IncreaseMoney(GetValue(), position, true);
         }
 
         private int GetValue()

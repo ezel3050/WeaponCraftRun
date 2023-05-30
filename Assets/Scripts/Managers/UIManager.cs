@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Components;
 using Enums;
 using Statics;
 using TMPro;
@@ -18,6 +19,7 @@ namespace Managers
         [SerializeField] private RangeAndIncomePanel rangeAndIncomePanel;
         [SerializeField] private LevelFinishedPanel levelFinishedPanelPrefab;
         [SerializeField] private TapToStartPanel tapToStartPanel;
+        [SerializeField] private FadingText fadingTextPrefab;
         [SerializeField] private Transform parentSpot;
 
         private LevelFinishedPanel _levelFinishedPanel;
@@ -40,7 +42,7 @@ namespace Managers
         private void Start()
         {
             CurrencyHandler.onValueChanged += CurrencyChanged;
-            CurrencyChanged(CurrencyHandler.CurrentMoney);
+            CurrencyChanged(CurrencyHandler.CurrentMoney, Vector3.zero, false);
             rangeAndIncomePanel.onRangeAndIncomePanelClosed += OpenLevelFinishedPanel;
             if (_levelFinishedPanel) Destroy(_levelFinishedPanel.gameObject);
             _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
@@ -67,9 +69,11 @@ namespace Managers
                 levelText.text = "Level " + level;
         }
 
-        private void CurrencyChanged(int value)
+        private void CurrencyChanged(int value, Vector3 position, bool haveFadingText)
         {
             moneyText.text = "$" + Utility.MinifyLong(CurrencyHandler.CurrentMoney);
+            if (!haveFadingText) return;
+            CreateFadingText(value, position);
         }
 
         public void SyncWeaponUIProgress(int year, bool isInitSync)
@@ -100,6 +104,12 @@ namespace Managers
         public void DeActiveWeaponProgressUI()
         {
             uiWeaponProgress.gameObject.SetActive(false);
+        }
+
+        private void CreateFadingText(int value, Vector3 position)
+        {
+            var fadingTextClone = Instantiate(fadingTextPrefab, position, Quaternion.identity, transform);
+            fadingTextClone.Initialize(value.ToString());
         }
     }
 }
