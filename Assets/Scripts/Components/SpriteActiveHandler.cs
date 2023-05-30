@@ -1,21 +1,22 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Components
 {
     public class SpriteActiveHandler : MonoBehaviour
     {
-        [SerializeField] private SpriteRenderer renderer;
+        [SerializeField] private SpriteRenderer objectRenderer;
         [SerializeField] private Sprite activeSprite;
         [SerializeField] private Sprite deActiveSprite;
 
         public void Active()
         {
-            renderer.sprite = activeSprite;
+            objectRenderer.sprite = activeSprite;
         }
         
         public void DeActive()
         {
-            renderer.sprite = deActiveSprite;
+            objectRenderer.sprite = deActiveSprite;
         }
     }
 }

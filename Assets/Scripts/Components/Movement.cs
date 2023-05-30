@@ -36,8 +36,6 @@ namespace DefaultNamespace.Components
         float m_TargetPosition;
         float m_Speed;
         float m_TargetSpeed;
-        private string m_LastAnimatorState = "Idle";
-        
         
         public Transform Transform => m_Transform;
         
