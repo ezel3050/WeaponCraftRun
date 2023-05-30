@@ -69,7 +69,7 @@ namespace Managers
 
         private void CurrencyChanged(int value)
         {
-            moneyText.text = "$" + CurrencyHandler.CurrentMoney;
+            moneyText.text = "$" + Utility.MinifyLong(CurrencyHandler.CurrentMoney);
         }
 
         public void SyncWeaponUIProgress(int year, bool isInitSync)

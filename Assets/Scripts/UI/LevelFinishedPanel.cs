@@ -46,7 +46,7 @@ namespace UI
             if (value >= rewardLimits[4] && value < rewardLimits[5])
                 _coefficient = 1.5f;
 
-            valueText.text = "+" + Mathf.CeilToInt(_collectedMoney * _coefficient);
+            valueText.text = "+" + Utility.MinifyLong(Mathf.CeilToInt(_collectedMoney * _coefficient));
         }
 
         private void IncreasingFinished()

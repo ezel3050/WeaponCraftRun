@@ -33,7 +33,7 @@ namespace UI
             btn.onClick.AddListener(ButtonClicked);
             titleText.text = type.ToString();
             levelText.text = "Level " + _level;
-            priceText.text = _level * 100 + "$";
+            priceText.text = Utility.MinifyLong(_level * 100) + "$";
         }
 
         private void ButtonClicked()
