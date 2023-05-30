@@ -21,8 +21,12 @@ namespace Entities
         [SerializeField] private GameObject visual1;
         [SerializeField] private GameObject visual2;
         [SerializeField] private GameObject dualGunVisual;
+        [SerializeField] private GameObject moneyVisual;
+        [SerializeField] private RectTransform valueTextSizeForMoneyTransform;
         [SerializeField] private float initValue;
         [SerializeField] private float initCoefficient;
+        [SerializeField] private float limit;
+        [SerializeField] private bool hasLimit;
 
         private float _currentValue;
 
@@ -45,11 +49,20 @@ namespace Entities
             {
                 visual1.SetActive(false);
                 visual2.SetActive(true);
-                if (gateType == GateTypes.DUALWEAPON)
+                switch (gateType)
                 {
-                    dualGunVisual.SetActive(true);
-                    coefficientText.gameObject.SetActive(false);
-                    valueText.gameObject.SetActive(false);
+                    case GateTypes.DUALWEAPON:
+                        dualGunVisual.SetActive(true);
+                        coefficientText.gameObject.SetActive(false);
+                        valueText.gameObject.SetActive(false);
+                        break;
+                    case GateTypes.Money:
+                        moneyVisual.SetActive(true);
+                        coefficientText.gameObject.SetActive(false);
+                        titleText.gameObject.SetActive(false);
+                        valueText.rectTransform.sizeDelta = valueTextSizeForMoneyTransform.sizeDelta;
+                        valueText.rectTransform.anchoredPosition = valueTextSizeForMoneyTransform.anchoredPosition;
+                        break;
                 }
             }
             else
@@ -69,6 +82,8 @@ namespace Entities
         {
             var bullet = other.GetComponent<Bullet>();
             bullet.BulletHit();
+            if (hasLimit)
+                if (_currentValue >= limit) return;
             _currentValue += initCoefficient;
             valueText.text = (_currentValue >= 0 ? "+" : "") + _currentValue;
             ChangeColorBaseOnValue();

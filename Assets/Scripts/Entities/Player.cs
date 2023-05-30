@@ -218,6 +218,7 @@ namespace Entities
                     FireRangeChanged(gateValue);
                     break;
                 case GateTypes.Money:
+                    IncreaseMoneyFromGate(gateValue);
                     break;
                 case GateTypes.DUALWEAPON:
                     ActiveTwoGun();
@@ -225,6 +226,12 @@ namespace Entities
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void IncreaseMoneyFromGate(float gateValue)
+        {
+            var intVal = Mathf.CeilToInt(gateValue);
+            CurrencyHandler.IncreaseMoney(intVal);
         }
 
         private void YearChanged(float value)
