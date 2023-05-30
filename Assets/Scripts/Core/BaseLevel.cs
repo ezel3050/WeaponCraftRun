@@ -99,7 +99,6 @@ namespace DefaultNamespace.Core
             var levelData = new LevelData();
             levelData.ForcedStatus = level.ForcedFinishStatus;
             levelData.LevelNumber = level.LevelNumber;
-            levelData.Attempt = LevelManager.GetLevelAttempts(level.LevelNumber);
             if (levelData.ForcedStatus == LevelFinishStatus.Retry)
             {
                 levelData.EarnedMoney = 0;

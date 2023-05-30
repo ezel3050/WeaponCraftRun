@@ -8,7 +8,6 @@ namespace Managers
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private bool startLevelOnAwake;
-        public static int TotalScore => GameManagementPlayerPrefs.PlayerTotalScore;
         private static GameManager _instance;
 
         private void Awake()

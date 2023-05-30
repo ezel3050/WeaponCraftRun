@@ -101,11 +101,6 @@ namespace DefaultNamespace
             CurrentLevel.InitializeLevel(_pickedConfig);
         }
 
-        internal static int GetLevelAttempts(int levelNumber)
-        {
-            return GameManagementPlayerPrefs.GetLevelAttempts(levelNumber);
-        }
-
         private void CreateLevelWithScene()
         {
             if (CurrentLevel != null)
@@ -228,7 +223,6 @@ namespace DefaultNamespace
         private void StartLevelNow()
         {
             SubscribeToLevel();
-            GameManagementPlayerPrefs.AttemptLevel(CurrentLevel.LevelNumber);
             CurrentLevel.StartLevel();
             if (levelQueuedForStart)
                 OnLevelReady -= StartLevelWheneverReady;
@@ -249,13 +243,7 @@ namespace DefaultNamespace
 
         private void FinishLevel(LevelData levelData)
         {
-            UpdateScore(levelData.Score);
             FinishLevelBehaviour(levelData);
-        }
-
-        private static void UpdateScore(int score)
-        {
-            GameManagementPlayerPrefs.PlayerTotalScore += score;
         }
 
         private void FinishLevelBehaviour(LevelData levelData)
@@ -282,8 +270,6 @@ namespace DefaultNamespace
         private static void IncreasePlayerLevel()
         {
             PlayerLevel++;
-            if(GetLevelAttempts(PlayerLevel) == 0)
-                OnLevelUnlocked?.Invoke(PlayerLevel);
         }
     }
 }
