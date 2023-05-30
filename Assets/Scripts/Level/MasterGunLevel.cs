@@ -26,6 +26,8 @@ namespace Level
             {
                 magazineHandler.onMagazineGotFull += OneMagazineGotFull;
             }
+            CameraManager.Instance.SetCameraFollow(playerController.transform);
+            CameraManager.Instance.TurnStartCameraOn();
 
             finishLine.onFinishLinePassed += PlayerPassedFinishLine;
             playerController.onPlayerDied += PlayerDied;
@@ -38,6 +40,7 @@ namespace Level
             playerController.FullStop(false);
             playerController.ShootActivateHandler(true, true);
             playerController.ShootActivateHandler(true, false);
+            CameraManager.Instance.TurnInGameCameraOn();
         }
         
         private void PlayerPassedFinishLine()
