@@ -10,11 +10,17 @@ namespace DefaultNamespace.Components
 
         private float _counter;
         private Vector2 _tempVector2 = new Vector2();
+        
         private void Update()
         {
             _counter += Time.deltaTime * speed;
             _tempVector2.y = -_counter;
             targetMaterial.mainTextureOffset = _tempVector2;
+        }
+
+        private void OnDestroy()
+        {
+            targetMaterial.mainTextureOffset = Vector2.zero;
         }
     }
 }
