@@ -53,10 +53,11 @@ namespace UI
             if (nextYearDividedByTen > currentYearDividedByTen)
                 progressBarTransform.position = zeroPercentProgressBarSpot.position;
             var zeroToTenScale = year % 10;
-            var wholeX = fullProgressBarSpot.position.x - zeroPercentProgressBarSpot.position.x;
+            var zeroPosition = zeroPercentProgressBarSpot.position;
+            var wholeX = fullProgressBarSpot.position.x - zeroPosition.x;
             var target = (wholeX / 10) * zeroToTenScale;
             _currentYear = year;
-            progressBarTransform.DOMoveX(zeroPercentProgressBarSpot.position.x + target, 0.3f);
+            progressBarTransform.DOMoveX(zeroPosition.x + target, 0.3f);
         }
     }
 }
