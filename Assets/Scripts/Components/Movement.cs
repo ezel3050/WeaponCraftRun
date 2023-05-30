@@ -28,7 +28,7 @@ namespace DefaultNamespace.Components
         Transform m_Transform;
         bool m_HasInput;
         bool m_ManualInputHandler;
-        private bool m_FullStop;
+        private bool m_FullStop = true;
         float m_MaxXPosition;
         float m_MinXPosition;
         float m_XPos;

@@ -34,6 +34,10 @@ namespace Level
         protected internal override void StartLevel()
         {
             base.StartLevel();
+            playerController.LevelStarted();
+            playerController.FullStop(false);
+            playerController.ShootActivateHandler(true, true);
+            playerController.ShootActivateHandler(true, false);
         }
         
         private void PlayerPassedFinishLine()
@@ -94,7 +98,7 @@ namespace Level
         protected internal override void FinishLevel()
         {
             base.FinishLevel();
-            
+            UIManager.Instance.OpenFinishingPanel();
         }
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Enums;
 using Statics;
 using TMPro;
 using UI;
@@ -12,6 +14,13 @@ namespace Managers
         [SerializeField] private Text levelText;
         [SerializeField] private TextMeshProUGUI moneyText;
         [SerializeField] private UIWeaponProgress uiWeaponProgress;
+        [SerializeField] private List<UpgradeButton> upgradeButtons;
+        [SerializeField] private RangeAndIncomePanel rangeAndIncomePanel;
+        [SerializeField] private LevelFinishedPanel levelFinishedPanelPrefab;
+        [SerializeField] private TapToStartPanel tapToStartPanel;
+        [SerializeField] private Transform parentSpot;
+
+        private LevelFinishedPanel _levelFinishedPanel;
 
         public static UIManager Instance;
         
@@ -31,6 +40,23 @@ namespace Managers
         private void Start()
         {
             CurrencyHandler.onValueChanged += CurrencyChanged;
+            CurrencyChanged(CurrencyHandler.CurrentMoney);
+            rangeAndIncomePanel.onRangeAndIncomePanelClosed += OpenLevelFinishedPanel;
+            if (_levelFinishedPanel) Destroy(_levelFinishedPanel.gameObject);
+            _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
+            _levelFinishedPanel.onLevelFinishedPanelClosed += ResetPanels;
+            _levelFinishedPanel.gameObject.SetActive(false);
+        }
+
+        public void OpenFinishingPanel()
+        {
+            rangeAndIncomePanel.gameObject.SetActive(true);
+        }
+
+        private void OpenLevelFinishedPanel()
+        {
+            rangeAndIncomePanel.gameObject.SetActive(false);
+            _levelFinishedPanel.gameObject.SetActive(true);
         }
 
         public void SetLevelText(int level)
@@ -43,12 +69,31 @@ namespace Managers
 
         private void CurrencyChanged(int value)
         {
-            moneyText.text = "$" + value;
+            moneyText.text = "$" + CurrencyHandler.CurrentMoney;
         }
 
         public void SyncWeaponUIProgress(int year)
         {
             uiWeaponProgress.Initialize(year);
+        }
+
+        public void SetUpgradeButtonsAction(Action<UpgradeType> callback)
+        {
+            foreach (var upgradeButton in upgradeButtons)
+            {
+                upgradeButton.onLevelChanged = null;
+                upgradeButton.onLevelChanged = callback;
+            }
+        }
+
+        private void ResetPanels()
+        {
+            Destroy(_levelFinishedPanel.gameObject);
+            _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
+            _levelFinishedPanel.onLevelFinishedPanelClosed += ResetPanels;
+            _levelFinishedPanel.gameObject.SetActive(false);
+            tapToStartPanel.gameObject.SetActive(true);
+            GameManager.InitializeLevelManager();
         }
     }
 }

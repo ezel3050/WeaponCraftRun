@@ -28,7 +28,6 @@ namespace Managers
         private void Start()
         {
             InitializeLevelManager();
-            CurrencyHandler.Initialize();
         }
 
         private void OnEnable()
@@ -63,6 +62,7 @@ namespace Managers
 
         private static void FillComponents()
         {
+            CurrencyHandler.Initialize();
         }
 
         public static void InitializeLevelManager()

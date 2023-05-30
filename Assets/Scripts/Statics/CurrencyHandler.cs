@@ -5,8 +5,10 @@ namespace Statics
     public static class CurrencyHandler
     {
         private static int _currentMoney;
+        private static int _thisLevelCollected;
 
         public static int CurrentMoney => _currentMoney;
+        public static int ThisLevelCollected => _thisLevelCollected;
         public static Action<int> onValueChanged;
 
         public static void Initialize()
@@ -16,6 +18,7 @@ namespace Statics
 
         public static void IncreaseMoney(int value)
         {
+            _thisLevelCollected += value;
             _currentMoney += value;
             SaveMoney();
             onValueChanged?.Invoke(value);
@@ -35,6 +38,11 @@ namespace Statics
         public static bool CanDecrease(int value)
         {
             return _currentMoney - value >= 0;
+        }
+
+        public static void ResetData()
+        {
+            _thisLevelCollected = 0;
         }
     }
 }

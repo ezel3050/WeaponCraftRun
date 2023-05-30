@@ -21,6 +21,7 @@ namespace Entities
         [SerializeField] private Transform bodyLeft;
 
         private WeaponModel _weaponModel;
+        private WeaponModel _originalWeaponModel;
         private Weapon _cloneWeapon;
         private Weapon _cloneSecondWeapon;
         private float _fireRate;
@@ -28,13 +29,21 @@ namespace Entities
         private int _power;
         private bool _isTwoHandModeOn;
         private bool _isDied;
+        private bool _levelStarted;
 
         public Action onPlayerDied;
         
         public void Initialize()
         {
             FillVariables();
+            SyncFireRateValue();
+            SyncFireRangeValue();
             CreateWeapon();
+        }
+
+        public void LevelStarted()
+        {
+            _levelStarted = true;
         }
 
         private void FillVariables()
@@ -44,10 +53,12 @@ namespace Entities
             FillModel(model);
             _weaponModel.Year = currentYear;
             UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year);
+            UIManager.Instance.SetUpgradeButtonsAction(UpgradeApplied);
         }
-
+        
         private void FillModel(WeaponModel model)
         {
+            _originalWeaponModel = model;
             _weaponModel = new WeaponModel()
             {
                 Year = model.Year,
@@ -60,6 +71,65 @@ namespace Entities
                 InnerBulletMaterial = model.InnerBulletMaterial
             };
         }
+        
+        private void UpgradeApplied(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.FireRate:
+                    SyncFireRateValue();
+                    break;
+                case UpgradeType.InitYear:
+                    YearChanged(1);
+                    break;
+                case UpgradeType.Range:
+                    SyncFireRangeValue();
+                    break;
+                case UpgradeType.Income:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
+        
+        private void SyncFireRateValue()
+        {
+            _weaponModel.Rate = _originalWeaponModel.Rate + _fireRate + Prefs.FireRateLevel * 0.5f;
+        }
+        
+        private void SyncFireRangeValue()
+        {
+            _weaponModel.Range = _originalWeaponModel.Range + _fireRange + Prefs.FireRangeLevel * 0.05f;
+        }
+        
+        private void CreateWeapon()
+        {
+            DestroyCurrentWeapon();
+            _cloneWeapon = Instantiate(_weaponModel.Weapon, weaponRightSpot);
+            _cloneWeapon.transform.localPosition = Vector3.zero;
+            _cloneWeapon.Initialize(_weaponModel);
+            if (_levelStarted)
+                ShootActivateHandler(true,true);
+            _cloneWeapon.onWeaponHoleTriggerEnter += WeaponHoleTriggerEnter;
+            _cloneWeapon.onWeaponTriggerEnter += WeaponTriggerEnter;
+        }
+
+        public void ShootActivateHandler(bool isActive, bool isFirstWeapon)
+        {
+            if (isFirstWeapon)
+                _cloneWeapon.ShootActivateHandler(isActive);
+            else if (_cloneSecondWeapon)
+                _cloneSecondWeapon.ShootActivateHandler(isActive);
+        }
+        
+        private void DestroyCurrentWeapon()
+        {
+            if (_cloneWeapon)
+            {
+                ShootActivateHandler(false,true);
+                Destroy(_cloneWeapon.gameObject);
+            }
+        }
 
         private void WeaponTriggerEnter(Collider obj)
         {
@@ -67,13 +137,18 @@ namespace Entities
             {
                 if (_isDied) return;
                 _isDied = true;
-                movement.FullStop(true);
+                FullStop(true);
                 transform.DOMoveZ(transform.localPosition.z - 2, 0.3f).onComplete = () =>
                 {
                     movement.SyncZPos();
                     ApplyDeath();
                 };
             }
+        }
+
+        public void FullStop(bool isActive)
+        {
+            movement.FullStop(isActive);
         }
 
         private void ActiveTwoGun()
@@ -87,14 +162,14 @@ namespace Entities
 
         private void ApplyDeath()
         {
-            _cloneWeapon.ShootActivateHandler(false);
+            ShootActivateHandler(false,true);
             var firstTargetRotation = new Vector3(0, 0, -90);
             bodyRight.DOLocalRotate(firstTargetRotation, 0.5f).onComplete = () => onPlayerDied?.Invoke();
             if (_isTwoHandModeOn)
             {
                 var secondTargetRotation = new Vector3(0, 0, 90);
-                _cloneSecondWeapon.ShootActivateHandler(false);
-                bodyLeft.DOLocalRotate(secondTargetRotation, 0.5f).onComplete = () => onPlayerDied?.Invoke();
+                ShootActivateHandler(false,false);
+                bodyLeft.DOLocalRotate(secondTargetRotation, 0.5f);
                 bodyLeft.DOLocalMoveX(-1.5f, 0.3f);
                 bodyRight.DOLocalMoveX(1.5f, 0.3f);
             }
@@ -180,49 +255,28 @@ namespace Entities
             bodyLeft.DOLocalRotate(rotation, 0.3f, RotateMode.FastBeyond360);
         }
 
-        private void CreateWeapon()
-        {
-            DestroyCurrentWeapon();
-            _cloneWeapon = Instantiate(_weaponModel.Weapon, weaponRightSpot);
-            _cloneWeapon.transform.localPosition = Vector3.zero;
-            _cloneWeapon.Initialize(_weaponModel);
-            _cloneWeapon.ShootActivateHandler(true);
-            _cloneWeapon.onWeaponHoleTriggerEnter += WeaponHoleTriggerEnter;
-            _cloneWeapon.onWeaponTriggerEnter += WeaponTriggerEnter;
-        }
-        
         private void CreateSecondWeapon()
         {
             DestroySecondWeapon();
             _cloneSecondWeapon = Instantiate(_weaponModel.Weapon, weaponLeftSpot);
             _cloneSecondWeapon.transform.localPosition = Vector3.zero;
             _cloneSecondWeapon.Initialize(_weaponModel);
-            _cloneSecondWeapon.ShootActivateHandler(true);
-            // _cloneSecondWeapon.onWeaponHoleTriggerEnter += WeaponHoleTriggerEnter;
-            // _cloneSecondWeapon.onWeaponTriggerEnter += WeaponTriggerEnter;
+            if (_levelStarted)
+                ShootActivateHandler(true,false);
         }
 
         private void ApplyChangesOnModel()
         {
-            _weaponModel.Range += _fireRange;
-            _weaponModel.Rate += _fireRate;
+            SyncFireRangeValue();
+            SyncFireRateValue();
             _weaponModel.Power += _power;
         }
 
-        private void DestroyCurrentWeapon()
-        {
-            if (_cloneWeapon)
-            {
-                _cloneWeapon.ShootActivateHandler(false);
-                Destroy(_cloneWeapon.gameObject);
-            }
-        }
-        
         private void DestroySecondWeapon()
         {
             if (_cloneSecondWeapon)
             {
-                _cloneSecondWeapon.ShootActivateHandler(false);
+                ShootActivateHandler(false,false);
                 Destroy(_cloneSecondWeapon.gameObject);
             }
         }
@@ -231,7 +285,7 @@ namespace Entities
         {
             var fixedValue = value / 20;
             _fireRate += fixedValue;
-            _weaponModel.Rate += _fireRate;
+            SyncFireRateValue();
             _cloneWeapon.Initialize(_weaponModel);
         }
 
@@ -239,7 +293,7 @@ namespace Entities
         {
             var fixedValue = value / 100;
             _fireRange += fixedValue;
-            _weaponModel.Range += _fireRange;
+            SyncFireRangeValue();
             _cloneWeapon.Initialize(_weaponModel);
         }
 
