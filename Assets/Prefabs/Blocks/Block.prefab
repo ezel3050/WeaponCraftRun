@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23198775965164351}
   - component: {fileID: 136970700328968426}
   - component: {fileID: 7892707220697826761}
+  - component: {fileID: 1743266405444503150}
   m_Layer: 13
   m_Name: Block
   m_TagString: EndingBlock
@@ -120,7 +121,20 @@ MonoBehaviour:
   moneyCollider: {fileID: 65789622933204327}
   moneyRigidbody: {fileID: 1356621886333301777}
   destroyParticle: {fileID: 198636229703232361}
+  scaleBouncer: {fileID: 1743266405444503150}
   value: 0
+--- !u!114 &1743266405444503150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007532033992511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 269967bd725247339288e9f05f1d2dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1310007246865726
 GameObject:
   m_ObjectHideFlags: 0

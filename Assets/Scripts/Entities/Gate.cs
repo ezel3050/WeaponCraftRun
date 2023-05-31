@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using Components;
 using Enums;
 using TMPro;
 using UnityEngine;
@@ -23,6 +24,7 @@ namespace Entities
         [SerializeField] private GameObject dualGunVisual;
         [SerializeField] private GameObject moneyVisual;
         [SerializeField] private RectTransform valueTextSizeForMoneyTransform;
+        [SerializeField] private ScaleBouncer scaleBouncer;
         [SerializeField] private float initValue;
         [SerializeField] private float initCoefficient;
         [SerializeField] private float limit;
@@ -82,6 +84,7 @@ namespace Entities
         {
             var bullet = other.GetComponent<Bullet>();
             bullet.BulletHit();
+            scaleBouncer.Poke();
             if (hasLimit)
                 if (_currentValue >= limit) return;
             _currentValue += initCoefficient;

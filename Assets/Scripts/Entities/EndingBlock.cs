@@ -1,4 +1,5 @@
 using System;
+using Components;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Entities
         [SerializeField] private BoxCollider moneyCollider;
         [SerializeField] private Rigidbody moneyRigidbody;
         [SerializeField] private ParticleSystem destroyParticle;
+        [SerializeField] private ScaleBouncer scaleBouncer;
         [SerializeField] private int value;
 
         private void Start()
@@ -31,6 +33,7 @@ namespace Entities
             var bullet = other.GetComponent<Bullet>();
             var model = bullet.GetWeaponModel();
             bullet.BulletHit();
+            scaleBouncer.Poke();
             value -= model.Power;
             if (value <= 0)
             {

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4282616891666549}
   - component: {fileID: 4278709130399062477}
   - component: {fileID: 1838942215876213295}
+  - component: {fileID: 1373976985291535326}
   m_Layer: 13
   m_Name: Gate
   m_TagString: Gate
@@ -67,8 +68,11 @@ MonoBehaviour:
   dualGunVisual: {fileID: 5159339584026394651}
   moneyVisual: {fileID: 5251940460301266246}
   valueTextSizeForMoneyTransform: {fileID: 951419230987417838}
+  scaleBouncer: {fileID: 1373976985291535326}
   initValue: 0
   initCoefficient: 1
+  limit: 0
+  hasLimit: 0
 --- !u!65 &1838942215876213295
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -82,6 +86,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0006123, y: 2.0087695, z: 0.07457733}
   m_Center: {x: -0.008777261, y: 1.0140884, z: 0.0029888153}
+--- !u!114 &1373976985291535326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387977102998255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 269967bd725247339288e9f05f1d2dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1804464064962371
 GameObject:
   m_ObjectHideFlags: 0
