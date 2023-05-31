@@ -33,6 +33,8 @@ namespace Entities
         private bool _isTwoHandModeOn;
         private bool _isDied;
         private bool _levelStarted;
+        private float _tempTimeWeaponOne;
+        private float _tempTimeWeaponTwo;
 
         public Action onPlayerDied;
         
@@ -42,6 +44,39 @@ namespace Entities
             SyncFireRateValue();
             SyncFireRangeValue();
             CreateWeapon();
+        }
+
+        private void Update()
+        {
+            if (_isDied) return;
+            if(_tempTimeWeaponOne > 0)
+            {
+                var maxRecoil = Quaternion.Euler (-5, 0, 0);
+                bodyRight.localRotation = Quaternion.Slerp(bodyRight.localRotation, maxRecoil, Time.deltaTime * _weaponModel.Rate * 2);
+                _tempTimeWeaponOne -= Time.deltaTime;
+            }
+            else
+            {
+                _tempTimeWeaponOne = 0;
+                var minRecoil = Quaternion.Euler (0, 0, 0);
+                bodyRight.localRotation = Quaternion.Slerp(bodyRight.localRotation, minRecoil,Time.deltaTime * _weaponModel.Rate * 2);
+            }
+
+            if (_cloneSecondWeapon)
+            {
+                if(_tempTimeWeaponTwo > 0)
+                {
+                    var maxRecoil = Quaternion.Euler (-5, 0, 0);
+                    bodyLeft.localRotation = Quaternion.Slerp(bodyLeft.localRotation, maxRecoil, Time.deltaTime * _weaponModel.Rate * 2);
+                    _tempTimeWeaponTwo -= Time.deltaTime;
+                }
+                else
+                {
+                    _tempTimeWeaponTwo = 0;
+                    var minRecoil = Quaternion.Euler (0, 0, 0);
+                    bodyLeft.localRotation = Quaternion.Slerp(bodyLeft.localRotation, minRecoil,Time.deltaTime * _weaponModel.Rate * 2);
+                }
+            }
         }
 
         public void LevelStarted()
@@ -116,6 +151,12 @@ namespace Entities
                 ShootActivateHandler(true,true);
             _cloneWeapon.onWeaponHoleTriggerEnter += WeaponHoleTriggerEnter;
             _cloneWeapon.onWeaponTriggerEnter += WeaponTriggerEnter;
+            _cloneWeapon.onBulletShoot += WeaponShoot;
+        }
+
+        private void WeaponShoot()
+        {
+            _tempTimeWeaponOne = 1 / (_weaponModel.Rate * 2);
         }
 
         public void ShootActivateHandler(bool isActive, bool isFirstWeapon)
@@ -273,8 +314,14 @@ namespace Entities
             _cloneSecondWeapon = Instantiate(_weaponModel.Weapon, weaponLeftSpot);
             _cloneSecondWeapon.transform.localPosition = Vector3.zero;
             _cloneSecondWeapon.Initialize(_weaponModel);
+            _cloneSecondWeapon.onBulletShoot += SecondWeaponShoot;
             if (_levelStarted)
                 ShootActivateHandler(true,false);
+        }
+        
+        private void SecondWeaponShoot()
+        {
+            _tempTimeWeaponTwo = 1 / (_weaponModel.Rate * 2);
         }
 
         private void ApplyChangesOnModel()

@@ -18,6 +18,7 @@ namespace DefaultNamespace.Entities
 
         public Action<Collider> onWeaponHoleTriggerEnter;
         public Action<Collider> onWeaponTriggerEnter;
+        public Action onBulletShoot;
 
         private void Start()
         {
@@ -69,6 +70,7 @@ namespace DefaultNamespace.Entities
             cloneBullet.transform.position = shootingSpot.position;
             cloneBullet.Initialize(_weaponModel);
             shootingParticle.Play();
+            onBulletShoot?.Invoke();
         }
     }
 }
