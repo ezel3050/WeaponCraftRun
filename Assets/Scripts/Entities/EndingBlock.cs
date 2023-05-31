@@ -17,6 +17,8 @@ namespace Entities
         [SerializeField] private ScaleBouncer scaleBouncer;
         [SerializeField] private int value;
 
+        public Action onExploded;
+
         private void Start()
         {
             countText.text = value.ToString();
@@ -43,6 +45,7 @@ namespace Entities
                 destroyParticle.Play();
                 moneyRigidbody.isKinematic = false;
                 moneyCollider.enabled = true;
+                onExploded?.Invoke();
             }
             else
             {

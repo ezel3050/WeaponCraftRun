@@ -13,6 +13,7 @@ namespace Level
         [SerializeField] private List<MagazineHandler> magazineHandlers;
         [SerializeField] private GameObject rail;
         [SerializeField] private FinishLine finishLine;
+        [SerializeField] private Ending ending;
 
         private bool _isFinishLinePassed;
 
@@ -28,6 +29,7 @@ namespace Level
             }
             CameraManager.Instance.SetCameraFollow(playerController.transform);
             CameraManager.Instance.TurnStartCameraOn();
+            ending.CreateHighScore();
 
             finishLine.onFinishLinePassed += PlayerPassedFinishLine;
             playerController.onPlayerDied += PlayerDied;

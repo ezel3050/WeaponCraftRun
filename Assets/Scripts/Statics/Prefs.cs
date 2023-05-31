@@ -51,5 +51,11 @@ namespace Statics
             get => PlayerPrefs.GetInt("EndGameWeaponLevel", 1);
             set => PlayerPrefs.SetInt("EndGameWeaponLevel", value);
         }
+        
+        public static int HighScore
+        {
+            get => PlayerPrefs.GetInt("HighScore", 0);
+            set => PlayerPrefs.SetInt("HighScore", value);
+        }
     }
 }
