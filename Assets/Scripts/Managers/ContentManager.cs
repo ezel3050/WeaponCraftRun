@@ -9,6 +9,7 @@ namespace Managers
     public class ContentManager : MonoBehaviour
     {
         [SerializeField] private WeaponData weaponData;
+        [SerializeField] private EndWeaponData endWeaponData;
 
         public static ContentManager Instance;
         
@@ -41,6 +42,12 @@ namespace Managers
             var nextProperModel = weaponData.WeaponModels.Find(model => Math.Abs(model.Year - (properLevel + 10)) < 0.1f);
             modelList.Add(nextProperModel);
             return modelList;
+        }
+
+        public WeaponModel GetEndingWeaponModel(int level)
+        {
+            var target = endWeaponData.EndWeaponModels.Find(model => model.Level == level);
+            return target.Model;
         }
     }
 }
