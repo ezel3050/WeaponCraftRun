@@ -17,7 +17,7 @@ namespace UI
         private void ButtonClicked()
         {
             gameObject.SetActive(false);
-            GameManager.StartLevel();
+            Managers.GameManager.StartLevel();
         }
     }
 }
