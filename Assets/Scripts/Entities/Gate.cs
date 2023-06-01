@@ -25,6 +25,8 @@ namespace Entities
         [SerializeField] private GameObject moneyVisual;
         [SerializeField] private RectTransform valueTextSizeForMoneyTransform;
         [SerializeField] private ScaleBouncer scaleBouncer;
+        [SerializeField] private GateProtector protector;
+        [SerializeField] private BoxCollider gateCollider;
         [SerializeField] private float initValue;
         [SerializeField] private float initCoefficient;
         [SerializeField] private float limit;
@@ -37,12 +39,22 @@ namespace Entities
 
         private void Start()
         {
+            if (protector)
+            {
+                gateCollider.enabled = false;
+                protector.onShieldBroke += ShieldBroken;
+            }
             _currentValue = initValue;
             titleText.text = gateType.ToString();
             valueText.text = (_currentValue >= 0 ? "+" : "") + _currentValue;
             coefficientText.text = initCoefficient.ToString(CultureInfo.InvariantCulture);
             ChangeColorBaseOnValue();
             ChangeVisualBaseOnType();
+        }
+
+        private void ShieldBroken()
+        {
+            gateCollider.enabled = true;
         }
 
         private void ChangeVisualBaseOnType()
@@ -94,6 +106,8 @@ namespace Entities
 
         private void ChangeColorBaseOnValue()
         {
+            if (initCoefficient < 0)
+                coefficientText.color = Color.red;
             if (_currentValue >= 0)
                 TurnToGreen();
             else

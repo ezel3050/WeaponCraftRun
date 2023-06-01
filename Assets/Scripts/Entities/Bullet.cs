@@ -9,12 +9,12 @@ namespace Entities
         [SerializeField] private ParticleSystem hitParticle;
         [SerializeField] private Rigidbody bulletRigidbody;
         [SerializeField] private GameObject visual;
+        [SerializeField] private Collider bulletCollider;
         [SerializeField] private float speed = 10f;
 
         private WeaponModel _weaponModel;
         private float _tempTime;
         private bool _canCountDown;
-        
         public void Initialize(WeaponModel weaponModel)
         {
             _weaponModel = weaponModel;
@@ -40,6 +40,7 @@ namespace Entities
             _canCountDown = false;
             _tempTime = 0;
             hitParticle.Play();
+            bulletCollider.enabled = false;
             DisableItself();
         }
 

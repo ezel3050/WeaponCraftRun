@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Statics
@@ -37,6 +38,11 @@ namespace Statics
                 return (value / Mathf.Pow(10, 3)).ToString("0.#") + " K";
 
             return value.ToString("#,0");
+        }
+        
+        public static T PickRandom<T>(this IList<T> list)
+        {
+            return list[Random.Range(0, list.Count)];
         }
     }
 }

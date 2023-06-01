@@ -201,13 +201,26 @@ namespace Entities
             {
                 if (_isDied) return;
                 _isDied = true;
-                FullStop(true);
-                transform.DOMoveZ(transform.localPosition.z - 2, 0.3f).onComplete = () =>
-                {
-                    movement.SyncZPos();
-                    ApplyDeath();
-                };
+                MoveBack(true);
             }
+
+            if (obj.CompareTag("Obstacle"))
+            {
+                MoveBack(false);
+            }
+        }
+
+        private void MoveBack(bool isDead)
+        {
+            FullStop(true);
+            transform.DOMoveZ(transform.localPosition.z - 2, 0.3f).onComplete = () =>
+            {
+                movement.SyncZPos();
+                if (isDead)
+                    ApplyDeath();
+                else
+                    FullStop(false);
+            };
         }
 
         public void FullStop(bool isActive)
