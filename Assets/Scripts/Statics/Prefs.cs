@@ -46,6 +46,12 @@ namespace Statics
             set => PlayerPrefs.SetInt("ItemWidgetLevel", value);
         }
         
+        public static int GloveLevel
+        {
+            get => PlayerPrefs.GetInt("GloveLevel", 1);
+            set => PlayerPrefs.SetInt("GloveLevel", value);
+        }
+        
         public static int EndGameWeaponLevel
         {
             get => PlayerPrefs.GetInt("EndGameWeaponLevel", 1);

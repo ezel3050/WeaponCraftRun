@@ -10,6 +10,7 @@ namespace Managers
     {
         [SerializeField] private WeaponData weaponData;
         [SerializeField] private EndWeaponData endWeaponData;
+        [SerializeField] private GloveData gloveData;
 
         public static ContentManager Instance;
         
@@ -48,6 +49,12 @@ namespace Managers
         {
             var target = endWeaponData.EndWeaponModels.Find(model => model.Level == level);
             return target.Model;
+        }
+
+        public GloveModel GetGloveModel(int level)
+        {
+            var target = gloveData.GloveModels.Find(model => model.Level == level);
+            return target;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Entities
         [SerializeField] private Rigidbody moneyRigidbody;
         [SerializeField] private ParticleSystem destroyParticle;
         [SerializeField] private ScaleBouncer scaleBouncer;
-        [SerializeField] private int value;
+        [SerializeField] private float value;
 
         public Action onExploded;
 
@@ -37,6 +37,7 @@ namespace Entities
             bullet.BulletHit();
             scaleBouncer.Poke();
             value -= model.Power;
+            value = Mathf.CeilToInt(value);
             if (value <= 0)
             {
                 blockRenderer.enabled = false;

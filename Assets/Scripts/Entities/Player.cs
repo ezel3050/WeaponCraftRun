@@ -17,7 +17,8 @@ namespace Entities
         [SerializeField] private Movement movement;
         [SerializeField] private Transform weaponRightSpot;
         [SerializeField] private Transform weaponLeftSpot;
-        [SerializeField] private Transform gloveSpot;
+        [SerializeField] private Transform gloveRightSpot;
+        [SerializeField] private Transform gloveLeftSpot;
         [SerializeField] private Transform bodyRight;
         [SerializeField] private Transform bodyLeft;
         [SerializeField] private TextMeshPro yearText;
@@ -25,11 +26,13 @@ namespace Entities
 
         private WeaponModel _weaponModel;
         private WeaponModel _originalWeaponModel;
+        private GloveModel _gloveModel;
+        private GameObject _rightGlove;
+        private GameObject _leftGlove;
         private Weapon _cloneWeapon;
         private Weapon _cloneSecondWeapon;
         private float _fireRate;
         private float _fireRange;
-        private int _power;
         private bool _isTwoHandModeOn;
         private bool _isDied;
         private bool _levelStarted;
@@ -41,8 +44,10 @@ namespace Entities
         public void Initialize()
         {
             FillVariables();
+            CreateGlove();
             SyncFireRateValue();
             SyncFireRangeValue();
+            SyncPowerValue();
             CreateWeapon();
         }
 
@@ -77,6 +82,15 @@ namespace Entities
                     bodyLeft.localRotation = Quaternion.Slerp(bodyLeft.localRotation, minRecoil,Time.deltaTime * _weaponModel.Rate * 2);
                 }
             }
+        }
+
+        private void CreateGlove()
+        {
+            if (_rightGlove)
+                Destroy(_rightGlove.gameObject);
+            var level = Prefs.GloveLevel;
+            _gloveModel = ContentManager.Instance.GetGloveModel(level);
+            _rightGlove = Instantiate(_gloveModel.GloveRightPrefab, gloveRightSpot);
         }
 
         public void LevelStarted()
@@ -133,12 +147,17 @@ namespace Entities
         
         private void SyncFireRateValue()
         {
-            _weaponModel.Rate = _originalWeaponModel.Rate + _fireRate + Prefs.FireRateLevel * 0.5f;
+            _weaponModel.Rate = _originalWeaponModel.Rate + _gloveModel.FireRate + _fireRate + Prefs.FireRateLevel * 0.5f;
         }
         
         private void SyncFireRangeValue()
         {
-            _weaponModel.Range = _originalWeaponModel.Range + _fireRange + Prefs.FireRangeLevel * 0.05f;
+            _weaponModel.Range = _originalWeaponModel.Range + _gloveModel.Range + _fireRange + Prefs.FireRangeLevel * 0.05f;
+        }
+
+        private void SyncPowerValue()
+        {
+            _weaponModel.Power = _originalWeaponModel.Power + _gloveModel.Power;
         }
         
         private void CreateWeapon()
@@ -201,8 +220,16 @@ namespace Entities
             _isTwoHandModeOn = true;
             bodyRight.DOLocalMoveX(0.5f, 0.2f);
             bodyLeft.gameObject.SetActive(true);
+            CreateGloveForLeftHand();
             bodyLeft.DOLocalMoveX(-0.5f, 0);
             CreateSecondWeapon();
+        }
+
+        private void CreateGloveForLeftHand()
+        {
+            if (_leftGlove)
+                Destroy(_leftGlove.gameObject);
+            _leftGlove = Instantiate(_gloveModel.GloveLeftPrefab, gloveLeftSpot);
         }
 
         private void ApplyDeath()
@@ -328,7 +355,7 @@ namespace Entities
         {
             SyncFireRangeValue();
             SyncFireRateValue();
-            _weaponModel.Power += _power;
+            SyncPowerValue();
         }
 
         private void DestroySecondWeapon()

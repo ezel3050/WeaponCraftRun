@@ -20,9 +20,11 @@ namespace Managers
         [SerializeField] private LevelFinishedPanel levelFinishedPanelPrefab;
         [SerializeField] private TapToStartPanel tapToStartPanel;
         [SerializeField] private FadingText fadingTextPrefab;
+        [SerializeField] private UnlockItemPanel unlockItemPanelPrefab;
         [SerializeField] private Transform parentSpot;
 
         private LevelFinishedPanel _levelFinishedPanel;
+        private UnlockItemPanel _unlockItemPanel;
 
         public static UIManager Instance;
         
@@ -47,6 +49,7 @@ namespace Managers
             if (_levelFinishedPanel) Destroy(_levelFinishedPanel.gameObject);
             _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
             _levelFinishedPanel.onLevelFinishedPanelClosed += ResetPanels;
+            _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
             _levelFinishedPanel.gameObject.SetActive(false);
         }
 
@@ -95,6 +98,7 @@ namespace Managers
             Destroy(_levelFinishedPanel.gameObject);
             _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
             _levelFinishedPanel.onLevelFinishedPanelClosed += ResetPanels;
+            _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
             _levelFinishedPanel.gameObject.SetActive(false);
             uiWeaponProgress.gameObject.SetActive(true);
             tapToStartPanel.gameObject.SetActive(true);
@@ -110,6 +114,27 @@ namespace Managers
         {
             var fadingTextClone = Instantiate(fadingTextPrefab, position, Quaternion.identity, transform);
             fadingTextClone.Initialize(value.ToString());
+        }
+
+        private void OpenGloveReadyPanel()
+        {
+            _unlockItemPanel = Instantiate(unlockItemPanelPrefab, parentSpot);
+            _unlockItemPanel.onUnlockPanelClosed += UnlockPanelClosed;
+        }
+
+        private void UnlockPanelClosed(bool isAdSeen)
+        {
+            if (isAdSeen)
+            {
+                Destroy(_unlockItemPanel.gameObject);
+                Prefs.GloveLevel++;
+                Prefs.ItemWidgetLevel = 0;
+            }
+            else
+            {
+                Destroy(_unlockItemPanel.gameObject);
+                _levelFinishedPanel.ShrinkGlove();
+            }
         }
     }
 }

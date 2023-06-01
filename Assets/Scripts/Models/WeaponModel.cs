@@ -13,7 +13,7 @@ namespace Models
         public Bullet Bullet;
         public float Rate;
         public float Range;
-        public int Power;
+        public float Power;
         public Material OuterBulletMaterial;
         public Material InnerBulletMaterial;
         public Sprite WeaponSprite;

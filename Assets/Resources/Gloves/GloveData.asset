@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d587d2b38aee40b1b73e6bf01317d436, type: 3}
+  m_Name: GloveData
+  m_EditorClassIdentifier: 
+  GloveModels:
+  - GloveRightPrefab: {fileID: 1461852363702595, guid: b845cef706790e3438bd19303909f224, type: 3}
+    GloveLeftPrefab: {fileID: 1461852363702595, guid: 2b39ca40b53135440acd7fa6a613cefa, type: 3}
+    Level: 1
+    FireRate: 0
+    Power: 1
+    Range: 0
+    MainSprite: {fileID: 0}
+    ShadowSprite: {fileID: 0}
+  - GloveRightPrefab: {fileID: 1112996867409604, guid: b369a3d27eb0b354c8aca5c3f52d30cc, type: 3}
+    GloveLeftPrefab: {fileID: 1502545012671192, guid: 0af610252f1a046468a5f2bac5ca7bb9, type: 3}
+    Level: 2
+    FireRate: 0
+    Power: 2
+    Range: 5
+    MainSprite: {fileID: 21300000, guid: 66e44c85c99d9b24d979bccc397ddc94, type: 2}
+    ShadowSprite: {fileID: 21300000, guid: 30d027fff5536e243b6378c472630eb8, type: 2}
+  - GloveRightPrefab: {fileID: 0}
+    GloveLeftPrefab: {fileID: 0}
+    Level: 0
+    FireRate: 0
+    Power: 0
+    Range: 0
+    MainSprite: {fileID: 21300000, guid: ce196544d1a17b84788d11696b21e3a2, type: 2}
+    ShadowSprite: {fileID: 21300000, guid: 25190179ba900a64b981c19f5ceff5e0, type: 2}

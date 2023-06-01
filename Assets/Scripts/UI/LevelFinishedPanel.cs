@@ -22,6 +22,7 @@ namespace UI
         private int _collectedMoney;
 
         public Action onLevelFinishedPanelClosed;
+        public Action onGloveReady;
 
         private void Start()
         {
@@ -49,29 +50,40 @@ namespace UI
             valueText.text = "+" + Utility.MinifyLong(Mathf.CeilToInt(_collectedMoney * _coefficient));
         }
 
-        private void IncreasingFinished()
+        private void IncreasingFinished(bool isGloveReady)
+        {
+            if (isGloveReady)
+                onGloveReady?.Invoke();
+            else
+                ShrinkGlove();
+        }
+
+        public void ShrinkGlove()
         {
             var sq = DOTween.Sequence();
-            sq.Append(itemWidgetPanel.transform.DOLocalMoveY(450f, 1f));
-            sq.Append(itemWidgetPanel.transform.DOScale(0.7f, 1f)).onComplete = OpenRewardPanel;
+            sq.Append(itemWidgetPanel.transform.DOLocalMoveY(450f, 0.5f));
+            sq.Append(itemWidgetPanel.transform.DOScale(0.7f, 0.5f)).onComplete = CheckGloveCondition;
             sq.Join(DOTween.To(itemWidgetPanel.GetPaddingValue, itemWidgetPanel.SetPaddingValue,
-                0.7f * itemWidgetPanel.Padding.y, 1f));
+                0.7f * itemWidgetPanel.Padding.y, 0.5f));
+        }
+
+        private void CheckGloveCondition()
+        {   
+            OpenRewardPanel();
         }
 
         private void OpenRewardPanel()
         {
-            rewardPanel.DOScale(Vector3.one, 1f);
+            var sq = DOTween.Sequence();
+            sq.Append(rewardPanel.DOScale(Vector3.one * 1.2f, 0.5f));
+            sq.Append(rewardPanel.DOScale(Vector3.one * 0.8f, 0.4f));
+            sq.Append(rewardPanel.DOScale(Vector3.one, 0.3f));
         }
 
         private void SkipButtonClicked()
         {
             CurrencyHandler.ResetData();
             onLevelFinishedPanelClosed?.Invoke();
-        }
-
-        private void ResetPanel()
-        {
-            
         }
     }
 }
