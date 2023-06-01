@@ -11,6 +11,7 @@ namespace Entities
     {
         [SerializeField] private List<MeshRenderer> moneyRenderers;
         [SerializeField] private ParticleSystem moneyParticle;
+        [SerializeField] private Rigidbody moneyRigidBody;
         [SerializeField] private int minRangeValue;
         [SerializeField] private int maxRangeValue;
 
@@ -36,6 +37,11 @@ namespace Entities
             var finalVal = randomVal * (1 + Prefs.IncomeLevel * 0.1f);
             var finalValInt = Mathf.CeilToInt(finalVal);
             return finalValInt;
+        }
+
+        public void TurnMoneyKinematicOff()
+        {
+            moneyRigidBody.isKinematic = false;
         }
     }
 }
