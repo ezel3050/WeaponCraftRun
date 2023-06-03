@@ -33,6 +33,7 @@ namespace Statics
         public static void DecreaseMoney(int value)
         {
             _currentMoney -= value;
+            SaveMoney();
             onValueChanged?.Invoke(value, Vector3.zero, false);
         }
 

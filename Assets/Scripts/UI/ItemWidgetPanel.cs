@@ -45,6 +45,7 @@ namespace UI
                 Prefs.ItemWidgetLevel++;
             else
             {
+                lightTransform.gameObject.SetActive(false);
                 onIncreaseFinished?.Invoke(true);
                 return;
             }
