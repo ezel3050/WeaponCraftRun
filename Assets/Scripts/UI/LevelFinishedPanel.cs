@@ -70,6 +70,7 @@ namespace UI
         private void CheckGloveCondition()
         {   
             OpenRewardPanel();
+            Invoke("ShowSkipButton", 3f);
         }
 
         private void OpenRewardPanel()
@@ -84,6 +85,11 @@ namespace UI
         {
             CurrencyHandler.ResetData();
             onLevelFinishedPanelClosed?.Invoke();
+        }
+
+        private void ShowSkipButton()
+        {
+            skipButton.gameObject.SetActive(true);
         }
     }
 }

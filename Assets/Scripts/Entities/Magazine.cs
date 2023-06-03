@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace Entities
@@ -10,6 +11,8 @@ namespace Entities
         [SerializeField] private List<MagazineHole> holes;
         [SerializeField] private Transform rotationObject;
         [SerializeField] private int level;
+        [SerializeField] private TextMeshPro yearText;
+        [SerializeField] private GameObject yearTagGameObject;
 
         private float _tempRotationZ;
         private float _tempTime;
@@ -21,6 +24,7 @@ namespace Entities
         private void Start()
         {
             _defaultRotation = rotationObject.localRotation;
+            yearText.text = GetFilledHolesCount().ToString();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -37,8 +41,12 @@ namespace Entities
             var availableHole = holes.Find(hole => !hole.IsFilled);
             availableHole.Initialize(model);
             bullet.BulletHit();
+            yearText.text = GetFilledHolesCount().ToString();
             if (!IsEmptyHoleAvailable())
+            {
                 onMagazineGotFull?.Invoke();
+                yearTagGameObject.SetActive(false);
+            }
             _tempRotationZ += 360 / holes.Count;
             _tempTime = 0;
         }

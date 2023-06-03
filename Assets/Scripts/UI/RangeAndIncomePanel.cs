@@ -13,11 +13,17 @@ namespace UI
         private void Start()
         {
             continueBtn.onClick.AddListener(ButtonClicked);
+            Invoke("ShowSkipButton", 3f);
         }
 
         private void ButtonClicked()
         {
             onRangeAndIncomePanelClosed?.Invoke();
+        }
+
+        private void ShowSkipButton()
+        {
+            continueBtn.gameObject.SetActive(true);
         }
     }
 }

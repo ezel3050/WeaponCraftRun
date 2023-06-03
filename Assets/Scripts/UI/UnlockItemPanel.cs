@@ -35,6 +35,7 @@ namespace UI
             icon.sprite = nextLevelModel.MainSprite;
             SetValues(currentLevelModel, nextLevelModel);
             skipButton.onClick.AddListener(SkipButtonClicked);
+            Invoke("ShowSkipButton", 3f);
         }
 
         private void SetValues(GloveModel currentLevelModel, GloveModel nextLevelModel)
@@ -62,6 +63,11 @@ namespace UI
         private void SkipButtonClicked()
         {
             onUnlockPanelClosed?.Invoke(false);
+        }
+
+        private void ShowSkipButton()
+        {
+            skipButton.gameObject.SetActive(true);
         }
     }
 }
