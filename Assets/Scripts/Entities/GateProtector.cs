@@ -10,7 +10,7 @@ namespace Entities
         [SerializeField] protected GameObject wholeProgressBarObject;
         [SerializeField] protected Collider objectCollider;
         
-        protected int _initObjectCount;
+        protected float _initObjectCount;
         protected float _health;
 
         public Action onShieldBroke;
