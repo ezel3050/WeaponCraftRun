@@ -159,6 +159,7 @@ Transform:
   - {fileID: 8892615166692189119}
   - {fileID: 1066139306235336053}
   - {fileID: 7906131500457923205}
+  - {fileID: 258399252971573732}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -181,6 +182,7 @@ MonoBehaviour:
   gloveLeftSpot: {fileID: 3568053810261617649}
   bodyRight: {fileID: 8892615166692189119}
   bodyLeft: {fileID: 1066139306235336053}
+  cannonSpot: {fileID: 258399252971573732}
   yearText: {fileID: 882747711140093863}
   yearTagObject: {fileID: 7902703342010866099}
 --- !u!114 &1002284750119968167
@@ -262,6 +264,37 @@ Transform:
   - {fileID: 1457630683140354577}
   m_Father: {fileID: 106695013156600487}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7379341282027840313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 258399252971573732}
+  m_Layer: 0
+  m_Name: CanoonSpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &258399252971573732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7379341282027840313}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 106695013156600487}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8480650756422637339
 GameObject:

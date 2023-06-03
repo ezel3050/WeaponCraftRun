@@ -63,5 +63,11 @@ namespace Statics
             get => PlayerPrefs.GetInt("HighScore", 0);
             set => PlayerPrefs.SetInt("HighScore", value);
         }
+        
+        public static int CannonLevel
+        {
+            get => PlayerPrefs.GetInt("CannonLevel", 0);
+            set => PlayerPrefs.SetInt("CannonLevel", value);
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Components;
 using DefaultNamespace.Components;
 using DefaultNamespace.Entities;
 using DG.Tweening;
@@ -21,16 +22,19 @@ namespace Entities
         [SerializeField] private Transform gloveLeftSpot;
         [SerializeField] private Transform bodyRight;
         [SerializeField] private Transform bodyLeft;
+        [SerializeField] private Transform cannonSpot;
         [SerializeField] private TextMeshPro yearText;
         [SerializeField] private GameObject yearTagObject;
 
         private WeaponModel _weaponModel;
         private WeaponModel _originalWeaponModel;
         private GloveModel _gloveModel;
+        private CannonModel _cannonModel;
         private GameObject _rightGlove;
         private GameObject _leftGlove;
         private Weapon _cloneWeapon;
         private Weapon _cloneSecondWeapon;
+        private Cannon _cannon;
         private float _fireRate;
         private float _fireRange;
         private bool _isTwoHandModeOn;
@@ -49,6 +53,8 @@ namespace Entities
             SyncFireRangeValue();
             SyncPowerValue();
             CreateWeapon();
+            if (Prefs.CannonLevel != 0)
+                FillCannonModel();
         }
 
         private void Update()
@@ -185,6 +191,12 @@ namespace Entities
             else if (_cloneSecondWeapon)
                 _cloneSecondWeapon.ShootActivateHandler(isActive);
         }
+
+        public void CannonActiveHandler(bool isActive)
+        {
+            if (_cannon)
+                _cannon.ShootActivateHandler(isActive);
+        }
         
         private void DestroyCurrentWeapon()
         {
@@ -211,6 +223,36 @@ namespace Entities
                 MoveBack(false);
                 obstacle.GotHit();
                 YearChanged(-1, obstacle.transform.position);
+            }
+
+            if (obj.CompareTag("CannonHandler"))
+            {
+                var cannonHandler = obj.GetComponent<CannonHandler>();
+                _cannonModel = cannonHandler.PlayerGotCannon();
+                CreateCannon();
+            }
+        }
+
+        private void CreateCannon()
+        {
+            DestroyCurrentCannon();
+            _cannon = Instantiate(_cannonModel.Cannon, cannonSpot);
+            _cannon.Initialize(_weaponModel);
+            CannonActiveHandler(true);
+        }
+
+        private void FillCannonModel()
+        {
+            _cannonModel = ContentManager.Instance.GetCannonModel(Prefs.CannonLevel);
+            CreateCannon();
+        }
+
+        private void DestroyCurrentCannon()
+        {
+            if (_cannon)
+            {
+                CannonActiveHandler(false);
+                Destroy(_cannon.gameObject);
             }
         }
 
@@ -254,6 +296,8 @@ namespace Entities
         private void ApplyDeath()
         {
             ShootActivateHandler(false,true);
+            if (_cannon)
+                CannonActiveHandler(false);
             var firstTargetRotation = new Vector3(0, 0, -90);
             bodyRight.DOLocalRotate(firstTargetRotation, 0.5f).onComplete = () => onPlayerDied?.Invoke();
             if (_isTwoHandModeOn)

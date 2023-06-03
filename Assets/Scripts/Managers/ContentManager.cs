@@ -11,6 +11,7 @@ namespace Managers
         [SerializeField] private WeaponData weaponData;
         [SerializeField] private EndWeaponData endWeaponData;
         [SerializeField] private GloveData gloveData;
+        [SerializeField] private CannonData cannonData;
 
         public static ContentManager Instance;
         
@@ -70,6 +71,15 @@ namespace Managers
                 level = gloveData.MaxLevel;
             
             var target = gloveData.GloveModels.Find(model => model.Level == level);
+            return target;
+        }
+
+        public CannonModel GetCannonModel(int level)
+        {
+            if (level > cannonData.MaxLevel)
+                level = cannonData.MaxLevel;
+            
+            var target = cannonData.CannonModels.Find(model => model.Level == level);
             return target;
         }
     }

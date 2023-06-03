@@ -52,6 +52,7 @@ namespace Level
             playerController.FullStop(false);
             playerController.ShootActivateHandler(true, true);
             playerController.ShootActivateHandler(true, false);
+            playerController.CannonActiveHandler(true);
             CameraManager.Instance.TurnInGameCameraOn();
         }
         
