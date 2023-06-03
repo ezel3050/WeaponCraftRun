@@ -34,6 +34,12 @@ namespace UI
             titleText.text = type.ToString();
             levelText.text = "Level " + _level;
             priceText.text = Utility.MinifyLong(_level * 100) + "$";
+            CurrencyHandler.onValueChanged += ValueChanged;
+        }
+
+        private void ValueChanged(int arg1, Vector3 arg2, bool arg3)
+        {
+            CheckButtonCondition(CurrencyHandler.CurrentMoney);
         }
 
         private void ButtonClicked()
