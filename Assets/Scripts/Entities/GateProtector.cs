@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Entities
 {
-    public class GateProtector : MonoBehaviour
+    public class GateProtector : Obstacle
     {
         [SerializeField] protected float outsideProgressXPos;
         [SerializeField] protected Transform innerProgressBar;

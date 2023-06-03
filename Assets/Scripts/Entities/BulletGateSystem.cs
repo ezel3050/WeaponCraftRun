@@ -27,7 +27,6 @@ namespace Entities
         private Vector3 _pushingHandInitSpot;
         private GateBullet _currentGateBullet;
         
-        // need to get dynamic
         private float _coefficient = 3f;
         private float _wholeResults = 0;
         private int _bulletToCreate;
@@ -44,6 +43,11 @@ namespace Entities
             }
 
             gateBulletTaker.onTriggerEnter += GateTookBullet;
+        }
+
+        public void SetCoefficient(float value)
+        {
+            _coefficient = value;
         }
 
         private void GateTookBullet(Collider obj)

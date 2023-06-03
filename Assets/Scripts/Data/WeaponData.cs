@@ -8,6 +8,8 @@ namespace Data
 
     public class WeaponData : ScriptableObject
     {
+        public int MinWeaponLevel;
+        public int MaxWeaponLevel;
         public List<WeaponModel> WeaponModels;
     }
 }

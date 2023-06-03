@@ -76,7 +76,7 @@ namespace Managers
         {
             moneyText.text = "$" + Utility.MinifyLong(CurrencyHandler.CurrentMoney);
             if (!haveFadingText) return;
-            CreateFadingText(value, position);
+            CreateFadingText(value, position, true);
         }
 
         public void SyncWeaponUIProgress(int year, bool isInitSync)
@@ -110,10 +110,10 @@ namespace Managers
             uiWeaponProgress.gameObject.SetActive(false);
         }
 
-        private void CreateFadingText(int value, Vector3 position)
+        public void CreateFadingText(float value, Vector3 position, bool isMoney)
         {
             var fadingTextClone = Instantiate(fadingTextPrefab, position, Quaternion.identity, transform);
-            fadingTextClone.Initialize(value.ToString());
+            fadingTextClone.Initialize(value, isMoney);
         }
 
         private void OpenGloveReadyPanel()

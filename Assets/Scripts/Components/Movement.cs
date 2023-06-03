@@ -29,6 +29,7 @@ namespace DefaultNamespace.Components
         bool m_HasInput;
         bool m_ManualInputHandler;
         private bool m_FullStop = true;
+        private bool m_FullStopZ;
         float m_MaxXPosition;
         float m_MinXPosition;
         float m_XPos;
@@ -124,7 +125,10 @@ namespace DefaultNamespace.Components
         
             float speed = m_Speed * deltaTime;
 
-            m_ZPos += speed;
+            if (!m_FullStopZ)
+                m_ZPos += speed;
+            else
+                m_ZPos = m_Transform.position.z;
         
             if (m_HasInput)
             {
@@ -156,19 +160,14 @@ namespace DefaultNamespace.Components
             m_Speed = Mathf.Max(m_Speed, targetSpeed);
         }
 
-        public void SetCustomZPos(float value)
-        {
-            m_ZPos = value;
-        }
-
         public void FullStop(bool isActive)
         {
             m_FullStop = isActive;
         }
 
-        public void SyncZPos()
+        public void ZPosStop(bool isActive)
         {
-            m_ZPos = transform.position.z;
+            m_FullStopZ = isActive;
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Components;
 using DefaultNamespace.Core;
+using DG.Tweening;
 using Entities;
 using Managers;
 using UnityEngine;
@@ -14,6 +15,10 @@ namespace Level
         [SerializeField] private GameObject rail;
         [SerializeField] private FinishLine finishLine;
         [SerializeField] private Ending ending;
+        [SerializeField] private List<BulletGateSystem> bulletGateSystems;
+        [SerializeField] private float bulletGateSystemsCoefficient;
+        [SerializeField] private Material platformMaterial;
+        [SerializeField] private float materialPercent;
 
         private bool _isFinishLinePassed;
 
@@ -23,6 +28,7 @@ namespace Level
             UIManager.Instance.SetLevelText(GameManagementPlayerPrefs.PlayerLevel);
             playerController.Initialize();
             SetPlayerToInputManager();
+            platformMaterial.DOTiling(new Vector2(1, 0.3f * materialPercent), 0f);
             foreach (var magazineHandler in magazineHandlers)
             {
                 magazineHandler.onMagazineGotFull += OneMagazineGotFull;
@@ -30,6 +36,10 @@ namespace Level
             CameraManager.Instance.SetCameraFollow(playerController.transform);
             CameraManager.Instance.TurnStartCameraOn();
             ending.CreateHighScore();
+            foreach (var bulletGateSystem in bulletGateSystems)
+            {
+                bulletGateSystem.SetCoefficient(bulletGateSystemsCoefficient);
+            }
 
             finishLine.onFinishLinePassed += PlayerPassedFinishLine;
             playerController.onPlayerDied += PlayerDied;

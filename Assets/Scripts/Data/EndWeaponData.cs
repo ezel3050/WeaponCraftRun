@@ -8,6 +8,7 @@ namespace Data
 
     public class EndWeaponData : ScriptableObject
     {
+        public int MaxLevel;
         public List<EndWeaponModel> EndWeaponModels;
     }
 }

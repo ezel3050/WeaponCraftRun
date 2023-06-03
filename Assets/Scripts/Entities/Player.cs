@@ -133,7 +133,7 @@ namespace Entities
                     SyncFireRateValue();
                     break;
                 case UpgradeType.InitYear:
-                    YearChanged(1);
+                    YearChanged(1, Vector3.zero);
                     break;
                 case UpgradeType.Range:
                     SyncFireRangeValue();
@@ -206,20 +206,26 @@ namespace Entities
 
             if (obj.CompareTag("Obstacle"))
             {
+                var obstacle = obj.GetComponent<Obstacle>();
+                if (!obstacle.IsObstacleEffective()) return;
                 MoveBack(false);
+                obstacle.GotHit();
+                YearChanged(-1, obstacle.transform.position);
             }
         }
 
         private void MoveBack(bool isDead)
         {
-            FullStop(true);
+            if (isDead)
+                FullStop(true);
+            else 
+                movement.ZPosStop(true);
             transform.DOMoveZ(transform.localPosition.z - 2, 0.3f).onComplete = () =>
             {
-                movement.SyncZPos();
                 if (isDead)
                     ApplyDeath();
                 else
-                    FullStop(false);
+                    movement.ZPosStop(false);
             };
         }
 
@@ -291,10 +297,10 @@ namespace Entities
             switch (gateType)
             {
                 case GateTypes.Year:
-                    YearChanged(gateValue);
+                    YearChanged(gateValue, position);
                     break;
                 case GateTypes.Month:
-                    YearChanged(Utility.ConvertMonthIntoYear(gateValue));
+                    YearChanged(Utility.ConvertMonthIntoYear(gateValue), position);
                     break;
                 case GateTypes.FireRate:
                     FireRateChanged(gateValue);
@@ -316,11 +322,14 @@ namespace Entities
         private void IncreaseMoneyFromGate(float gateValue, Vector3 position)
         {
             var intVal = Mathf.CeilToInt(gateValue);
+            position = Camera.main!.WorldToScreenPoint(position);
             CurrencyHandler.IncreaseMoney(intVal, position, true);
         }
 
-        private void YearChanged(float value)
+        private void YearChanged(float value, Vector3 position)
         {
+            position = Camera.main!.WorldToScreenPoint(position);
+            UIManager.Instance.CreateFadingText(value, position, false);
             _weaponModel.Year += Mathf.CeilToInt(value);
             yearText.text = _weaponModel.Year.ToString();
             UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year, false);
