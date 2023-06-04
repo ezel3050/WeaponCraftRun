@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Data;
 using Models;
+using Statics;
 using UnityEngine;
 
 namespace Managers
@@ -13,6 +14,7 @@ namespace Managers
         [SerializeField] private GloveData gloveData;
         [SerializeField] private CannonData cannonData;
         [SerializeField] private WeaponOfferYearsData weaponOfferYearsData;
+        [SerializeField] private MagazineData magazineData;
 
         public static ContentManager Instance;
         
@@ -86,7 +88,33 @@ namespace Managers
 
         public bool CanShowWeaponOfferPanel(int level)
         {
+            var weaponLevel = Prefs.WeaponLevel;
+            var extra = weaponLevel % 10;
+            weaponLevel -= extra;
+            if (weaponLevel == weaponData.MaxWeaponLevel)
+                return false;
             var result = weaponOfferYearsData.WeaponOfferLevels.Contains(level);
+            return result;
+        }
+        
+        public List<MagazineModel> GetTwoSideMagazineModels(int level)
+        {
+            if (level < magazineData.MaxMagazineLevel)
+                level = magazineData.MaxMagazineLevel;
+
+            var modelList = new List<MagazineModel>();
+            var properModel = magazineData.MagazineModels.Find(model => model.Level == level);
+            modelList.Add(properModel);
+            var nextProperModel = magazineData.MagazineModels.Find(model => model.Level == (level > magazineData.MaxMagazineLevel ? magazineData.MaxMagazineLevel : level));
+            modelList.Add(nextProperModel);
+            return modelList;
+        }
+        
+        public bool CanShowMagazinePanel(int level)
+        {
+            var magazineLevel = Prefs.MagazineLevel;
+            if (magazineLevel == magazineData.MaxMagazineLevel) return false;
+            var result = magazineData.LevelsToShowPanel.Contains(level);
             return result;
         }
     }

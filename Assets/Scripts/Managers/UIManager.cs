@@ -25,6 +25,7 @@ namespace Managers
         [SerializeField] private CannonPurchasePanel cannonPurchasePanelPrefab;
         [SerializeField] private ClaimPanel claimPanelPrefab;
         [SerializeField] private WeaponOfferPanel weaponOfferPanelPrefab;
+        [SerializeField] private MagazinePanel magazinePanelPrefab;
         [SerializeField] private Transform parentSpot;
 
         private LevelFinishedPanel _levelFinishedPanel;
@@ -32,6 +33,7 @@ namespace Managers
         private CannonPurchasePanel _cannonPurchasePanel;
         private ClaimPanel _claimPanel;
         private WeaponOfferPanel _weaponOfferPanel;
+        private MagazinePanel _magazinePanel;
         private bool _isShowingCannonPurchasePanelOnNextLevel;
 
         public Action onCannonPurchased;
@@ -202,6 +204,25 @@ namespace Managers
             else
             {
                 Destroy(_weaponOfferPanel.gameObject);
+            }
+        }
+
+        public void CreateMagazinePanel()
+        {
+            _magazinePanel = Instantiate(magazinePanelPrefab, parentSpot);
+            _magazinePanel.onPanelClosed += MagazinePanelClosed;
+        }
+
+        private void MagazinePanelClosed(bool isAdSeen)
+        {
+            if (isAdSeen)
+            {
+                Prefs.CannonLevel++;
+                Destroy(_magazinePanel.gameObject);
+            }
+            else
+            {
+                Destroy(_magazinePanel.gameObject);
             }
         }
     }
