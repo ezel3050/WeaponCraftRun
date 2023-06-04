@@ -114,8 +114,14 @@ namespace Entities
             UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year, true);
             UIManager.Instance.SetUpgradeButtonsAction(UpgradeApplied);
             UIManager.Instance.onCannonPurchased += FillCannonModel;
+            UIManager.Instance.onWeaponUpgraded += WeaponUpgraded;
         }
-        
+
+        private void WeaponUpgraded()
+        {
+            YearChanged(10, Vector3.zero);
+        }
+
         private void FillModel(WeaponModel model)
         {
             _originalWeaponModel = model;

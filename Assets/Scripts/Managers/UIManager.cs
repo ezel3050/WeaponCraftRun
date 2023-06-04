@@ -24,15 +24,18 @@ namespace Managers
         [SerializeField] private UnlockItemPanel unlockItemPanelPrefab;
         [SerializeField] private CannonPurchasePanel cannonPurchasePanelPrefab;
         [SerializeField] private ClaimPanel claimPanelPrefab;
+        [SerializeField] private WeaponOfferPanel weaponOfferPanelPrefab;
         [SerializeField] private Transform parentSpot;
 
         private LevelFinishedPanel _levelFinishedPanel;
         private UnlockItemPanel _unlockItemPanel;
         private CannonPurchasePanel _cannonPurchasePanel;
         private ClaimPanel _claimPanel;
+        private WeaponOfferPanel _weaponOfferPanel;
         private bool _isShowingCannonPurchasePanelOnNextLevel;
 
         public Action onCannonPurchased;
+        public Action onWeaponUpgraded;
 
         public static UIManager Instance;
         
@@ -105,6 +108,7 @@ namespace Managers
         {
             Destroy(_levelFinishedPanel.gameObject);
             onCannonPurchased = null;
+            onWeaponUpgraded = null;
             _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
             _levelFinishedPanel.onLevelFinishedPanelClosed += ResetPanels;
             _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
@@ -179,6 +183,26 @@ namespace Managers
         {
             if (_isShowingCannonPurchasePanelOnNextLevel)
                 CreateCannonPurchasePanel();
+        }
+
+        public void ShowWeaponOfferPanel()
+        {
+            _weaponOfferPanel = Instantiate(weaponOfferPanelPrefab, parentSpot);
+            _weaponOfferPanel.onWeaponOfferPanelClosed += WeaponOfferPanelClosed;
+        }
+
+        private void WeaponOfferPanelClosed(bool isAdSeen)
+        {
+            if (isAdSeen)
+            {
+                Destroy(_weaponOfferPanel.gameObject);
+                Prefs.WeaponLevel += 10;
+                onWeaponUpgraded?.Invoke();
+            }
+            else
+            {
+                Destroy(_weaponOfferPanel.gameObject);
+            }
         }
     }
 }

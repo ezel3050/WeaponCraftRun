@@ -12,6 +12,7 @@ namespace Managers
         [SerializeField] private EndWeaponData endWeaponData;
         [SerializeField] private GloveData gloveData;
         [SerializeField] private CannonData cannonData;
+        [SerializeField] private WeaponOfferYearsData weaponOfferYearsData;
 
         public static ContentManager Instance;
         
@@ -81,6 +82,12 @@ namespace Managers
             
             var target = cannonData.CannonModels.Find(model => model.Level == level);
             return target;
+        }
+
+        public bool CanShowWeaponOfferPanel(int level)
+        {
+            var result = weaponOfferYearsData.WeaponOfferLevels.Contains(level);
+            return result;
         }
     }
 }

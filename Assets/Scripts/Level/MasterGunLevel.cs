@@ -27,6 +27,8 @@ namespace Level
             base.InitializeLevel(config);
             UIManager.Instance.SetLevelText(GameManagementPlayerPrefs.PlayerLevel);
             UIManager.Instance.ShowQueuePanel();
+            if (ContentManager.Instance.CanShowWeaponOfferPanel(GameManagementPlayerPrefs.PlayerLevel))
+                UIManager.Instance.ShowWeaponOfferPanel();
             playerController.Initialize();
             SetPlayerToInputManager();
             platformMaterial.DOTiling(new Vector2(1, 0.3f * materialPercent), 0f);
