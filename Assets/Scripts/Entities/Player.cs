@@ -341,7 +341,7 @@ namespace Entities
         {
             var gate = obj.GetComponent<BulletGate>();
 
-            HandleGateEntry(GateTypes.Year, gate.GetValue(), obj.transform.position);
+            HandleGateEntry(GateTypes.Year, gate.GetValue(), Vector3.zero);
             
             gate.PassedFromGate();
         }
@@ -382,7 +382,10 @@ namespace Entities
 
         private void YearChanged(float value, Vector3 position)
         {
-            position = Camera.main!.WorldToScreenPoint(position);
+            if (position == Vector3.zero)
+                position = new Vector2(Screen.width / 2, Screen.height / 2);
+            else 
+                position = Camera.main!.WorldToScreenPoint(position);
             UIManager.Instance.CreateFadingText(value, position, false);
             _weaponModel.Year += Mathf.CeilToInt(value);
             yearText.text = _weaponModel.Year.ToString();
