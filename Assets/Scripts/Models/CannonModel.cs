@@ -1,5 +1,6 @@
 using System;
 using Entities;
+using UnityEngine;
 
 namespace Models
 {
@@ -8,5 +9,6 @@ namespace Models
     {
         public int Level;
         public Cannon Cannon;
+        public Sprite CannonSprite;
     }
 }

@@ -113,6 +113,7 @@ namespace Entities
             yearText.text = currentYear.ToString();
             UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year, true);
             UIManager.Instance.SetUpgradeButtonsAction(UpgradeApplied);
+            UIManager.Instance.onCannonPurchased += FillCannonModel;
         }
         
         private void FillModel(WeaponModel model)
@@ -229,6 +230,7 @@ namespace Entities
             {
                 var cannonHandler = obj.GetComponent<CannonHandler>();
                 _cannonModel = cannonHandler.PlayerGotCannon();
+                UIManager.Instance.AddCannonPanelOnQueueList();
                 CreateCannon();
             }
         }
@@ -237,8 +239,10 @@ namespace Entities
         {
             DestroyCurrentCannon();
             _cannon = Instantiate(_cannonModel.Cannon, cannonSpot);
+            _cannon.transform.localScale = Vector3.one * 0.5f;
             _cannon.Initialize(_weaponModel);
-            CannonActiveHandler(true);
+            if (_levelStarted)
+                CannonActiveHandler(true);
         }
 
         private void FillCannonModel()

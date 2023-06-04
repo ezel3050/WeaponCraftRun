@@ -5,6 +5,7 @@ using Enums;
 using Statics;
 using TMPro;
 using UI;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,10 +22,17 @@ namespace Managers
         [SerializeField] private TapToStartPanel tapToStartPanel;
         [SerializeField] private FadingText fadingTextPrefab;
         [SerializeField] private UnlockItemPanel unlockItemPanelPrefab;
+        [SerializeField] private CannonPurchasePanel cannonPurchasePanelPrefab;
+        [SerializeField] private ClaimPanel claimPanelPrefab;
         [SerializeField] private Transform parentSpot;
 
         private LevelFinishedPanel _levelFinishedPanel;
         private UnlockItemPanel _unlockItemPanel;
+        private CannonPurchasePanel _cannonPurchasePanel;
+        private ClaimPanel _claimPanel;
+        private bool _isShowingCannonPurchasePanelOnNextLevel;
+
+        public Action onCannonPurchased;
 
         public static UIManager Instance;
         
@@ -96,6 +104,7 @@ namespace Managers
         private void ResetPanels()
         {
             Destroy(_levelFinishedPanel.gameObject);
+            onCannonPurchased = null;
             _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
             _levelFinishedPanel.onLevelFinishedPanelClosed += ResetPanels;
             _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
@@ -135,6 +144,41 @@ namespace Managers
                 Destroy(_unlockItemPanel.gameObject);
                 _levelFinishedPanel.ShrinkGlove();
             }
+        }
+
+        private void CreateCannonPurchasePanel()
+        {
+            _isShowingCannonPurchasePanelOnNextLevel = false;
+            _cannonPurchasePanel = Instantiate(cannonPurchasePanelPrefab, parentSpot);
+            _cannonPurchasePanel.onPanelClosed += CloseCannonPurchasePanel;
+        }
+
+        private void CloseCannonPurchasePanel(bool isAdSeen, Sprite icon)
+        {
+            if (isAdSeen)
+            {
+                _claimPanel = Instantiate(claimPanelPrefab, parentSpot);
+                _claimPanel.Initialize(icon, () =>
+                {
+                    Prefs.CannonLevel++;
+                    onCannonPurchased?.Invoke();
+                    Destroy(_claimPanel.gameObject);
+                });
+                Destroy(_cannonPurchasePanel.gameObject);
+            }
+            else
+                Destroy(_cannonPurchasePanel.gameObject);
+        }
+
+        public void AddCannonPanelOnQueueList()
+        {
+            _isShowingCannonPurchasePanelOnNextLevel = true;
+        }
+
+        public void ShowQueuePanel()
+        {
+            if (_isShowingCannonPurchasePanelOnNextLevel)
+                CreateCannonPurchasePanel();
         }
     }
 }

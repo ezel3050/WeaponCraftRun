@@ -26,6 +26,7 @@ namespace Level
         {
             base.InitializeLevel(config);
             UIManager.Instance.SetLevelText(GameManagementPlayerPrefs.PlayerLevel);
+            UIManager.Instance.ShowQueuePanel();
             playerController.Initialize();
             SetPlayerToInputManager();
             platformMaterial.DOTiling(new Vector2(1, 0.3f * materialPercent), 0f);
