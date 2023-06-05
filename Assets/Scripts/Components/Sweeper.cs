@@ -12,6 +12,7 @@ namespace Components
         [SerializeField] private bool isZPlusOnly;
         [SerializeField] private bool isXOnly;
         [SerializeField] private bool isZigZag;
+        [SerializeField] private bool isZigZagReverse;
         [SerializeField] private float speedX;
         [SerializeField] private float speedZ;
 
@@ -68,7 +69,10 @@ namespace Components
 
             if (isZigZag)
             {
-                _targetPos.z += Time.deltaTime * speedZ;
+                if (isZigZagReverse)
+                    _targetPos.z -= Time.deltaTime * speedZ;
+                else 
+                    _targetPos.z += Time.deltaTime * speedZ;
                 
                 if (_isMoveRight)
                     _targetPos.x += Time.deltaTime * speedX;
