@@ -74,6 +74,7 @@ namespace DefaultNamespace.Entities
         {
             var cloneBullet = Instantiate(_weaponModel.Bullet);
             cloneBullet.transform.position = shootingSpot.position;
+            cloneBullet.transform.localScale = Vector3.one * 0.7f;
             cloneBullet.Initialize(_weaponModel);
             shootingParticle.Play();
             onBulletShoot?.Invoke();
