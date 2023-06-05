@@ -19,6 +19,7 @@ namespace UI
         [SerializeField] private TextMeshProUGUI rangeCurrentValueText;
         [SerializeField] private TextMeshProUGUI rangeNextValueText;
         [SerializeField] private Button skipButton;
+        [SerializeField] private Button videoButton;
         [SerializeField] private float rotationSpeed;
 
         private Vector3 _tempRotation;
@@ -35,6 +36,7 @@ namespace UI
             icon.sprite = nextLevelModel.MainSprite;
             SetValues(currentLevelModel, nextLevelModel);
             skipButton.onClick.AddListener(SkipButtonClicked);
+            videoButton.onClick.AddListener(VideoButtonClicked);
             Invoke("ShowSkipButton", 3f);
         }
 
@@ -63,6 +65,11 @@ namespace UI
         private void SkipButtonClicked()
         {
             onUnlockPanelClosed?.Invoke(false);
+        }
+
+        private void VideoButtonClicked()
+        {
+            onUnlockPanelClosed?.Invoke(true);
         }
 
         private void ShowSkipButton()
