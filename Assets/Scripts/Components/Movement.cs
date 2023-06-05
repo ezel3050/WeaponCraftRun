@@ -169,5 +169,20 @@ namespace DefaultNamespace.Components
         {
             m_FullStopZ = isActive;
         }
+
+        public void SpeedUp()
+        {
+            m_TargetSpeed = 7;
+        }
+        
+        public void SpeedDown()
+        {
+            m_TargetSpeed = 3;
+        }
+
+        public void SpeedToNormal()
+        {
+            m_TargetSpeed = GetDefaultSpeed();
+        }
     }
 }

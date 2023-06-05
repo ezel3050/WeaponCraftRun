@@ -37,6 +37,7 @@ namespace Entities
         private Weapon _cloneWeapon;
         private Weapon _cloneSecondWeapon;
         private Cannon _cannon;
+        private SpeedRail _currentSpeedRail;
         private float _fireRate;
         private float _fireRange;
         private bool _isTwoHandModeOn;
@@ -212,6 +213,7 @@ namespace Entities
                 ShootActivateHandler(true,true);
             _cloneWeapon.onWeaponHoleTriggerEnter += WeaponHoleTriggerEnter;
             _cloneWeapon.onWeaponTriggerEnter += WeaponTriggerEnter;
+            _cloneWeapon.onWeaponTriggerExit += WeaponTriggerExit;
             _cloneWeapon.onBulletShoot += WeaponShoot;
         }
 
@@ -277,6 +279,25 @@ namespace Entities
                 _cannonModel = cannonHandler.PlayerGotCannon();
                 UIManager.Instance.AddCannonPanelOnQueueList();
                 CreateCannon();
+            }
+
+            if (obj.CompareTag("SpeedRail"))
+            {
+                _currentSpeedRail = obj.GetComponent<SpeedRail>();
+                if (_currentSpeedRail.IsSpeedUp)
+                    movement.SpeedUp();
+                else 
+                    movement.SpeedDown();
+            }
+        }
+
+        private void WeaponTriggerExit(Collider obj)
+        {
+            if (obj.CompareTag("SpeedRail"))
+            {
+                var speedRail = obj.GetComponent<SpeedRail>();
+                if (_currentSpeedRail == speedRail)
+                    movement.SpeedToNormal();
             }
         }
 

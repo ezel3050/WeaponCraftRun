@@ -100,7 +100,7 @@ namespace Entities
             cloneBullet.transform.rotation = Quaternion.Euler(new Vector3(0,-180,0));
             var model = new WeaponModel()
             {
-                Range = 0.5f
+                Range = 0.1f
             };
             cloneBullet.Initialize(model, true);
         }

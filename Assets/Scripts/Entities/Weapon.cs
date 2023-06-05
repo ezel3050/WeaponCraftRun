@@ -18,6 +18,7 @@ namespace DefaultNamespace.Entities
 
         public Action<Collider> onWeaponHoleTriggerEnter;
         public Action<Collider> onWeaponTriggerEnter;
+        public Action<Collider> onWeaponTriggerExit;
         public Action onBulletShoot;
 
         private void Start()
@@ -39,6 +40,11 @@ namespace DefaultNamespace.Entities
         private void OnTriggerEnter(Collider other)
         {
             onWeaponTriggerEnter?.Invoke(other);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            onWeaponTriggerExit?.Invoke(other);
         }
 
         public void ShootActivateHandler(bool isOn)
