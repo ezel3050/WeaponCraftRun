@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Components
 {
@@ -15,8 +16,7 @@ namespace Components
         [SerializeField] private bool isZigZagReverse;
         [SerializeField] private float speedX;
         [SerializeField] private float speedZ;
-
-        private bool _isMoveRight;
+        [SerializeField] private bool isMoveRight;
         private float _tempTime;
         private Vector3 _targetPos;
         private Transform _currentTransform;
@@ -31,7 +31,7 @@ namespace Components
         {
             if (isXOnly)
             {
-                if (_isMoveRight)
+                if (isMoveRight)
                     _targetPos.x += Time.deltaTime * speed;
                 else 
                     _targetPos.x -= Time.deltaTime * speed;
@@ -44,12 +44,12 @@ namespace Components
 
                 if (Vector3.Distance(transform.localPosition, maxPos) < 0.1f)
                 {
-                    _isMoveRight = false;
+                    isMoveRight = false;
                 }
 
                 if (Vector3.Distance(transform.localPosition, minPos) < 0.1f)
                 {
-                    _isMoveRight = true;
+                    isMoveRight = true;
                 }
             }
 
@@ -74,7 +74,7 @@ namespace Components
                 else 
                     _targetPos.z += Time.deltaTime * speedZ;
                 
-                if (_isMoveRight)
+                if (isMoveRight)
                     _targetPos.x += Time.deltaTime * speedX;
                 else 
                     _targetPos.x -= Time.deltaTime * speedX;
@@ -85,12 +85,12 @@ namespace Components
 
                 if (Mathf.Abs(_targetPos.x - maxPos.x) < 0.1f)
                 {
-                    _isMoveRight = false;
+                    isMoveRight = false;
                 }
 
                 if (Mathf.Abs(_targetPos.x - minPos.x) < 0.1f)
                 {
-                    _isMoveRight = true;
+                    isMoveRight = true;
                 }
             }
         }
