@@ -37,6 +37,7 @@ namespace Entities
         {
             if (!IsEmptyHoleAvailable()) return;
             var bullet = other.GetComponent<Bullet>();
+            if (bullet.IsEnemy) return;
             var model = bullet.GetWeaponModel();
             var availableHole = holes.Find(hole => !hole.IsFilled);
             availableHole.Initialize(model);

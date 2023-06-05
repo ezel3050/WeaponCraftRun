@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 8330060619349687698}
   - component: {fileID: 8350376318038912124}
   - component: {fileID: 8342434290430506904}
+  - component: {fileID: 5104659720779522104}
   m_Layer: 0
   m_Name: red_conveyor
   m_TagString: Untagged
@@ -147,6 +148,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5104659720779522104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8329210249218883442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43502792f3fd4dbea614c66fd02d77e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetMaterial: {fileID: 2100000, guid: 79c28ea0b1d21aa4ca7a78f02c9b0fb6, type: 2}
+  speed: -1
 --- !u!1 &8329245752420358547
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,6 +173,7 @@ GameObject:
   - component: {fileID: 8329991018828467723}
   - component: {fileID: 8350672096446937220}
   - component: {fileID: 8340857572385102457}
+  - component: {fileID: 2894401056446547748}
   m_Layer: 0
   m_Name: green_conveyor
   m_TagString: Untagged
@@ -231,3 +247,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2894401056446547748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8329245752420358547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43502792f3fd4dbea614c66fd02d77e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetMaterial: {fileID: 2100000, guid: acb9ee2f72a47564c9e205b6baea9576, type: 2}
+  speed: -1

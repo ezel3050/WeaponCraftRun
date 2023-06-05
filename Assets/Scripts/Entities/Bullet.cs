@@ -15,10 +15,15 @@ namespace Entities
         private WeaponModel _weaponModel;
         private float _tempTime;
         private bool _canCountDown;
+        private bool _isEnemy;
+
+        public bool IsEnemy => _isEnemy;
+        
         public void Initialize(WeaponModel weaponModel, bool isEnemy = false)
         {
+            _isEnemy = isEnemy;
             _weaponModel = weaponModel;
-            if (isEnemy)
+            if (_isEnemy)
                 speed *= -1;
             bulletRigidbody.velocity = Vector3.forward * speed;
             _canCountDown = true;
