@@ -135,8 +135,7 @@ namespace Entities
             {
                 var handler = obj.GetComponent<MagazineHandler>();
                 if (!handler.CanSweep) return;
-                var sweeper = obj.GetComponent<Sweeper>();
-                sweeper.enabled = true;
+                handler.Move();
             }
 
             if (obj.CompareTag("Enemy"))

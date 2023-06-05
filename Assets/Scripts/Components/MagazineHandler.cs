@@ -19,6 +19,7 @@ namespace Components
         private int _currentMagazineLevel;
         private Magazine _currentMagazine;
         private bool _isDismissed;
+        private bool _canMove = true;
 
         public bool CanSweep => canSweep;
 
@@ -48,6 +49,7 @@ namespace Components
             if (_isDismissed) return;
             if (!other.CompareTag("Skip") && !other.CompareTag("Weapon")) return;
             _isDismissed = true;
+            _canMove = false;
             sweeper.enabled = false;
             onMagazineGotFull?.Invoke(this);
         }
@@ -62,6 +64,7 @@ namespace Components
         private void MagazineGotFull()
         {
             _isDismissed = true;
+            _canMove = false;
             sweeper.enabled = false;
             onMagazineGotFull?.Invoke(this);
         }
@@ -127,6 +130,12 @@ namespace Components
         private void DestroyItself()
         {
             Destroy(gameObject);
+        }
+
+        public void Move()
+        {
+            if (_canMove)
+                sweeper.enabled = true;
         }
     }
 }
