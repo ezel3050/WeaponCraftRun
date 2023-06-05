@@ -73,10 +73,14 @@ namespace Entities
                 _isShooting = false;
                 StopCoroutine(Shooting());
             }
+        }
+
+        public void Move()
+        {
             if (canMove)
             {
                 animator.SetBool(Walk, true);
-                    sweeper.enabled = true;
+                sweeper.enabled = true;
             }
         }
         

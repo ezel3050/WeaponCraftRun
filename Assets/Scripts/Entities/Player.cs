@@ -143,6 +143,7 @@ namespace Entities
             {
                 var enemy = obj.GetComponent<Enemy>();
                 enemy.ShootActivateHandler(true);
+                enemy.Move();
             }
         }
 
@@ -395,6 +396,9 @@ namespace Entities
                 case GateTypes.Month:
                     YearChanged(Utility.ConvertMonthIntoYear(gateValue), position);
                     break;
+                case GateTypes.Day:
+                    YearChanged(Utility.ConvertDayIntoYear(gateValue), position);
+                    break;
                 case GateTypes.FireRate:
                     FireRateChanged(gateValue);
                     break;
@@ -425,8 +429,9 @@ namespace Entities
                 position = new Vector2(Screen.width / 2, Screen.height / 2);
             else 
                 position = Camera.main!.WorldToScreenPoint(position);
-            UIManager.Instance.CreateFadingText(value, position, false);
-            _weaponModel.Year += Mathf.CeilToInt(value);
+            var intVal = Mathf.CeilToInt(value);
+            UIManager.Instance.CreateFadingText(intVal, position, false);
+            _weaponModel.Year += intVal;
             yearText.text = _weaponModel.Year.ToString();
             UIManager.Instance.SyncWeaponUIProgress(_weaponModel.Year, false);
             CheckIfIsThereNewGunAvailable();

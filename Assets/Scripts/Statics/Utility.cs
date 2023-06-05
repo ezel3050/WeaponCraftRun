@@ -10,6 +10,11 @@ namespace Statics
             return month / 12;
         }
         
+        public static float ConvertDayIntoYear(float day)
+        {
+            return day / 365;
+        }
+        
         public static string MinifyLong(float value)
         {
             if (value >= Mathf.Pow(10, 17))
