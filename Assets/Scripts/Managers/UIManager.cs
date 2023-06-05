@@ -61,7 +61,7 @@ namespace Managers
             rangeAndIncomePanel.onRangeAndIncomePanelClosed += OpenLevelFinishedPanel;
             if (_levelFinishedPanel) Destroy(_levelFinishedPanel.gameObject);
             _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
-            _levelFinishedPanel.onLevelFinishedPanelClosed += ResetPanels;
+            _levelFinishedPanel.onLevelFinishedPanelClosed += LevelFinishedPanelClosed;
             _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
             _levelFinishedPanel.gameObject.SetActive(false);
         }
@@ -106,13 +106,19 @@ namespace Managers
             }
         }
 
+        private void LevelFinishedPanelClosed(int value)
+        {
+            CurrencyHandler.IncreaseMoney(value, Vector3.zero, false);
+            ResetPanels();
+        }
+
         private void ResetPanels()
         {
             Destroy(_levelFinishedPanel.gameObject);
             onCannonPurchased = null;
             onWeaponUpgraded = null;
             _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
-            _levelFinishedPanel.onLevelFinishedPanelClosed += ResetPanels;
+            _levelFinishedPanel.onLevelFinishedPanelClosed += LevelFinishedPanelClosed;
             _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
             _levelFinishedPanel.gameObject.SetActive(false);
             uiWeaponProgress.gameObject.SetActive(true);

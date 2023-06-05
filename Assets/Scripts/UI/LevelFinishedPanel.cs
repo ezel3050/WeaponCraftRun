@@ -16,12 +16,14 @@ namespace UI
         [SerializeField] private Transform indicatorTransform;
         [SerializeField] private TextMeshProUGUI valueText;
         [SerializeField] private List<float> rewardLimits;
+        [SerializeField] private Button videoButton;
         [SerializeField] private Button skipButton;
 
         private float _coefficient;
         private int _collectedMoney;
+        private int _currentIntValue;
 
-        public Action onLevelFinishedPanelClosed;
+        public Action<int> onLevelFinishedPanelClosed;
         public Action onGloveReady;
 
         private void Start()
@@ -30,6 +32,7 @@ namespace UI
             rewardPanel.transform.localScale = Vector3.zero;
             _collectedMoney = CurrencyHandler.ThisLevelCollected;
             skipButton.onClick.AddListener(SkipButtonClicked);
+            videoButton.onClick.AddListener(VideoButtonClicked);
         }
 
         private void Update()
@@ -47,7 +50,8 @@ namespace UI
             if (value >= rewardLimits[4] && value < rewardLimits[5])
                 _coefficient = 1.5f;
 
-            valueText.text = "+" + Utility.MinifyLong(Mathf.CeilToInt(_collectedMoney * _coefficient));
+            _currentIntValue = Mathf.CeilToInt(_collectedMoney * _coefficient);
+            valueText.text = "+" + Utility.MinifyLong(_currentIntValue);
         }
 
         private void IncreasingFinished(bool isGloveReady)
@@ -84,7 +88,13 @@ namespace UI
         private void SkipButtonClicked()
         {
             CurrencyHandler.ResetData();
-            onLevelFinishedPanelClosed?.Invoke();
+            onLevelFinishedPanelClosed?.Invoke(0);
+        }
+
+        private void VideoButtonClicked()
+        {
+            CurrencyHandler.ResetData();
+            onLevelFinishedPanelClosed?.Invoke(_currentIntValue);
         }
 
         private void ShowSkipButton()
