@@ -50,7 +50,6 @@ namespace Entities
             var cloneBullet = Instantiate(bullet);
             cloneBullet.transform.position = shootingSpot.position;
             cloneBullet.Initialize(_weaponModel);
-            // onBulletShoot?.Invoke();
         }
     }
 }

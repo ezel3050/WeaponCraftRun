@@ -12,11 +12,15 @@ namespace Components
     {
         [SerializeField] private List<Magazine> magazines;
         [SerializeField] private Rigidbody rb;
+        [SerializeField] private Sweeper sweeper;
         [SerializeField] private float railSpeed;
+        [SerializeField] private bool canSweep;
 
         private int _currentMagazineLevel;
         private Magazine _currentMagazine;
         private bool _isDismissed;
+
+        public bool CanSweep => canSweep;
 
         public Action<MagazineHandler> onMagazineGotFull;
         private void Start()
@@ -42,8 +46,9 @@ namespace Components
         private void OnTriggerEnter(Collider other)
         {
             if (_isDismissed) return;
-            if (!other.CompareTag("Player") && !other.CompareTag("Weapon")) return;
+            if (!other.CompareTag("Skip") && !other.CompareTag("Weapon")) return;
             _isDismissed = true;
+            sweeper.enabled = false;
             onMagazineGotFull?.Invoke(this);
         }
 
@@ -57,6 +62,7 @@ namespace Components
         private void MagazineGotFull()
         {
             _isDismissed = true;
+            sweeper.enabled = false;
             onMagazineGotFull?.Invoke(this);
         }
 

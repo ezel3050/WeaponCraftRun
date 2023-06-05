@@ -6,7 +6,7 @@ namespace Statics
     {
         public static int Money
         {
-            get => PlayerPrefs.GetInt("Money", 10000);
+            get => PlayerPrefs.GetInt("Money", 0);
             set => PlayerPrefs.SetInt("Money", value);
         }
         

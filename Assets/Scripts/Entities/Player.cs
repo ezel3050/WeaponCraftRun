@@ -25,6 +25,8 @@ namespace Entities
         [SerializeField] private Transform cannonSpot;
         [SerializeField] private TextMeshPro yearText;
         [SerializeField] private GameObject yearTagObject;
+        [SerializeField] private TriggerInvoker objectsTriggerInvoker;
+        [SerializeField] private TriggerInvoker playerTriggerInvoker;
 
         private WeaponModel _weaponModel;
         private WeaponModel _originalWeaponModel;
@@ -115,6 +117,33 @@ namespace Entities
             UIManager.Instance.SetUpgradeButtonsAction(UpgradeApplied);
             UIManager.Instance.onCannonPurchased += FillCannonModel;
             UIManager.Instance.onWeaponUpgraded += WeaponUpgraded;
+            objectsTriggerInvoker.onTriggerEnter += ObjectsHandler;
+            playerTriggerInvoker.onTriggerEnter += PlayerTriggerEnter;
+        }
+
+        private void PlayerTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Bullet"))
+            {
+                YearChanged(-1, Vector3.zero);
+            }
+        }
+
+        private void ObjectsHandler(Collider obj)
+        {
+            if (obj.CompareTag("MagazineHandler"))
+            {
+                var handler = obj.GetComponent<MagazineHandler>();
+                if (!handler.CanSweep) return;
+                var sweeper = obj.GetComponent<Sweeper>();
+                sweeper.enabled = true;
+            }
+
+            if (obj.CompareTag("Enemy"))
+            {
+                var enemy = obj.GetComponent<Enemy>();
+                enemy.ShootActivateHandler(true);
+            }
         }
 
         private void WeaponUpgraded()
@@ -230,6 +259,16 @@ namespace Entities
                 MoveBack(false);
                 obstacle.GotHit();
                 YearChanged(-1, obstacle.transform.position);
+            }
+
+            if (obj.CompareTag("Enemy"))
+            {
+                var enemy = obj.GetComponent<Enemy>();
+                if (enemy.IsHit) return;
+                MoveBack(false);
+                enemy.GotHitByPlayer();
+                YearChanged(-1, enemy.transform.position);
+
             }
 
             if (obj.CompareTag("CannonHandler"))
