@@ -4,6 +4,7 @@ using DefaultNamespace.Core;
 using DG.Tweening;
 using Entities;
 using Managers;
+using Statics;
 using UnityEngine;
 
 namespace Level
@@ -33,6 +34,7 @@ namespace Level
                 UIManager.Instance.CreateMagazinePanel();
             playerController.Initialize();
             SetPlayerToInputManager();
+            CurrencyHandler.ResetData();
             platformMaterial.DOTiling(new Vector2(1, 0.3f * materialPercent), 0f);
             foreach (var magazineHandler in magazineHandlers)
             {
@@ -72,6 +74,14 @@ namespace Level
         private void SetPlayerToInputManager()
         {
             InputManager.Instance.SetPlayer(playerController);
+        }
+
+        public void SyncMagazines()
+        {
+            foreach (var magazineHandler in magazineHandlers)
+            {
+                magazineHandler.Sync();
+            }
         }
 
         protected override void SubscribeToLevelRelatedEvents()

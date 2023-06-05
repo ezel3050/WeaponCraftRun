@@ -34,7 +34,7 @@ namespace Entities
         private int GetValue()
         {
             var randomVal = Random.Range(minRangeValue, maxRangeValue + 1);
-            var finalVal = randomVal * (1 + Prefs.IncomeLevel * 0.1f);
+            var finalVal = randomVal * (1 + Prefs.IncomeLevel * 0.05f);
             var finalValInt = Mathf.CeilToInt(finalVal);
             return finalValInt;
         }

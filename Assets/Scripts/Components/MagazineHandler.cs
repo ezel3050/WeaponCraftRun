@@ -44,6 +44,12 @@ namespace Components
             }
         }
 
+        public void Sync()
+        {
+            FillVariables();
+            ActivateMagazine();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (_isDismissed) return;

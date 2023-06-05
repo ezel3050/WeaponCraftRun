@@ -50,6 +50,12 @@ namespace UI
             CheckButtonCondition(CurrencyHandler.CurrentMoney);
         }
 
+        public void Sync()
+        {
+            GetLevel();
+            CheckButtonCondition(CurrencyHandler.CurrentMoney);
+        }
+
         private void GetLevel()
         {
             _level = type switch

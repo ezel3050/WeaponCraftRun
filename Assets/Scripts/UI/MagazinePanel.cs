@@ -44,7 +44,7 @@ namespace UI
 
         private void VideoButtonClicked()
         {
-            
+            onPanelClosed?.Invoke(true);
         }
 
         private void ShowSkipButton()

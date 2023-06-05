@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Components;
+using DefaultNamespace;
 using Enums;
+using Level;
 using Statics;
 using TMPro;
 using UI;
@@ -150,6 +152,7 @@ namespace Managers
                 Destroy(_unlockItemPanel.gameObject);
                 Prefs.GloveLevel++;
                 Prefs.ItemWidgetLevel = 0;
+                _levelFinishedPanel.ShrinkGlove();
             }
             else
             {
@@ -205,6 +208,10 @@ namespace Managers
             {
                 Destroy(_weaponOfferPanel.gameObject);
                 Prefs.WeaponLevel += 10;
+                foreach (var upgradeButton in upgradeButtons)
+                {
+                    upgradeButton.Sync();
+                }
                 onWeaponUpgraded?.Invoke();
             }
             else
@@ -223,7 +230,9 @@ namespace Managers
         {
             if (isAdSeen)
             {
-                Prefs.CannonLevel++;
+                Prefs.MagazineLevel++;
+                var currentLevel = (MasterGunLevel)LevelManager.CurrentLevel;
+                currentLevel.SyncMagazines();
                 Destroy(_magazinePanel.gameObject);
             }
             else

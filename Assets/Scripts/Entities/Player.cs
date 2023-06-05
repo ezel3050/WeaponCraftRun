@@ -190,7 +190,7 @@ namespace Entities
         
         private void SyncFireRateValue()
         {
-            _weaponModel.Rate = _originalWeaponModel.Rate + _gloveModel.FireRate + _fireRate + Prefs.FireRateLevel * 0.5f;
+            _weaponModel.Rate = _originalWeaponModel.Rate + _gloveModel.FireRate + _fireRate + Prefs.FireRateLevel * 0.1f;
         }
         
         private void SyncFireRangeValue()
@@ -514,7 +514,7 @@ namespace Entities
 
         private void FireRateChanged(float value)
         {
-            var fixedValue = value / 20;
+            var fixedValue = value / 50;
             _fireRate += fixedValue;
             SyncFireRateValue();
             _cloneWeapon.Initialize(_weaponModel);
@@ -522,7 +522,7 @@ namespace Entities
 
         private void FireRangeChanged(float value)
         {
-            var fixedValue = value / 100;
+            var fixedValue = value / 200;
             _fireRange += fixedValue;
             SyncFireRangeValue();
             _cloneWeapon.Initialize(_weaponModel);
