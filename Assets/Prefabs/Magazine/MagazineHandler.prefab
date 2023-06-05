@@ -76,7 +76,7 @@ MonoBehaviour:
   - {fileID: 4073765999196451467}
   rb: {fileID: 6342597155909099180}
   sweeper: {fileID: 8623589684788923484}
-  railSpeed: 20
+  railSpeed: 40
   canSweep: 0
 --- !u!54 &6342597155909099180
 Rigidbody:
@@ -121,7 +121,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxPos: {x: 2, y: 0, z: 135}
   minPos: {x: -2, y: 0, z: 135}
-  time: 8
+  speed: 0
+  isZMinusOnly: 0
+  isZPlusOnly: 0
+  isXOnly: 0
+  isZigZag: 0
+  speedX: 0
+  speedZ: 0
 --- !u!1001 &49239603772570891
 PrefabInstance:
   m_ObjectHideFlags: 0

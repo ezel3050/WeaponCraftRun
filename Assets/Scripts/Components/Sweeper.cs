@@ -7,25 +7,87 @@ namespace Components
     {
         [SerializeField] private Vector3 maxPos;
         [SerializeField] private Vector3 minPos;
-        [SerializeField] private float time;
+        [SerializeField] private float speed;
+        [SerializeField] private bool isZMinusOnly;
+        [SerializeField] private bool isZPlusOnly;
+        [SerializeField] private bool isXOnly;
+        [SerializeField] private bool isZigZag;
+        [SerializeField] private float speedX;
+        [SerializeField] private float speedZ;
 
         private bool _isMoveRight;
         private float _tempTime;
+        private Vector3 _targetPos;
+        private Transform _currentTransform;
+
+        private void Start()
+        {
+            _currentTransform = transform;
+            _targetPos = _currentTransform.localPosition;
+        }
 
         private void Update()
         {
-            _tempTime += Time.deltaTime / time;
-            transform.localPosition = Vector3.LerpUnclamped(transform.localPosition, _isMoveRight ? maxPos : minPos, _tempTime);
-            if (Vector3.Distance(transform.localPosition, maxPos) < 0.1f)
+            if (isXOnly)
             {
-                _isMoveRight = false;
-                _tempTime = 0;
+                if (_isMoveRight)
+                    _targetPos.x += Time.deltaTime * speed;
+                else 
+                    _targetPos.x -= Time.deltaTime * speed;
+
+                var localPosition = _currentTransform.localPosition;
+                _targetPos.y = localPosition.y;
+                _targetPos.z = localPosition.z;
+
+                transform.localPosition = _targetPos;
+
+                if (Vector3.Distance(transform.localPosition, maxPos) < 0.1f)
+                {
+                    _isMoveRight = false;
+                }
+
+                if (Vector3.Distance(transform.localPosition, minPos) < 0.1f)
+                {
+                    _isMoveRight = true;
+                }
             }
 
-            if (Vector3.Distance(transform.localPosition, minPos) < 0.1f)
+            if (isZPlusOnly || isZMinusOnly)
             {
-                _isMoveRight = true;
-                _tempTime = 0;
+                if (isZPlusOnly)
+                    _targetPos.z += Time.deltaTime * speed;
+                if (isZMinusOnly)
+                    _targetPos.z -= Time.deltaTime * speed;
+                
+                var localPosition = _currentTransform.localPosition;
+                _targetPos.y = localPosition.y;
+                _targetPos.x = localPosition.x;
+                
+                transform.localPosition = _targetPos;
+            }
+
+            if (isZigZag)
+            {
+                _targetPos.z += Time.deltaTime * speedZ;
+                
+                if (_isMoveRight)
+                    _targetPos.x += Time.deltaTime * speedX;
+                else 
+                    _targetPos.x -= Time.deltaTime * speedX;
+                
+                _targetPos.y = _currentTransform.localPosition.y;
+                
+                transform.localPosition = _targetPos;
+
+                if (Mathf.Abs(_targetPos.x - maxPos.x) < 0.1f)
+                {
+                    _isMoveRight = false;
+                }
+
+                if (Mathf.Abs(_targetPos.x - minPos.x) < 0.1f)
+                {
+                    _isMoveRight = true;
+                }
             }
         }
     }
