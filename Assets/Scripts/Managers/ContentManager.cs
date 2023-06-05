@@ -99,13 +99,13 @@ namespace Managers
         
         public List<MagazineModel> GetTwoSideMagazineModels(int level)
         {
-            if (level < magazineData.MaxMagazineLevel)
+            if (level > magazineData.MaxMagazineLevel)
                 level = magazineData.MaxMagazineLevel;
 
             var modelList = new List<MagazineModel>();
             var properModel = magazineData.MagazineModels.Find(model => model.Level == level);
             modelList.Add(properModel);
-            var nextProperModel = magazineData.MagazineModels.Find(model => model.Level == (level > magazineData.MaxMagazineLevel ? magazineData.MaxMagazineLevel : level));
+            var nextProperModel = magazineData.MagazineModels.Find(model => model.Level == (level > magazineData.MaxMagazineLevel ? magazineData.MaxMagazineLevel : level + 1));
             modelList.Add(nextProperModel);
             return modelList;
         }
