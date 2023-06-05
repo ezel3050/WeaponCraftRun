@@ -424,6 +424,8 @@ namespace Entities
 
         private void YearChanged(float value, Vector3 position)
         {
+            if (value == 0)
+                return;
             if (position == Vector3.zero)
                 position = new Vector2(Screen.width / 2, Screen.height / 2);
             else 
