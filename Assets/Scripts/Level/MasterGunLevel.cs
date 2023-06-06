@@ -13,6 +13,7 @@ namespace Level
     {
         [SerializeField] private Player playerController;
         [SerializeField] private List<MagazineHandler> magazineHandlers;
+        [SerializeField] private List<Clock> clocks;
         [SerializeField] private GameObject rail;
         [SerializeField] private FinishLine finishLine;
         [SerializeField] private Ending ending;
@@ -41,6 +42,11 @@ namespace Level
             foreach (var magazineHandler in magazineHandlers)
             {
                 magazineHandler.onMagazineGotFull += OneMagazineGotFull;
+            }
+
+            foreach (var clock in clocks)
+            {
+                clock.onBulletHit += IncreaseYear;
             }
             CameraManager.Instance.SetCameraFollow(playerController.transform);
             CameraManager.Instance.TurnStartCameraOn();
@@ -89,6 +95,11 @@ namespace Level
         public void ActiveSecondGun()
         {
             playerController.ActiveTwoGun();
+        }
+
+        public void IncreaseYear(int value)
+        {
+            playerController.IncreaseYear(value);
         }
 
         protected override void SubscribeToLevelRelatedEvents()

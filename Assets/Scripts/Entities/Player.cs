@@ -459,6 +459,11 @@ namespace Entities
             CheckIfIsThereNewGunAvailable();
         }
 
+        public void IncreaseYear(int value)
+        {
+            YearChanged(1, Vector3.zero);
+        }
+
         private void CheckIfIsThereNewGunAvailable()
         {
             var currentYear = _weaponModel.Year;
