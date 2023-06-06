@@ -38,7 +38,7 @@ namespace Managers
         private ClaimPanel _claimPanel;
         private WeaponOfferPanel _weaponOfferPanel;
         private MagazinePanel _magazinePanel;
-        public DualShootPanel _dualShootPanel;
+        private DualShootPanel _dualShootPanel;
         private bool _isShowingCannonPurchasePanelOnNextLevel;
 
         public Action onCannonPurchased;
@@ -269,11 +269,11 @@ namespace Managers
             if (isAdSeen)
             {
                 DualWeaponClicked();
-                Destroy(_magazinePanel.gameObject);
+                Destroy(_dualShootPanel.gameObject);
             }
             else
             {
-                Destroy(_magazinePanel.gameObject);
+                Destroy(_dualShootPanel.gameObject);
             }
         }
     }

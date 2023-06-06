@@ -32,7 +32,7 @@ namespace UI
             if (canShowDifference)
             {
                 differenceObject.SetActive(true);
-                var currentModel = ContentManager.Instance.GetCannonModel(level + 1);
+                var currentModel = ContentManager.Instance.GetCannonModel(level);
                 currentValue.text = "+" + currentModel.Cannon.fireRate;
                 nextValue.text = "+" + nextModel.Cannon.fireRate;
             }
