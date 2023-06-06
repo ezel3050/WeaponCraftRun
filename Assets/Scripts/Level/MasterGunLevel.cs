@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Components;
 using DefaultNamespace.Core;
@@ -151,6 +152,11 @@ namespace Level
         {
             base.FinishLevel();
             UIManager.Instance.OpenFinishingPanel();
+        }
+
+        private void OnDestroy()
+        {
+            platformMaterial.DOTiling(new Vector2(1, 0.3f), 0f);
         }
     }
 }
