@@ -32,6 +32,8 @@ namespace Level
                 UIManager.Instance.ShowWeaponOfferPanel();
             if (ContentManager.Instance.CanShowMagazinePanel(GameManagementPlayerPrefs.PlayerLevel))
                 UIManager.Instance.CreateMagazinePanel();
+            if (ContentManager.Instance.CanShowDualWeaponPanel(GameManagementPlayerPrefs.PlayerLevel))
+                UIManager.Instance.CreateDualShootingPanel();
             playerController.Initialize();
             SetPlayerToInputManager();
             CurrencyHandler.ResetData();

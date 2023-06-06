@@ -29,6 +29,7 @@ namespace Managers
         [SerializeField] private ClaimPanel claimPanelPrefab;
         [SerializeField] private WeaponOfferPanel weaponOfferPanelPrefab;
         [SerializeField] private MagazinePanel magazinePanelPrefab;
+        [SerializeField] private DualShootPanel dualShootPanelPrefab;
         [SerializeField] private Transform parentSpot;
 
         private LevelFinishedPanel _levelFinishedPanel;
@@ -37,6 +38,7 @@ namespace Managers
         private ClaimPanel _claimPanel;
         private WeaponOfferPanel _weaponOfferPanel;
         private MagazinePanel _magazinePanel;
+        public DualShootPanel _dualShootPanel;
         private bool _isShowingCannonPurchasePanelOnNextLevel;
 
         public Action onCannonPurchased;
@@ -248,6 +250,25 @@ namespace Managers
                 Prefs.MagazineLevel++;
                 var currentLevel = (MasterGunLevel)LevelManager.CurrentLevel;
                 currentLevel.SyncMagazines();
+                Destroy(_magazinePanel.gameObject);
+            }
+            else
+            {
+                Destroy(_magazinePanel.gameObject);
+            }
+        }
+
+        public void CreateDualShootingPanel()
+        {
+            _dualShootPanel = Instantiate(dualShootPanelPrefab, parentSpot);
+            _dualShootPanel.onPanelClosed += DualShootingPanelClosed;
+        }
+
+        private void DualShootingPanelClosed(bool isAdSeen)
+        {
+            if (isAdSeen)
+            {
+                DualWeaponClicked();
                 Destroy(_magazinePanel.gameObject);
             }
             else

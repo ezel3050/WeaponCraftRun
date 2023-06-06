@@ -15,6 +15,8 @@ namespace Entities
         private WeaponModel _weaponModel;
         private float _calculatedFireRate;
 
+        public float FireRate => fireRate;
+
         public void Initialize(WeaponModel weaponModel)
         {
             _weaponModel = weaponModel;

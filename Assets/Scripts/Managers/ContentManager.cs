@@ -15,6 +15,7 @@ namespace Managers
         [SerializeField] private CannonData cannonData;
         [SerializeField] private WeaponOfferYearsData weaponOfferYearsData;
         [SerializeField] private MagazineData magazineData;
+        [SerializeField] private List<int> dualWeaponPanelLevels;
 
         public static ContentManager Instance;
         
@@ -115,6 +116,12 @@ namespace Managers
             var magazineLevel = Prefs.MagazineLevel;
             if (magazineLevel == magazineData.MaxMagazineLevel) return false;
             var result = magazineData.LevelsToShowPanel.Contains(level);
+            return result;
+        }
+        
+        public bool CanShowDualWeaponPanel(int level)
+        {
+            var result = dualWeaponPanelLevels.Contains(level);
             return result;
         }
     }

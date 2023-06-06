@@ -1,46 +1,29 @@
 using System;
 using Managers;
-using Statics;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class CannonPurchasePanel : MonoBehaviour
+    public class DualShootPanel : MonoBehaviour
     {
-        [SerializeField] private Image iconImage;
         [SerializeField] private Transform lightTransform;
         [SerializeField] private float rotationSpeed;
-        [SerializeField] private GameObject differenceObject;
-        [SerializeField] private TextMeshProUGUI currentValue;
-        [SerializeField] private TextMeshProUGUI nextValue;
         [SerializeField] private Button videoBtn;
         [SerializeField] private Button skipBtn;
-
+        
         private Vector3 _tempRotation;
 
-        public Action<bool,Sprite> onPanelClosed;
-
+        public Action<bool> onPanelClosed;
+        
         private void Start()
         {
-            var level = Prefs.CannonLevel;
-            var canShowDifference = level != 0;
-            var nextModel = ContentManager.Instance.GetCannonModel(level + 1);
-            iconImage.sprite = nextModel.CannonSprite;
             _tempRotation = Vector3.zero;
-            if (canShowDifference)
-            {
-                differenceObject.SetActive(true);
-                var currentModel = ContentManager.Instance.GetCannonModel(level + 1);
-                currentValue.text = "+" + currentModel.Cannon.fireRate;
-                nextValue.text = "+" + nextModel.Cannon.fireRate;
-            }
             Invoke("ShowSkipButton", 3f);
             skipBtn.onClick.AddListener(SkipBtnClicked);
             videoBtn.onClick.AddListener(VideoBtnClicked);
         }
-
+        
         private void Update()
         {
             _tempRotation.z += Time.deltaTime * -rotationSpeed;
@@ -54,7 +37,7 @@ namespace UI
 
         private void SkipBtnClicked()
         {
-            onPanelClosed?.Invoke(false, iconImage.sprite);
+            onPanelClosed?.Invoke(false);
         }
 
         private void VideoBtnClicked()
@@ -65,7 +48,7 @@ namespace UI
 
         private void VideoShown()
         {
-            onPanelClosed?.Invoke(true, iconImage.sprite);
+            onPanelClosed?.Invoke(true);
         }
     }
 }
