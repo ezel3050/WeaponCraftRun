@@ -1,5 +1,6 @@
 using System;
 using Enums;
+using Managers;
 using Statics;
 using TMPro;
 using UnityEngine;
@@ -15,17 +16,13 @@ namespace UI
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private TextMeshProUGUI levelText;
         [SerializeField] private TextMeshProUGUI priceText;
-        [SerializeField] private Sprite availableBackground;
-        [SerializeField] private Sprite notAvailableBackground;
-        [SerializeField] private Sprite availableIcon;
-        [SerializeField] private Sprite notAvailableIcon;
-        [SerializeField] private Image backgroundImage;
-        [SerializeField] private Image iconImage;
         [SerializeField] private Button btn;
 
         public Action<UpgradeType> onLevelChanged;
 
         private int _level;
+        private bool _isVideoMode;
+        
         private void Start()
         {
             GetLevel();
@@ -44,10 +41,27 @@ namespace UI
 
         private void ButtonClicked()
         {
-            CurrencyHandler.DecreaseMoney(_level * 100);
+            if (_isVideoMode)
+            {
+                AdManager.Instance.PrepareOnRVShownEvent(VideoShown);
+                AdManager.Instance.ShowRewardedAd();
+            }
+            else
+            {
+                CurrencyHandler.DecreaseMoney(_level * 100);
+                ApplyChanges();
+            }
+        }
+
+        private void VideoShown()
+        {
+            ApplyChanges();
+        }
+
+        private void ApplyChanges()
+        {
             SetLevel();
-            GetLevel();
-            CheckButtonCondition(CurrencyHandler.CurrentMoney);
+            Sync();
         }
 
         public void Sync()
@@ -97,15 +111,15 @@ namespace UI
             var buttonValue = _level * 100;
             if (buttonValue > value)
             {
-                btn.interactable = false;
-                iconImage.sprite = notAvailableIcon;
-                backgroundImage.sprite = notAvailableBackground;
+                moneyPanel.SetActive(false);
+                videoPanel.SetActive(true);
+                _isVideoMode = true;
             }
             else
             {
-                btn.interactable = true;
-                iconImage.sprite = availableIcon;
-                backgroundImage.sprite = availableBackground;
+                moneyPanel.SetActive(true);
+                videoPanel.SetActive(false);
+                _isVideoMode = false;
             }
         }
     }
