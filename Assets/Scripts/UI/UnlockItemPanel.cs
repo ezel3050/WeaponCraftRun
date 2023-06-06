@@ -25,7 +25,7 @@ namespace UI
         private Vector3 _tempRotation;
         private int _currentGloveLevel;
 
-        public Action<bool> onUnlockPanelClosed;
+        public Action<bool, Sprite> onUnlockPanelClosed;
 
         private void Start()
         {
@@ -64,7 +64,7 @@ namespace UI
 
         private void SkipButtonClicked()
         {
-            onUnlockPanelClosed?.Invoke(false);
+            onUnlockPanelClosed?.Invoke(false,icon.sprite);
         }
 
         private void VideoButtonClicked()
@@ -75,7 +75,7 @@ namespace UI
 
         private void VideoShown()
         {
-            onUnlockPanelClosed?.Invoke(true);
+            onUnlockPanelClosed?.Invoke(true,icon.sprite);
         }
 
         private void ShowSkipButton()

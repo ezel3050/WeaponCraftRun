@@ -155,14 +155,19 @@ namespace Managers
             _unlockItemPanel.onUnlockPanelClosed += UnlockPanelClosed;
         }
 
-        private void UnlockPanelClosed(bool isAdSeen)
+        private void UnlockPanelClosed(bool isAdSeen, Sprite icon)
         {
             if (isAdSeen)
             {
-                Destroy(_unlockItemPanel.gameObject);
-                Prefs.GloveLevel++;
-                Prefs.ItemWidgetLevel = 0;
+                _claimPanel = Instantiate(claimPanelPrefab, parentSpot);
+                _claimPanel.Initialize(icon, () =>
+                {
+                    Prefs.GloveLevel++;
+                    Prefs.ItemWidgetLevel = 0;
+                    Destroy(_claimPanel.gameObject);
+                });
                 _levelFinishedPanel.ShrinkGlove();
+                Destroy(_unlockItemPanel.gameObject);
             }
             else
             {
