@@ -44,6 +44,12 @@ namespace UI
 
         private void VideoButtonClicked()
         {
+            AdManager.Instance.PrepareOnRVShownEvent(VideoShown);
+            AdManager.Instance.ShowRewardedAd();
+        }
+
+        private void VideoShown()
+        {
             onPanelClosed?.Invoke(true);
         }
 

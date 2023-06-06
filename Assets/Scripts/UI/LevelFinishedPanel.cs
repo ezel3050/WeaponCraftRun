@@ -87,13 +87,17 @@ namespace UI
 
         private void SkipButtonClicked()
         {
-            CurrencyHandler.ResetData();
             onLevelFinishedPanelClosed?.Invoke(0);
         }
 
         private void VideoButtonClicked()
         {
-            CurrencyHandler.ResetData();
+            AdManager.Instance.PrepareOnRVShownEvent(VideoShown);
+            AdManager.Instance.ShowRewardedAd();
+        }
+
+        private void VideoShown()
+        {
             onLevelFinishedPanelClosed?.Invoke(_currentIntValue);
         }
 
