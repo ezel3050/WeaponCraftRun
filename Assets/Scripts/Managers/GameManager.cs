@@ -8,17 +8,17 @@ namespace Managers
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private bool startLevelOnAwake;
-        private static GameManager _instance;
+        public static GameManager Instance;
 
         private void Awake()
         {
-            if (_instance != null && _instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(this.gameObject);
             }
             else
             {
-                _instance = this;
+                Instance = this;
                 DontDestroyOnLoad(this);
                 FillComponents();
             }
@@ -129,6 +129,16 @@ namespace Managers
         public static void ForceFinish()
         {
             LevelManager.Instance.ForceFinish();
+        }
+
+        public void StopGame()
+        {
+            Time.timeScale = 0;
+        }
+        
+        public void ResumeGame()
+        {
+            Time.timeScale = 1;
         }
     }
 }

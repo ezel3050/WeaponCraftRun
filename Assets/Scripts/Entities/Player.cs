@@ -346,7 +346,7 @@ namespace Entities
             movement.FullStop(isActive);
         }
 
-        private void ActiveTwoGun()
+        public void ActiveTwoGun()
         {
             _isTwoHandModeOn = true;
             bodyRight.DOLocalMoveX(0.5f, 0.2f);

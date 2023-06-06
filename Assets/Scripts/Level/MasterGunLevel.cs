@@ -84,6 +84,11 @@ namespace Level
             }
         }
 
+        public void ActiveSecondGun()
+        {
+            playerController.ActiveTwoGun();
+        }
+
         protected override void SubscribeToLevelRelatedEvents()
         {
             

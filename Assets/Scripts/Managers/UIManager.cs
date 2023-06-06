@@ -22,6 +22,7 @@ namespace Managers
         [SerializeField] private RangeAndIncomePanel rangeAndIncomePanel;
         [SerializeField] private LevelFinishedPanel levelFinishedPanelPrefab;
         [SerializeField] private TapToStartPanel tapToStartPanel;
+        [SerializeField] private DualWeaponButton dualWeaponButton;
         [SerializeField] private FadingText fadingTextPrefab;
         [SerializeField] private UnlockItemPanel unlockItemPanelPrefab;
         [SerializeField] private CannonPurchasePanel cannonPurchasePanelPrefab;
@@ -64,6 +65,7 @@ namespace Managers
             if (_levelFinishedPanel) Destroy(_levelFinishedPanel.gameObject);
             _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
             _levelFinishedPanel.onLevelFinishedPanelClosed += LevelFinishedPanelClosed;
+            dualWeaponButton.onDualWeaponClicked += DualWeaponClicked;
             _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
             _levelFinishedPanel.gameObject.SetActive(false);
         }
@@ -77,6 +79,13 @@ namespace Managers
         {
             rangeAndIncomePanel.gameObject.SetActive(false);
             _levelFinishedPanel.gameObject.SetActive(true);
+        }
+
+        private void DualWeaponClicked()
+        {
+            dualWeaponButton.gameObject.SetActive(false);
+            var currentLevel = (MasterGunLevel)LevelManager.CurrentLevel;
+            currentLevel.ActiveSecondGun();
         }
 
         public void SetLevelText(int level)
@@ -125,6 +134,7 @@ namespace Managers
             _levelFinishedPanel.gameObject.SetActive(false);
             uiWeaponProgress.gameObject.SetActive(true);
             tapToStartPanel.gameObject.SetActive(true);
+            dualWeaponButton.gameObject.SetActive(true);
             GameManager.InitializeLevelManager();
         }
 
