@@ -190,12 +190,12 @@ namespace Entities
         
         private void SyncFireRateValue()
         {
-            _weaponModel.Rate = _originalWeaponModel.Rate + _gloveModel.FireRate + _fireRate + Prefs.FireRateLevel * 0.1f;
+            _weaponModel.Rate = _originalWeaponModel.Rate + _gloveModel.FireRate + _fireRate + Prefs.FireRateLevel * 0.2f;
         }
         
         private void SyncFireRangeValue()
         {
-            _weaponModel.Range = _originalWeaponModel.Range + _gloveModel.Range + _fireRange + Prefs.FireRangeLevel * 0.05f;
+            _weaponModel.Range = _originalWeaponModel.Range + _gloveModel.Range + _fireRange + Prefs.FireRangeLevel * 0.1f;
         }
 
         private void SyncPowerValue()
@@ -461,7 +461,7 @@ namespace Entities
 
         public void IncreaseYear(int value)
         {
-            YearChanged(1, Vector3.zero);
+            YearChanged(value, Vector3.zero);
         }
 
         private void CheckIfIsThereNewGunAvailable()
@@ -519,7 +519,7 @@ namespace Entities
 
         private void FireRateChanged(float value)
         {
-            var fixedValue = value / 50;
+            var fixedValue = value / 20;
             _fireRate += fixedValue;
             SyncFireRateValue();
             _cloneWeapon.Initialize(_weaponModel);
@@ -527,7 +527,7 @@ namespace Entities
 
         private void FireRangeChanged(float value)
         {
-            var fixedValue = value / 200;
+            var fixedValue = value / 100;
             _fireRange += fixedValue;
             SyncFireRangeValue();
             _cloneWeapon.Initialize(_weaponModel);
