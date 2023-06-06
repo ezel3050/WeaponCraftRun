@@ -145,6 +145,13 @@ namespace Entities
                 enemy.ShootActivateHandler(true);
                 enemy.Move();
             }
+
+            if (obj.CompareTag("Gate"))
+            {
+                var gate = obj.GetComponent<Gate>();
+                if (!gate.CanSweep) return;
+                gate.Move();
+            }
         }
 
         private void WeaponUpgraded()

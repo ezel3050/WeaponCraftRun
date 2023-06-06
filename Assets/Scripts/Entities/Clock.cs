@@ -56,6 +56,7 @@ namespace Entities
             if (other.CompareTag("Skip") || other.CompareTag("Weapon"))
             {
                 clockCollider.enabled = false;
+                clockParticle.gameObject.SetActive(false);
                 transform.DOScale(Vector3.zero, 0.5f);
             }
         }

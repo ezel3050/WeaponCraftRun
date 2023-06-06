@@ -27,15 +27,19 @@ namespace Entities
         [SerializeField] private ScaleBouncer scaleBouncer;
         [SerializeField] private GateProtector protector;
         [SerializeField] private BoxCollider gateCollider;
+        [SerializeField] private Sweeper sweeper;
         [SerializeField] private float initValue;
         [SerializeField] private float initCoefficient;
         [SerializeField] private float limit;
         [SerializeField] private bool hasLimit;
+        [SerializeField] private bool canSweep;
 
         private float _currentValue;
+        private bool _canMove = true;
 
         public GateTypes GateTypes => gateType;
         public float CurrentValue => _currentValue;
+        public bool CanSweep => canSweep;
 
         private void Start()
         {
@@ -134,7 +138,14 @@ namespace Entities
 
         public void DestroyItself()
         {
+            _canMove = false;
             Destroy(gameObject);
+        }
+
+        public void Move()
+        {
+            if (_canMove)
+                sweeper.enabled = true;
         }
     }
 }

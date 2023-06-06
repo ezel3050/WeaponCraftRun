@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4278709130399062477}
   - component: {fileID: 1838942215876213295}
   - component: {fileID: 1373976985291535326}
+  - component: {fileID: 7829598533066526042}
   m_Layer: 0
   m_Name: Gate
   m_TagString: Gate
@@ -66,10 +67,12 @@ MonoBehaviour:
   scaleBouncer: {fileID: 1373976985291535326}
   protector: {fileID: 0}
   gateCollider: {fileID: 1838942215876213295}
+  sweeper: {fileID: 7829598533066526042}
   initValue: 0
   initCoefficient: 1
   limit: 0
   hasLimit: 0
+  canSweep: 0
 --- !u!65 &1838942215876213295
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -96,6 +99,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToBounce: {fileID: 4618953977659041125}
+--- !u!114 &7829598533066526042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387977102998255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 192d025124b84473a21de5cfa26a873f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxPos: {x: 0, y: 0, z: 0}
+  minPos: {x: 0, y: 0, z: 0}
+  speed: 0
+  isZMinusOnly: 0
+  isZPlusOnly: 0
+  isXOnly: 0
+  isZigZag: 0
+  isZigZagReverse: 0
+  speedX: 0
+  speedZ: 0
+  isMoveRight: 0
 --- !u!1 &1804464064962371
 GameObject:
   m_ObjectHideFlags: 0
