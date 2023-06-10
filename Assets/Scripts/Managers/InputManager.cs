@@ -42,8 +42,7 @@ namespace Managers
         }
 
         void Update()
-        {   
-#if UNITY_EDITOR
+        {
             m_InputPosition = Mouse.current.position.ReadValue();
 
             if (Mouse.current.leftButton.isPressed)
@@ -58,23 +57,21 @@ namespace Managers
             {
                 m_HasInput = false;
             }
-#else
-            if (Touch.activeTouches.Count > 0)
-            {
-                m_InputPosition = Touch.activeTouches[0].screenPosition;
-
-                if (!m_HasInput)
-                {
-                    m_PreviousInputPosition = m_InputPosition;
-                }
-                
-                m_HasInput = true;
-            }
-            else
-            {
-                m_HasInput = false;
-            }
-#endif
+            // if (Touch.activeTouches.Count > 0)
+            // {
+            //     m_InputPosition = Touch.activeTouches[0].screenPosition;
+            //
+            //     if (!m_HasInput)
+            //     {
+            //         m_PreviousInputPosition = m_InputPosition;
+            //     }
+            //     
+            //     m_HasInput = true;
+            // }
+            // else
+            // {
+            //     m_HasInput = false;
+            // }
 
             if (_player)
             {
