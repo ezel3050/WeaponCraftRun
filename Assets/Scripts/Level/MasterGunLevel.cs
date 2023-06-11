@@ -135,6 +135,7 @@ namespace Level
         
         private void PlayerDied()
         {
+            SoundManager.Instance.EndGame();
             FinishLevel();
         }
 

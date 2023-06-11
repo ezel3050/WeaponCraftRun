@@ -53,7 +53,9 @@ namespace Entities
             if (_health <= 0) return;
             base.BulletHit(other);
             ExplodeChain();
+            _soundManager.BulletHitToChainGate();
             if (_health > 0) return;
+            _soundManager.ChainGateBroke();
             ShieldBroken();
         }
 

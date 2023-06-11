@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using TMPro;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ namespace Entities
         private float _tempRotationZ;
         private float _tempTime;
         private Quaternion _defaultRotation;
+        private SoundManager _soundManager;
 
         public int Level => level;
         public Action onMagazineGotFull;
@@ -25,6 +27,7 @@ namespace Entities
         {
             _defaultRotation = rotationObject.localRotation;
             yearText.text = GetFilledHolesCount().ToString();
+            _soundManager = SoundManager.Instance;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -42,6 +45,7 @@ namespace Entities
             var availableHole = holes.Find(hole => !hole.IsFilled);
             availableHole.Initialize(model);
             bullet.BulletHit();
+            _soundManager.BulletHitToMagazine();
             yearText.text = GetFilledHolesCount().ToString();
             if (!IsEmptyHoleAvailable())
             {

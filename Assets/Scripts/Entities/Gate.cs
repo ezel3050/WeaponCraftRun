@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Components;
 using Enums;
+using Managers;
 using TMPro;
 using UnityEngine;
 
@@ -36,6 +37,7 @@ namespace Entities
 
         private float _currentValue;
         private bool _canMove = true;
+        private SoundManager _soundManager;
 
         public GateTypes GateTypes => gateType;
         public float CurrentValue => _currentValue;
@@ -54,6 +56,7 @@ namespace Entities
             coefficientText.text = initCoefficient.ToString(CultureInfo.InvariantCulture);
             ChangeColorBaseOnValue();
             ChangeVisualBaseOnType();
+            _soundManager = SoundManager.Instance;
         }
 
         private void ShieldBroken()
@@ -101,6 +104,7 @@ namespace Entities
             var bullet = other.GetComponent<Bullet>();
             bullet.BulletHit();
             scaleBouncer.Poke();
+            _soundManager.BulletHitToGate();
             if (hasLimit)
                 if (_currentValue >= limit) return;
             _currentValue += initCoefficient;
@@ -138,6 +142,7 @@ namespace Entities
 
         public void DestroyItself()
         {
+            if (_currentValue > 0) _soundManager.CollideWithGate();
             _canMove = false;
             Destroy(gameObject);
         }

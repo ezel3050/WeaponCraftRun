@@ -38,6 +38,7 @@ namespace Entities
         private Weapon _cloneSecondWeapon;
         private Cannon _cannon;
         private SpeedRail _currentSpeedRail;
+        private SoundManager _soundManager;
         private float _fireRate;
         private float _fireRange;
         private bool _isTwoHandModeOn;
@@ -120,6 +121,7 @@ namespace Entities
             UIManager.Instance.onWeaponUpgraded += WeaponUpgraded;
             objectsTriggerInvoker.onTriggerEnter += ObjectsHandler;
             playerTriggerInvoker.onTriggerEnter += PlayerTriggerEnter;
+            _soundManager = SoundManager.Instance;
         }
 
         private void PlayerTriggerEnter(Collider other)
@@ -478,6 +480,7 @@ namespace Entities
             if (newModel.Weapon == _weaponModel.Weapon) return;
             FillModel(newModel);
             _weaponModel.Year = currentYear;
+            _soundManager.UpgradeGun();
             ApplyChangesOnModel();
             RotationAction();
             CreateWeapon();

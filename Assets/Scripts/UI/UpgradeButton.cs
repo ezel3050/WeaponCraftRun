@@ -22,6 +22,7 @@ namespace UI
 
         private int _level;
         private bool _isVideoMode;
+        private SoundManager _soundManager;
         
         private void Start()
         {
@@ -32,6 +33,7 @@ namespace UI
             levelText.text = "Level " + _level;
             priceText.text = Utility.MinifyLong(_level * 100) + "$";
             CurrencyHandler.onValueChanged += ValueChanged;
+            _soundManager = SoundManager.Instance;
         }
 
         private void ValueChanged(int arg1, Vector3 arg2, bool arg3)
@@ -62,6 +64,7 @@ namespace UI
         {
             SetLevel();
             Sync();
+            _soundManager.UpgradeButton();
         }
 
         public void Sync()

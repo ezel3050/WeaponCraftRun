@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Components;
 using DG.Tweening;
+using Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -31,6 +32,7 @@ namespace Entities
         private float _wholeResults = 0;
         private int _bulletToCreate;
         private bool _passedOnce;
+        private SoundManager _soundManager;
 
         private void Start()
         {
@@ -43,6 +45,8 @@ namespace Entities
             }
 
             gateBulletTaker.onTriggerEnter += GateTookBullet;
+            
+            _soundManager = SoundManager.Instance;
         }
 
         public void SetCoefficient(float value)
@@ -114,6 +118,7 @@ namespace Entities
             magazineHandler.Rotate(-90);
             magazineHandler.ManualMove(magazineSpot.position);
             magazineHandler.ShrinkSize();
+            _soundManager.CollideWithMagazine();
             AddBulletsBaseOnMagazine(magazineHandler.GetFilledHolesCount());
         }
 
