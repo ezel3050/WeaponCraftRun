@@ -55,7 +55,10 @@ namespace Managers
             var properLevel = year - (year % 10);
             var properModel = weaponData.WeaponModels.Find(model => Math.Abs(model.Year - properLevel) < 0.1f);
             modelList.Add(properModel);
-            var nextProperModel = weaponData.WeaponModels.Find(model => Math.Abs(model.Year - (properLevel + 10)) < 0.1f);
+            var nextYearTarget = (properLevel + 10) > weaponData.MaxWeaponLevel
+                ? weaponData.MaxWeaponLevel
+                : properLevel + 10;
+            var nextProperModel = weaponData.WeaponModels.Find(model => Math.Abs(model.Year - (nextYearTarget)) < 0.1f);
             modelList.Add(nextProperModel);
             return modelList;
         }
