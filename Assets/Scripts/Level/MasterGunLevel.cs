@@ -22,6 +22,7 @@ namespace Level
         [SerializeField] private float bulletGateSystemsCoefficient;
         [SerializeField] private Material platformMaterial;
         [SerializeField] private float materialPercent;
+        [SerializeField] private EndGameWeaponPlatform endGameWeaponPlatform;
 
         private bool _isFinishLinePassed;
 
@@ -59,6 +60,7 @@ namespace Level
 
             finishLine.onFinishLinePassed += PlayerPassedFinishLine;
             playerController.onPlayerDied += PlayerDied;
+            endGameWeaponPlatform.onPassedEndGamePlatform += PassedEndGamePlatform;
         }
 
         protected internal override void StartLevel()
@@ -78,6 +80,11 @@ namespace Level
             playerController.DeActiveYearTag();
             UIManager.Instance.DeActiveWeaponProgressUI();
             CameraManager.Instance.TurnEndingCameraOn();
+        }
+
+        private void PassedEndGamePlatform()
+        {
+            FinishLevel();
         }
 
         private void SetPlayerToInputManager()
@@ -101,6 +108,16 @@ namespace Level
         public void IncreaseYear(int value)
         {
             playerController.IncreaseYear(value);
+        }
+
+        public void StopPlayer()
+        {
+            playerController.FullStop(true);
+        }
+
+        public void DisableShooting()
+        {
+            playerController.DisableShooting();
         }
 
         protected override void SubscribeToLevelRelatedEvents()
@@ -157,7 +174,7 @@ namespace Level
 
         private void OnDestroy()
         {
-            platformMaterial.DOTiling(new Vector2(1, 0.3f), 0f);
+            platformMaterial.mainTextureScale = new Vector2(1, 0.3f);
         }
     }
 }

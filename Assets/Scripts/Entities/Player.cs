@@ -59,6 +59,12 @@ namespace Entities
             CreateWeapon();
             if (Prefs.CannonLevel != 0)
                 FillCannonModel();
+            if (Prefs.IsTwoGunAvailableOnNextLevel)
+            {
+                ActiveTwoGun();
+                UIManager.Instance.ActiveDualGunButton(false);
+                Prefs.IsTwoGunAvailableOnNextLevel = false;
+            }
         }
 
         private void Update()
@@ -372,17 +378,25 @@ namespace Entities
             _leftGlove = Instantiate(_gloveModel.GloveLeftPrefab, gloveLeftSpot);
         }
 
-        private void ApplyDeath()
+        public void DisableShooting()
         {
             ShootActivateHandler(false,true);
             if (_cannon)
                 CannonActiveHandler(false);
+            if (_isTwoHandModeOn)
+            {
+                ShootActivateHandler(false,false);
+            }
+        }
+
+        private void ApplyDeath()
+        {
+            DisableShooting();   
             var firstTargetRotation = new Vector3(0, 0, -90);
             bodyRight.DOLocalRotate(firstTargetRotation, 0.5f).onComplete = () => onPlayerDied?.Invoke();
             if (_isTwoHandModeOn)
             {
                 var secondTargetRotation = new Vector3(0, 0, 90);
-                ShootActivateHandler(false,false);
                 bodyLeft.DOLocalRotate(secondTargetRotation, 0.5f);
                 bodyLeft.DOLocalMoveX(-1.5f, 0.3f);
                 bodyRight.DOLocalMoveX(1.5f, 0.3f);
@@ -438,7 +452,9 @@ namespace Entities
                     IncreaseMoneyFromGate(gateValue, position);
                     break;
                 case GateTypes.DUALWEAPON:
+                    Prefs.CanShowDualGunButton = true;
                     ActiveTwoGun();
+                    UIManager.Instance.ActiveDualGunButton(false);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -498,7 +514,15 @@ namespace Entities
         private void CreateSecondWeapon()
         {
             DestroySecondWeapon();
-            _cloneSecondWeapon = Instantiate(_weaponModel.Weapon, weaponLeftSpot);
+            if (Prefs.IsReachedEndGamePlatform)
+            {
+                var model = ContentManager.Instance.GetEndingWeaponModel(Prefs.EndGameWeaponLevel - 1);
+                _cloneSecondWeapon = Instantiate(model.Weapon, weaponLeftSpot);
+            }
+            else
+            {
+                _cloneSecondWeapon = Instantiate(_weaponModel.Weapon, weaponLeftSpot);
+            }
             _cloneSecondWeapon.transform.localPosition = Vector3.zero;
             _cloneSecondWeapon.Initialize(_weaponModel);
             _cloneSecondWeapon.onBulletShoot += SecondWeaponShoot;

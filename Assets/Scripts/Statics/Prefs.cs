@@ -69,5 +69,23 @@ namespace Statics
             get => PlayerPrefs.GetInt("CannonLevel", 0);
             set => PlayerPrefs.SetInt("CannonLevel", value);
         }
+        
+        public static bool IsReachedEndGamePlatform
+        {
+            get => PlayerPrefs.GetInt("IsReachedEndGamePlatform", 0) == 1;
+            set => PlayerPrefs.SetInt("IsReachedEndGamePlatform", value ? 1 : 0);
+        }
+        
+        public static bool IsTwoGunAvailableOnNextLevel
+        {
+            get => PlayerPrefs.GetInt("IsTwoGunAvailableOnNextLevel", 0) == 1;
+            set => PlayerPrefs.SetInt("IsTwoGunAvailableOnNextLevel", value ? 1 : 0);
+        }
+        
+        public static bool CanShowDualGunButton
+        {
+            get => PlayerPrefs.GetInt("CanShowDualGunButton", 0) == 1;
+            set => PlayerPrefs.SetInt("CanShowDualGunButton", value ? 1 : 0);
+        }
     }
 }

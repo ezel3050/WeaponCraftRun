@@ -85,7 +85,7 @@ namespace Managers
 
         private void DualWeaponClicked()
         {
-            dualWeaponButton.gameObject.SetActive(false);
+            ActiveDualGunButton(false);
             var currentLevel = (MasterGunLevel)LevelManager.CurrentLevel;
             currentLevel.ActiveSecondGun();
         }
@@ -136,8 +136,14 @@ namespace Managers
             _levelFinishedPanel.gameObject.SetActive(false);
             uiWeaponProgress.gameObject.SetActive(true);
             tapToStartPanel.gameObject.SetActive(true);
-            dualWeaponButton.gameObject.SetActive(true);
+            if (Prefs.CanShowDualGunButton)
+                ActiveDualGunButton(true);
             GameManager.InitializeLevelManager();
+        }
+
+        public void ActiveDualGunButton(bool isActive)
+        {
+            dualWeaponButton.gameObject.SetActive(isActive);
         }
 
         public void DeActiveWeaponProgressUI()
@@ -176,6 +182,18 @@ namespace Managers
                 Destroy(_unlockItemPanel.gameObject);
                 _levelFinishedPanel.ShrinkGlove();
             }
+        }
+
+        public void OpenEndGameWeaponPanel(Sprite icon, Action callback)
+        {
+            _claimPanel = Instantiate(claimPanelPrefab, parentSpot);
+            _claimPanel.Initialize(icon, () =>
+            {
+                Prefs.EndGameWeaponLevel++;
+                Prefs.IsReachedEndGamePlatform = true;
+                callback?.Invoke();
+                Destroy(_claimPanel.gameObject);
+            });
         }
 
         private void CreateCannonPurchasePanel()

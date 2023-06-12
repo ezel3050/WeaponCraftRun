@@ -1,7 +1,10 @@
 using System;
+using DefaultNamespace;
 using DefaultNamespace.Entities;
 using DG.Tweening;
+using Level;
 using Managers;
+using Models;
 using Statics;
 using UnityEngine;
 
@@ -15,14 +18,18 @@ namespace Entities
 
         private Weapon _weapon;
         private Vector3 _tempRotation;
+        private WeaponModel _currentModel;
+        private bool _isPassedOnce;
+
+        public Action onPassedEndGamePlatform;
 
         private void Start()
         {
             _tempRotation = Vector3.zero;
             finishLine.onFinishLinePassed += PassedFinishedLine;
             var level = Prefs.EndGameWeaponLevel;
-            var model = ContentManager.Instance.GetEndingWeaponModel(level);
-            _weapon = Instantiate(model.Weapon, weaponSpot);
+            _currentModel = ContentManager.Instance.GetEndingWeaponModel(level);
+            _weapon = Instantiate(_currentModel.Weapon, weaponSpot);
         }
 
         private void Update()
@@ -33,7 +40,24 @@ namespace Entities
 
         private void PassedFinishedLine()
         {
-            Prefs.EndGameWeaponLevel++;
+            if (_isPassedOnce) return;
+            _isPassedOnce = true;
+            var currentLevel = (MasterGunLevel) LevelManager.CurrentLevel;
+            currentLevel.StopPlayer();
+            currentLevel.DisableShooting();
+            SoundManager.Instance.EndGame();
+            Prefs.IsTwoGunAvailableOnNextLevel = true;
+            Invoke("OpenPanel", 2f);
+        }
+
+        private void OpenPanel()
+        {
+            UIManager.Instance.OpenEndGameWeaponPanel(_currentModel.WeaponSprite, ClaimButtonClicked);
+        }
+
+        private void ClaimButtonClicked()
+        {
+            onPassedEndGamePlatform?.Invoke();
         }
     }
 }
