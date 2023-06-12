@@ -87,5 +87,11 @@ namespace Statics
             get => PlayerPrefs.GetInt("CanShowDualGunButton", 0) == 1;
             set => PlayerPrefs.SetInt("CanShowDualGunButton", value ? 1 : 0);
         }
+        
+        public static bool Mute
+        {
+            get => PlayerPrefs.GetInt("Mute", 0) == 1;
+            set => PlayerPrefs.SetInt("Mute", value ? 1 : 0);
+        }
     }
 }

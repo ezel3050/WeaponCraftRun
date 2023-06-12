@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Statics;
 using UnityEngine;
@@ -36,6 +37,11 @@ namespace Managers
                 Instance = this;
                 DontDestroyOnLoad(this);
             }
+        }
+
+        private void Start()
+        {
+            MuteHandling(Prefs.Mute);
         }
 
         public void BulletHitToGate()
@@ -141,7 +147,7 @@ namespace Managers
             source.Stop();
         }
 
-        private void MuteHandling(bool isMute)
+        public void MuteHandling(bool isMute)
         {
             _isMute = isMute;
             if (_isMute)
