@@ -43,36 +43,36 @@ namespace Managers
 
         void Update()
         {
-            m_InputPosition = Mouse.current.position.ReadValue();
-
-            if (Mouse.current.leftButton.isPressed)
+            if (Mouse.current.leftButton.isPressed || Touch.activeTouches.Count > 0)
             {
-                if (!m_HasInput)
+                if (Touch.activeTouches.Count > 0)
                 {
-                    m_PreviousInputPosition = m_InputPosition;
+                    m_InputPosition = Touch.activeTouches[0].screenPosition;
+            
+                    if (!m_HasInput)
+                    {
+                        m_PreviousInputPosition = m_InputPosition;
+                    }
+                
+                    m_HasInput = true;
                 }
-                m_HasInput = true;
+
+                if (Mouse.current.leftButton.isPressed)
+                {
+                    m_InputPosition = Mouse.current.position.ReadValue();
+
+                    if (!m_HasInput)
+                    {
+                        m_PreviousInputPosition = m_InputPosition;
+                    }
+                    m_HasInput = true;
+                }
             }
             else
             {
                 m_HasInput = false;
             }
-            // if (Touch.activeTouches.Count > 0)
-            // {
-            //     m_InputPosition = Touch.activeTouches[0].screenPosition;
-            //
-            //     if (!m_HasInput)
-            //     {
-            //         m_PreviousInputPosition = m_InputPosition;
-            //     }
-            //     
-            //     m_HasInput = true;
-            // }
-            // else
-            // {
-            //     m_HasInput = false;
-            // }
-
+            
             if (_player)
             {
                 if (m_HasInput)
