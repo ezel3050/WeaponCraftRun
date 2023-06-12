@@ -365,6 +365,8 @@ namespace Entities
         {
             _isTwoHandModeOn = true;
             bodyRight.DOLocalMoveX(0.5f, 0.2f);
+            if (_cannon)
+                _cannon.transform.DOLocalMoveX(0.5f, 0.2f);
             bodyLeft.gameObject.SetActive(true);
             CreateGloveForLeftHand();
             bodyLeft.DOLocalMoveX(-0.5f, 0);
