@@ -70,6 +70,7 @@ namespace Managers
             dualWeaponButton.onDualWeaponClicked += DualWeaponClicked;
             _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
             _levelFinishedPanel.gameObject.SetActive(false);
+            ActiveDualGunButton(Prefs.CanShowDualGunButton);
         }
 
         public void OpenFinishingPanel()
