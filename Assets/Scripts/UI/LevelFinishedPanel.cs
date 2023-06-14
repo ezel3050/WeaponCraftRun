@@ -64,8 +64,11 @@ namespace UI
 
         public void ShrinkGlove()
         {
-            itemWidgetPanel.gameObject.SetActive(false);
-            CheckGloveCondition();
+            var sq = DOTween.Sequence();
+            sq.Append(itemWidgetPanel.transform.DOLocalMoveY(450f, 0.5f));
+            sq.Append(itemWidgetPanel.transform.DOScale(0.7f, 0.5f)).onComplete = CheckGloveCondition;
+            sq.Join(DOTween.To(itemWidgetPanel.GetPaddingValue, itemWidgetPanel.SetPaddingValue,
+                0.7f * itemWidgetPanel.Padding.y, 0.5f));
         }
 
         private void CheckGloveCondition()
