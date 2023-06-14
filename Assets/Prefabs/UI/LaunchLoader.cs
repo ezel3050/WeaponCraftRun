@@ -10,10 +10,6 @@ public class LaunchLoader : MonoBehaviour
         LoadGame();
     }
 
-    private void LoadGame() => SceneLoader.instance.LoadScene(1, true, LoadSceneMode.Additive, OnComplete);
-
-    private void OnComplete(AsyncOperation obj)
-    {
-        Destroy(gameObject);
-    }
+    private void LoadGame() => SceneLoader.instance.LoadScene(1, true);
+    
 }

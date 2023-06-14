@@ -61,6 +61,7 @@ namespace Level
             finishLine.onFinishLinePassed += PlayerPassedFinishLine;
             playerController.onPlayerDied += PlayerDied;
             endGameWeaponPlatform.onPassedEndGamePlatform += PassedEndGamePlatform;
+            UIManager.Instance.LoadingPanelHandler(false);
         }
 
         protected internal override void StartLevel()

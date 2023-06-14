@@ -19,7 +19,7 @@ namespace Managers
             else
             {
                 Instance = this;
-                DontDestroyOnLoad(this);
+                // DontDestroyOnLoad(this);
                 FillComponents();
             }
         }

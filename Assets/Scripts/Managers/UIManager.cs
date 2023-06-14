@@ -9,12 +9,15 @@ using TMPro;
 using UI;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Managers
 {
     public class UIManager : MonoBehaviour
     {
+        [SerializeField] private GameObject mainPanel;
         [SerializeField] private Text levelText;
         [SerializeField] private TextMeshProUGUI moneyText;
         [SerializeField] private UIWeaponProgress uiWeaponProgress;
@@ -23,6 +26,7 @@ namespace Managers
         [SerializeField] private LevelFinishedPanel levelFinishedPanelPrefab;
         [SerializeField] private TapToStartPanel tapToStartPanel;
         [SerializeField] private DualWeaponButton dualWeaponButton;
+        [SerializeField] private GameObject enteringPanel;
         [SerializeField] private FadingText fadingTextPrefab;
         [SerializeField] private UnlockItemPanel unlockItemPanelPrefab;
         [SerializeField] private CannonPurchasePanel cannonPurchasePanelPrefab;
@@ -48,15 +52,16 @@ namespace Managers
         
         private void Awake()
         {
+            mainPanel.SetActive(false);
             if (Instance != null && Instance != this)
             {
                 Destroy(this.gameObject);
+                return;
             }
-            else
-            {
-                Instance = this;
-                DontDestroyOnLoad(this);
-            }
+            
+            Instance = this;
+            DontDestroyOnLoad(this);
+            mainPanel.SetActive(true);
         }
         
         private void Start()
@@ -139,7 +144,9 @@ namespace Managers
             tapToStartPanel.gameObject.SetActive(true);
             if (Prefs.CanShowDualGunButton)
                 ActiveDualGunButton(true);
-            GameManager.InitializeLevelManager();
+            LoadingPanelHandler(true);
+            SceneManager.UnloadSceneAsync(1);
+            SceneManager.LoadSceneAsync(0);
         }
 
         public void ActiveDualGunButton(bool isActive)
@@ -294,6 +301,11 @@ namespace Managers
             {
                 Destroy(_dualShootPanel.gameObject);
             }
+        }
+
+        public void LoadingPanelHandler(bool isActive)
+        {
+            enteringPanel.SetActive(isActive);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace DefaultNamespace
         #region Serialized
 
         [SerializeField] private int minimumLevelToLoadAfterFirstFinish = 2;
-        [SerializeField] private List<BaseLevelConfig> levelsConfigs;
+        [SerializeField] private int wholeLevelsCount;
 
         #endregion
 
@@ -64,22 +64,25 @@ namespace DefaultNamespace
 
         private void HandleErrors()
         {
-            if (levelsConfigs == null)
+            if (wholeLevelsCount == 0)
                 throw new Exception("Assign some levels");
         }
 
         private void CreateNewLevel()
         {
-            _pickedConfig = GetLevelConfigToLoad();
-            if (string.IsNullOrEmpty(_pickedConfig.SceneName) || _pickedConfig.SceneName.ToString() == SceneManager.GetActiveScene().name)
+            GetLevelConfigToLoad((config =>
             {
-                CreateLevelWithPrefab();
-                BroadcastLevelReady();
-            }
-            else
-            {
-                CreateLevelWithScene();
-            }
+                _pickedConfig = config;
+                if (string.IsNullOrEmpty(_pickedConfig.SceneName) || _pickedConfig.SceneName.ToString() == SceneManager.GetActiveScene().name)
+                {
+                    CreateLevelWithPrefab();
+                    BroadcastLevelReady();
+                }
+                else
+                {
+                    CreateLevelWithScene();
+                }
+            }));
         }
 
         private void BroadcastLevelReady()
@@ -166,33 +169,41 @@ namespace DefaultNamespace
             CurrentLevel.ForceFinishLevel(LevelFinishStatus.Lose);
         }
 
-        private BaseLevelConfig GetLevelConfigToLoad()
+        private void GetLevelConfigToLoad(Action<BaseLevelConfig> callback)
         {
-            if (levelsConfigs.Count == 0)
+            if (wholeLevelsCount == 0)
                 throw new Exception("No levels to load");
             var levelIndexToLoad = GetLevelIndexToLoad();
+            
+            StartCoroutine(LoadLevelAsync(levelIndexToLoad, config =>
+            {
+                if (config == null)
+                    throw new Exception("You assigned a null element to configs");
+                LastLoadedLevelRealIndex = levelIndexToLoad;
+                callback?.Invoke(config);
+            }));
+        }
 
-            var configToLoad = levelsConfigs[levelIndexToLoad];
-
-            if (configToLoad == null)
-                throw new Exception("You assigned a null element to configs");
-            LastLoadedLevelRealIndex = levelIndexToLoad;
-            return configToLoad;
+        private IEnumerator LoadLevelAsync(int levelIndexToLoad, Action<BaseLevelConfig> callback)
+        {
+            var request = Resources.LoadAsync("Levels/MasterGunLevelConfig " + levelIndexToLoad);
+            yield return new WaitUntil(() => request.isDone);
+            callback?.Invoke((BaseLevelConfig) request.asset);
         }
 
         private int GetLevelIndexToLoad()
         {
             var index = 0;
-            if (minimumLevelToLoadAfterFirstFinish < levelsConfigs.Count)
+            if (minimumLevelToLoadAfterFirstFinish < wholeLevelsCount)
             {
-                var playerFinishedAllLevels = PlayerLevel > levelsConfigs.Count - 1;
+                var playerFinishedAllLevels = PlayerLevel > wholeLevelsCount - 1;
                 var levelIndex = playerFinishedAllLevels
-                    ? Random.Range(minimumLevelToLoadAfterFirstFinish, levelsConfigs.Count)
+                    ? Random.Range(minimumLevelToLoadAfterFirstFinish, wholeLevelsCount)
                     : PlayerLevel;
                 index = levelIndex;
             }
             else
-                index = Random.Range(0, levelsConfigs.Count);
+                index = Random.Range(0, wholeLevelsCount);
             return index;
         }
 
