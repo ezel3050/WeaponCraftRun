@@ -23,6 +23,7 @@ namespace Level
         [SerializeField] private Material platformMaterial;
         [SerializeField] private float materialPercent;
         [SerializeField] private EndGameWeaponPlatform endGameWeaponPlatform;
+        [SerializeField] private GameObject enemiesParent;
 
         private bool _isFinishLinePassed;
 
@@ -171,6 +172,7 @@ namespace Level
         {
             base.FinishLevel();
             UIManager.Instance.OpenFinishingPanel();
+            enemiesParent.SetActive(false);
         }
 
         private void OnDestroy()
