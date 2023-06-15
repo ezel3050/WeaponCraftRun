@@ -47,6 +47,7 @@ namespace UI
             else
             {
                 lightTransform.gameObject.SetActive(false);
+                descriptionText.gameObject.SetActive(false);
                 onIncreaseFinished?.Invoke(true);
                 return;
             }
