@@ -41,7 +41,7 @@ namespace Level
             playerController.Initialize();
             SetPlayerToInputManager();
             CurrencyHandler.ResetData();
-            platformMaterial.DOTiling(new Vector2(1, 0.3f * materialPercent), 0f);
+            platformMaterial.mainTextureScale = new Vector2(1, 0.3f * materialPercent);
             foreach (var magazineHandler in magazineHandlers)
             {
                 magazineHandler.onMagazineGotFull += OneMagazineGotFull;
