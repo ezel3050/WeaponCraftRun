@@ -27,6 +27,9 @@ namespace Managers
         [SerializeField] private TapToStartPanel tapToStartPanel;
         [SerializeField] private DualWeaponButton dualWeaponButton;
         [SerializeField] private GameObject enteringPanel;
+        [SerializeField] private LoadingPanel loadingPanel;
+        [SerializeField] private MessageBox messageBox;
+        [SerializeField] private TapToResumePanel tapToResumePanel;
         [SerializeField] private FadingText fadingTextPrefab;
         [SerializeField] private UnlockItemPanel unlockItemPanelPrefab;
         [SerializeField] private CannonPurchasePanel cannonPurchasePanelPrefab;
@@ -44,6 +47,10 @@ namespace Managers
         private MagazinePanel _magazinePanel;
         private DualShootPanel _dualShootPanel;
         private bool _isShowingCannonPurchasePanelOnNextLevel;
+
+        public LoadingPanel LoadingPanel => loadingPanel;
+        public MessageBox MessageBox => messageBox;
+        public TapToResumePanel TapToResumePanel => tapToResumePanel;
 
         public Action onCannonPurchased;
         public Action onWeaponUpgraded;

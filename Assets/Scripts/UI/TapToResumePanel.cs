@@ -1,12 +1,9 @@
-﻿using UnityEngine;
+﻿using UI;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class TapToResumePanel : Panel
 {
-    public static TapToResumePanel instance;
-
-    private void Awake() => instance = this;
-
     // private void Update()
     // {
     //     if (!isShown) return;

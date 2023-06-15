@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Rendering;
@@ -49,10 +50,10 @@ namespace Managers
 
     private void OnResumeGame()
     {
-        if (intersestialStarted) TapToResumePanel.instance.Show();
+        if (intersestialStarted) UIManager.Instance.TapToResumePanel.Show();
         else if (GameManager.Instance != null) GameManager.Instance.ResumeGame();
 
-        if (LoadingPanel.instance.isShown) LoadingPanel.instance.Hide();
+        if (UIManager.Instance.LoadingPanel.isShown) UIManager.Instance.LoadingPanel.Hide();
 
         rvStarted = false;
         intersestialStarted = false;
@@ -95,7 +96,7 @@ namespace Managers
         rvStarted = true;
 
         OnPauseGame();
-        LoadingPanel.instance.Show();
+        UIManager.Instance.LoadingPanel.Show();
 
         StartCoroutine(CheckReachability((isReachable) =>
         {
@@ -103,7 +104,7 @@ namespace Managers
             {
                 OnResumeGame();
 
-                MessageBox.instance.Show("Internet Connection Error", "Could not load the ad, Please check your connection and try again.", MessageBox.TextSize.Small);
+                UIManager.Instance.MessageBox.Show("Internet Connection Error", "Could not load the ad, Please check your connection and try again.", MessageBox.TextSize.Small);
 
                 rvStarted = false;
 
