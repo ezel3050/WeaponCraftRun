@@ -13,8 +13,9 @@ namespace Entities
         private float _tempRotationZ;
         private Quaternion _defaultRotation;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             _health = health;
             _initObjectCount = _health;
             _defaultRotation = rotationObject.localRotation;
