@@ -145,8 +145,7 @@ namespace Managers
             if (Prefs.CanShowDualGunButton)
                 ActiveDualGunButton(true);
             LoadingPanelHandler(true);
-            SceneManager.UnloadSceneAsync(1);
-            SceneManager.LoadSceneAsync(0);
+            SceneManager.LoadScene(0);
         }
 
         public void ActiveDualGunButton(bool isActive)
