@@ -15,6 +15,8 @@ namespace Managers
         [SerializeField]
         float m_InputSensitivity = 1.5f;
 
+        private float m_tempVal;
+
         bool m_HasInput;
         Vector3 m_InputPosition;
         Vector3 m_PreviousInputPosition;
@@ -43,36 +45,56 @@ namespace Managers
 
         void Update()
         {
-            if (Mouse.current.leftButton.isPressed || Touch.activeTouches.Count > 0)
+            if (Input.GetKey(KeyCode.RightArrow) 
+                || Input.GetKey(KeyCode.LeftArrow) 
+                || Input.GetKey(KeyCode.D) 
+                || Input.GetKey(KeyCode.A))
             {
-                if (Touch.activeTouches.Count > 0)
+                var x = Input.GetAxis("Horizontal");
+                m_tempVal += Time.deltaTime * (x >= 0 ? 1 : -1);
+
+                m_InputPosition.x = m_tempVal * Screen.width;
+                if (!m_HasInput)
                 {
-                    m_InputPosition = Touch.activeTouches[0].screenPosition;
-            
-                    if (!m_HasInput)
-                    {
-                        m_PreviousInputPosition = m_InputPosition;
-                    }
+                    m_PreviousInputPosition = m_InputPosition;
+                }
                 
-                    m_HasInput = true;
-                }
-
-                if (Mouse.current.leftButton.isPressed)
-                {
-                    m_InputPosition = Mouse.current.position.ReadValue();
-
-                    if (!m_HasInput)
-                    {
-                        m_PreviousInputPosition = m_InputPosition;
-                    }
-                    m_HasInput = true;
-                }
+                m_HasInput = true;
             }
             else
             {
-                m_HasInput = false;
-            }
+                if (Mouse.current.leftButton.isPressed || Touch.activeTouches.Count > 0)
+                {
+                    if (Touch.activeTouches.Count > 0)
+                    {
+                        m_InputPosition = Touch.activeTouches[0].screenPosition;
             
+                        if (!m_HasInput)
+                        {
+                            m_PreviousInputPosition = m_InputPosition;
+                        }
+                
+                        m_HasInput = true;
+                    }
+
+                    if (Mouse.current.leftButton.isPressed)
+                    {
+                        m_InputPosition = Mouse.current.position.ReadValue();
+
+                        if (!m_HasInput)
+                        {
+                            m_PreviousInputPosition = m_InputPosition;
+                        }
+                        m_HasInput = true;
+                    }
+                }
+                else
+                {
+                    m_HasInput = false;
+                    m_tempVal = 0;
+                }
+            }
+
             if (_player)
             {
                 if (m_HasInput)
