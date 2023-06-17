@@ -42,11 +42,11 @@ namespace UI
 
         private void SetValues(GloveModel currentLevelModel, GloveModel nextLevelModel)
         {
-            fireRateCurrentValueText.text = "=+" + currentLevelModel.FireRate;
+            fireRateCurrentValueText.text = ":+" + currentLevelModel.FireRate;
             fireRateNextValueText.text = "+" + nextLevelModel.FireRate;
-            powerCurrentValueText.text = "=+" + currentLevelModel.Power;
+            powerCurrentValueText.text = ":+" + currentLevelModel.Power;
             powerNextValueText.text = "+" + nextLevelModel.Power;
-            rangeCurrentValueText.text = "=+" + currentLevelModel.Range;
+            rangeCurrentValueText.text = ":+" + currentLevelModel.Range;
             rangeNextValueText.text = "+" + nextLevelModel.Range;
             if (nextLevelModel.FireRate > currentLevelModel.FireRate)
                 fireRateNextValueText.color = Color.green;

@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using Managers;
 using UnityEngine;
 
 namespace Entities
@@ -17,6 +18,7 @@ namespace Entities
         private float _tempTime;
         private float _targetSpeed;
         private Vector3 _tempRotation;
+        private SoundManager _soundManager;
 
         public Action<int> onBulletHit;
 
@@ -24,6 +26,7 @@ namespace Entities
         {
             _tempRotation = Vector3.zero;
             _targetSpeed = minHandleSpeed;
+            _soundManager = SoundManager.Instance;
         }
 
         private void Update()
@@ -58,6 +61,7 @@ namespace Entities
                 clockCollider.enabled = false;
                 clockParticle.gameObject.SetActive(false);
                 transform.DOScale(Vector3.zero, 0.5f);
+                _soundManager.CollideWithGate();
             }
         }
 
@@ -70,6 +74,7 @@ namespace Entities
             _canCountDown = true;
             _tempTime = 0;
             _targetSpeed = maxHandleSpeed;
+            _soundManager.BulletHitToClock();
             onBulletHit?.Invoke(1);
         }
     }

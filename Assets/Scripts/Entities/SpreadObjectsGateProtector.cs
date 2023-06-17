@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enums;
 using Sirenix.OdinInspector;
 using Statics;
 using UnityEngine;
@@ -13,8 +14,9 @@ namespace Entities
         [SerializeField] private List<Rigidbody> rigidbodies;
         [SerializeField] private float explosionForce;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             _initObjectCount = rigidbodies.Count;
             _health = _initObjectCount;
         }
@@ -32,6 +34,16 @@ namespace Entities
             var randomObject = rigidbodies.PickRandom();
             randomObject.isKinematic = false;
             randomObject.useGravity = true;
+            switch (protectorType)
+            {
+                case ProtectorType.Wood:
+                    _soundManager.BulletHitToWoodGate();
+                    break;
+                case ProtectorType.Brick:
+                    _soundManager.BulletHitToBrickGate();
+                    break;
+            }
+
             var pos = randomObject.transform.position;
             pos.z += 1;
             pos.y += Random.Range(-1f, 0f);
@@ -40,6 +52,15 @@ namespace Entities
             rigidbodies.Remove(randomObject);
             Destroy(randomObject.gameObject, 5f);
             if (_health > 0) return;
+            switch (protectorType)
+            {
+                case ProtectorType.Wood:
+                    _soundManager.BulletHitToWoodGate();
+                    break;
+                case ProtectorType.Brick:
+                    _soundManager.BrickGateBroke();
+                    break;
+            }
             ShieldBroken();
         }
     }

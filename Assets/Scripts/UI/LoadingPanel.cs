@@ -1,6 +1,7 @@
-﻿public class LoadingPanel : Panel
+﻿namespace UI
 {
-    public static LoadingPanel instance;
+    public class LoadingPanel : Panel
+    {
     
-    private void Awake() => instance = this;
+    }
 }

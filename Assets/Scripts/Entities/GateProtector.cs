@@ -1,4 +1,6 @@
 using System;
+using Enums;
+using Managers;
 using UnityEngine;
 
 namespace Entities
@@ -9,11 +11,18 @@ namespace Entities
         [SerializeField] protected Transform innerProgressBar;
         [SerializeField] protected GameObject wholeProgressBarObject;
         [SerializeField] protected Collider objectCollider;
+        [SerializeField] protected ProtectorType protectorType;
         
         protected float _initObjectCount;
         protected float _health;
+        protected SoundManager _soundManager;
 
         public Action onShieldBroke;
+
+        protected virtual void Start()
+        {
+            _soundManager = SoundManager.Instance;
+        }
 
         protected virtual void ShieldBroken()
         {

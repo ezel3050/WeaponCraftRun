@@ -19,8 +19,9 @@ namespace Entities
         [SerializeField] private HingeJoint connectorTwo;
         [SerializeField] private List<MeshRenderer> lockBeforeBreak;
         [SerializeField] private GameObject lockAfterBreak;
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             _health = health;
             _initObjectCount = _health;
         }
@@ -53,7 +54,9 @@ namespace Entities
             if (_health <= 0) return;
             base.BulletHit(other);
             ExplodeChain();
+            _soundManager.BulletHitToChainGate();
             if (_health > 0) return;
+            _soundManager.ChainGateBroke();
             ShieldBroken();
         }
 

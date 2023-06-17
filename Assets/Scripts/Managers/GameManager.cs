@@ -19,7 +19,7 @@ namespace Managers
             else
             {
                 Instance = this;
-                DontDestroyOnLoad(this);
+                // DontDestroyOnLoad(this);
                 FillComponents();
             }
         }
@@ -42,20 +42,20 @@ namespace Managers
 #if UNITY_EDITOR
         private void Update()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.S))
-                StartLevel();
-            if (UnityEngine.Input.GetKeyDown(KeyCode.W))
-                ForceWin();
-            if (UnityEngine.Input.GetKeyDown(KeyCode.L))
-                ForceLose();
-            if (UnityEngine.Input.GetKeyDown(KeyCode.R))
-                Retry();
-            if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow))
-                Skip();
-            if (UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow))
-                GoToPreviousLevel();
-            if (UnityEngine.Input.GetKeyDown(KeyCode.F))
-                ForceFinish();
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.S))
+            //     StartLevel();
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.W))
+            //     ForceWin();
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.L))
+            //     ForceLose();
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.R))
+            //     Retry();
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow))
+            //     Skip();
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow))
+            //     GoToPreviousLevel();
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.F))
+            //     ForceFinish();
         }
 #endif
 

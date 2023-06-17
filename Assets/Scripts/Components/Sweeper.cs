@@ -83,12 +83,12 @@ namespace Components
                 
                 transform.localPosition = _targetPos;
 
-                if (Mathf.Abs(_targetPos.x - maxPos.x) < 0.1f)
+                if (_targetPos.x - maxPos.x > 0f && isMoveRight)
                 {
                     isMoveRight = false;
                 }
 
-                if (Mathf.Abs(_targetPos.x - minPos.x) < 0.1f)
+                if (_targetPos.x - minPos.x < 0f && !isMoveRight)
                 {
                     isMoveRight = true;
                 }

@@ -23,12 +23,6 @@ namespace UI
 
         private List<WeaponModel> _modelList;
         private int _currentYear;
-        private bool _isInit;
-
-        private void Start()
-        {
-            _isInit = true;
-        }
 
         public void Initialize(int year, bool isFirstInit)
         {
@@ -37,7 +31,7 @@ namespace UI
             _modelList = ContentManager.Instance.GetTwoSideModel(year);
             InitializeCurrentState();
             InitializeNextState();
-            SyncProgressBar(year);
+            SyncProgressBar(year, isFirstInit);
         }
 
         private void InitializeCurrentState()
@@ -52,7 +46,7 @@ namespace UI
             nextYearText.text = _modelList[1].Year.ToString();
         }
 
-        private void SyncProgressBar(int year)
+        private void SyncProgressBar(int year , bool isFirstCall)
         {
             var currentYearDividedByTen = _currentYear / 10;
             var nextYearDividedByTen = year / 10;
@@ -63,7 +57,7 @@ namespace UI
             var wholeX = fullProgressBarSpot.position.x - zeroPosition.x;
             var target = (wholeX / 10) * zeroToTenScale;
             _currentYear = year;
-            if (_isInit)
+            if (!isFirstCall)
                 progressBarTransform.DOMoveX(zeroPosition.x + target, 0.3f);
             else
             {

@@ -1,55 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
-public class Panel : MonoBehaviour
+namespace UI
 {
-    public GameObject content;
+    public class Panel : MonoBehaviour
+    {
+        public GameObject content;
 
-    [Space]
+        [Space]
     
-    public bool isShown;
+        public bool isShown;
 
-    [Space]
+        [Space]
     
-    public UnityEvent onPanelShown;
-    public UnityEvent onPanelHidden;
+        public UnityEvent onPanelShown;
+        public UnityEvent onPanelHidden;
  
-    [HideInInspector] public Panel previousPanel;
+        [HideInInspector] public Panel previousPanel;
 
-    public virtual void Show()
-    {
-        isShown = true;
+        public virtual void Show()
+        {
+            isShown = true;
         
-        content.SetActive(true);
+            content.SetActive(true);
         
-        onPanelShown?.Invoke();
-    }
+            onPanelShown?.Invoke();
+        }
     
-    public void Show(Panel returnToPanel)
-    {
-        previousPanel = returnToPanel;
-        Show();
-    }
+        public void Show(Panel returnToPanel)
+        {
+            previousPanel = returnToPanel;
+            Show();
+        }
     
-    public virtual void Hide()
-    {
-        content.SetActive(false);
+        public virtual void Hide()
+        {
+            content.SetActive(false);
 
-        StartCoroutine(INEX.LateAction(() => isShown = false));
+            StartCoroutine(INEX.LateAction(() => isShown = false));
 
-        onPanelHidden?.Invoke();
-    }
+            onPanelHidden?.Invoke();
+        }
     
-    public void Show(float delay) => Invoke(nameof(Show), delay);
+        public void Show(float delay) => Invoke(nameof(Show), delay);
 
-    public void Hide(float delay) => Invoke(nameof(Hide), delay);
+        public void Hide(float delay) => Invoke(nameof(Hide), delay);
     
-    public void ReturnToPreviousPanel()
-    {
-        Hide();
-        previousPanel.Show();
+        public void ReturnToPreviousPanel()
+        {
+            Hide();
+            previousPanel.Show();
+        }
     }
 }

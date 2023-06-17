@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Components;
+using Managers;
 using TMPro;
 using UnityEngine;
 
@@ -42,6 +43,8 @@ namespace Entities
 
         public void PassedFromGate()
         {
+            if (_isActive)
+                SoundManager.Instance.CollideWithGate();
             onPassedFromGate?.Invoke(gateNumber, _isActive);
             DeActiveChosenObjects();
         }

@@ -9,12 +9,15 @@ using TMPro;
 using UI;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Managers
 {
     public class UIManager : MonoBehaviour
     {
+        [SerializeField] private GameObject mainPanel;
         [SerializeField] private Text levelText;
         [SerializeField] private TextMeshProUGUI moneyText;
         [SerializeField] private UIWeaponProgress uiWeaponProgress;
@@ -23,6 +26,10 @@ namespace Managers
         [SerializeField] private LevelFinishedPanel levelFinishedPanelPrefab;
         [SerializeField] private TapToStartPanel tapToStartPanel;
         [SerializeField] private DualWeaponButton dualWeaponButton;
+        [SerializeField] private GameObject enteringPanel;
+        [SerializeField] private LoadingPanel loadingPanel;
+        [SerializeField] private MessageBox messageBox;
+        [SerializeField] private TapToResumePanel tapToResumePanel;
         [SerializeField] private FadingText fadingTextPrefab;
         [SerializeField] private UnlockItemPanel unlockItemPanelPrefab;
         [SerializeField] private CannonPurchasePanel cannonPurchasePanelPrefab;
@@ -41,6 +48,10 @@ namespace Managers
         private DualShootPanel _dualShootPanel;
         private bool _isShowingCannonPurchasePanelOnNextLevel;
 
+        public LoadingPanel LoadingPanel => loadingPanel;
+        public MessageBox MessageBox => messageBox;
+        public TapToResumePanel TapToResumePanel => tapToResumePanel;
+
         public Action onCannonPurchased;
         public Action onWeaponUpgraded;
 
@@ -48,15 +59,16 @@ namespace Managers
         
         private void Awake()
         {
+            mainPanel.SetActive(false);
             if (Instance != null && Instance != this)
             {
                 Destroy(this.gameObject);
+                return;
             }
-            else
-            {
-                Instance = this;
-                DontDestroyOnLoad(this);
-            }
+            
+            Instance = this;
+            DontDestroyOnLoad(this);
+            mainPanel.SetActive(true);
         }
         
         private void Start()
@@ -70,6 +82,7 @@ namespace Managers
             dualWeaponButton.onDualWeaponClicked += DualWeaponClicked;
             _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
             _levelFinishedPanel.gameObject.SetActive(false);
+            ActiveDualGunButton(Prefs.CanShowDualGunButton);
         }
 
         public void OpenFinishingPanel()
@@ -85,7 +98,7 @@ namespace Managers
 
         private void DualWeaponClicked()
         {
-            dualWeaponButton.gameObject.SetActive(false);
+            ActiveDualGunButton(false);
             var currentLevel = (MasterGunLevel)LevelManager.CurrentLevel;
             currentLevel.ActiveSecondGun();
         }
@@ -136,8 +149,15 @@ namespace Managers
             _levelFinishedPanel.gameObject.SetActive(false);
             uiWeaponProgress.gameObject.SetActive(true);
             tapToStartPanel.gameObject.SetActive(true);
-            dualWeaponButton.gameObject.SetActive(true);
-            GameManager.InitializeLevelManager();
+            if (Prefs.CanShowDualGunButton)
+                ActiveDualGunButton(true);
+            LoadingPanelHandler(true);
+            SceneManager.LoadScene(0);
+        }
+
+        public void ActiveDualGunButton(bool isActive)
+        {
+            dualWeaponButton.gameObject.SetActive(isActive);
         }
 
         public void DeActiveWeaponProgressUI()
@@ -176,6 +196,18 @@ namespace Managers
                 Destroy(_unlockItemPanel.gameObject);
                 _levelFinishedPanel.ShrinkGlove();
             }
+        }
+
+        public void OpenEndGameWeaponPanel(Sprite icon, Action callback)
+        {
+            _claimPanel = Instantiate(claimPanelPrefab, parentSpot);
+            _claimPanel.Initialize(icon, () =>
+            {
+                Prefs.EndGameWeaponLevel++;
+                Prefs.IsReachedEndGamePlatform = true;
+                callback?.Invoke();
+                Destroy(_claimPanel.gameObject);
+            });
         }
 
         private void CreateCannonPurchasePanel()
@@ -275,6 +307,11 @@ namespace Managers
             {
                 Destroy(_dualShootPanel.gameObject);
             }
+        }
+
+        public void LoadingPanelHandler(bool isActive)
+        {
+            enteringPanel.SetActive(isActive);
         }
     }
 }

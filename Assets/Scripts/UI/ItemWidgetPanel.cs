@@ -13,6 +13,7 @@ namespace UI
         [SerializeField] private Transform lightTransform;
         [SerializeField] private RectMask2D rectMask2D;
         [SerializeField] private TextMeshProUGUI percentText;
+        [SerializeField] private TextMeshProUGUI descriptionText;
         [SerializeField] private Image mainIcon;
         [SerializeField] private Image blackIcon;
         [SerializeField] private float maxMaskPadding;
@@ -46,6 +47,7 @@ namespace UI
             else
             {
                 lightTransform.gameObject.SetActive(false);
+                descriptionText.gameObject.SetActive(false);
                 onIncreaseFinished?.Invoke(true);
                 return;
             }
@@ -92,6 +94,7 @@ namespace UI
         private void IncreasingFinished()
         {
             lightTransform.gameObject.SetActive(false);
+            descriptionText.gameObject.SetActive(false);
             onIncreaseFinished?.Invoke(_is100Percent);
         }
     }

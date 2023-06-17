@@ -85,6 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 1643307383957238933}
   magazineHandlers: []
+  clocks: []
   rail: {fileID: 8348073497928722305}
   finishLine: {fileID: 4224143019676418251}
   ending: {fileID: 366648076806811695}
@@ -92,6 +93,8 @@ MonoBehaviour:
   bulletGateSystemsCoefficient: 0
   platformMaterial: {fileID: 2100000, guid: ffcebaea8e714d443905660ac221fea9, type: 2}
   materialPercent: 0
+  endGameWeaponPlatform: {fileID: 4996698213829804656}
+  enemiesParent: {fileID: 6970767498508141610}
 --- !u!1 &3670300830398394169
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,6 +447,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1186600009664602313, guid: 25987a527c500734a98a2427a5f22635, type: 3}
   m_PrefabInstance: {fileID: 3145496143663945346}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4996698213829804656 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7994129714888627442, guid: 25987a527c500734a98a2427a5f22635, type: 3}
+  m_PrefabInstance: {fileID: 3145496143663945346}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0a5291f3385497d8d93d3f6cfd3c155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8348073497928722305 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6376354414388031747, guid: 25987a527c500734a98a2427a5f22635, type: 3}

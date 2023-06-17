@@ -49,11 +49,11 @@ namespace UI
 
         private void SetValues(WeaponModel currentModel, WeaponModel nextModel)
         {
-            fireRateCurrentValueText.text = "=+" + currentModel.Rate;
+            fireRateCurrentValueText.text = ":+" + currentModel.Rate;
             fireRateNextValueText.text = "+" + nextModel.Rate;
-            powerCurrentValueText.text = "=+" + currentModel.Power;
+            powerCurrentValueText.text = ":+" + currentModel.Power;
             powerNextValueText.text = "+" + nextModel.Power;
-            rangeCurrentValueText.text = "=+" + currentModel.Range;
+            rangeCurrentValueText.text = ":+" + currentModel.Range;
             rangeNextValueText.text = "+" + nextModel.Range;
             if (nextModel.Rate > currentModel.Rate)
                 fireRateNextValueText.color = Color.green;
