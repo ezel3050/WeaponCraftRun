@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Components;
 using DefaultNamespace;
+using DefaultNamespace.Core;
 using Enums;
 using Level;
 using Statics;
@@ -152,7 +153,14 @@ namespace Managers
             if (Prefs.CanShowDualGunButton)
                 ActiveDualGunButton(true);
             LoadingPanelHandler(true);
+            if (GameManagementPlayerPrefs.PlayerLevel > 1)
+                LoadInterstitial();
             SceneManager.LoadScene(0);
+        }
+
+        private void LoadInterstitial()
+        {
+            AdManager.Instance.ShowAd();
         }
 
         public void ActiveDualGunButton(bool isActive)
