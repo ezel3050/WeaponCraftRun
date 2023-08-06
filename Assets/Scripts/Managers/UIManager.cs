@@ -153,8 +153,8 @@ namespace Managers
             if (Prefs.CanShowDualGunButton)
                 ActiveDualGunButton(true);
             LoadingPanelHandler(true);
-            if (GameManagementPlayerPrefs.PlayerLevel > 1)
-                LoadInterstitial();
+          //  if (GameManagementPlayerPrefs.PlayerLevel > 1)
+          //      LoadInterstitial();
             SceneManager.LoadScene(0);
         }
 

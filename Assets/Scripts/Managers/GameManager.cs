@@ -71,6 +71,7 @@ namespace Managers
 
         public static void StartLevel()
         {
+            AdManager.Instance.ShowAd();
             LevelManager.Instance.StartLevelWheneverReady();
         }
 
