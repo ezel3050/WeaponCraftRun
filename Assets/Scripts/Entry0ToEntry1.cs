@@ -8,6 +8,6 @@ public class Entry0ToEntry1 : MonoBehaviour
         this.CallWithDelay(() =>
         {
             SceneManager.LoadSceneAsync(1);
-        }, 1f);
+        }, 1.2f);
     }
 }

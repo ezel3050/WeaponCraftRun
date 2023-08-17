@@ -10,7 +10,7 @@ public class LaunchLoader : MonoBehaviour
         this.CallWithDelay(() =>
         {
             LoadGame();
-        }, 1.25f);
+        }, 1.2f);
     }
 
     private void LoadGame() => SceneLoader.instance.LoadScene(2, true);
