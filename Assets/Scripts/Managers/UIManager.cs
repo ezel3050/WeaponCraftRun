@@ -10,6 +10,7 @@ using TMPro;
 using UI;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -57,7 +58,16 @@ namespace Managers
         public Action onWeaponUpgraded;
 
         public static UIManager Instance;
-        
+
+
+        [Space]
+        public AssetReference _adPanel;
+        public AssetReference _SettingsUI;
+        public AssetReference _UIWeaponProgress;
+        public AssetReference _UpgradeButtonPanel;
+
+
+
         private void Awake()
         {
             mainPanel.SetActive(false);
@@ -71,19 +81,67 @@ namespace Managers
             DontDestroyOnLoad(this);
             mainPanel.SetActive(true);
         }
-        
+
         private void Start()
         {
-            CurrencyHandler.onValueChanged += CurrencyChanged;
-            CurrencyChanged(CurrencyHandler.CurrentMoney, Vector3.zero, false);
-            rangeAndIncomePanel.onRangeAndIncomePanelClosed += OpenLevelFinishedPanel;
-            if (_levelFinishedPanel) Destroy(_levelFinishedPanel.gameObject);
-            _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
-            _levelFinishedPanel.onLevelFinishedPanelClosed += LevelFinishedPanelClosed;
-            dualWeaponButton.onDualWeaponClicked += DualWeaponClicked;
-            _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
-            _levelFinishedPanel.gameObject.SetActive(false);
-            ActiveDualGunButton(Prefs.CanShowDualGunButton);
+            this.CallWithDelay(() =>
+            {
+                CurrencyHandler.onValueChanged += CurrencyChanged;
+                CurrencyChanged(CurrencyHandler.CurrentMoney, Vector3.zero, false);
+                rangeAndIncomePanel.onRangeAndIncomePanelClosed += OpenLevelFinishedPanel;
+                if (_levelFinishedPanel) Destroy(_levelFinishedPanel.gameObject);
+                _levelFinishedPanel = Instantiate(levelFinishedPanelPrefab, parentSpot);
+                _levelFinishedPanel.onLevelFinishedPanelClosed += LevelFinishedPanelClosed;
+                dualWeaponButton.onDualWeaponClicked += DualWeaponClicked;
+                _levelFinishedPanel.onGloveReady += OpenGloveReadyPanel;
+                _levelFinishedPanel.gameObject.SetActive(false);
+                ActiveDualGunButton(Prefs.CanShowDualGunButton);
+            }, 3f);
+
+            this.CallWithDelay(() =>
+            {
+                _adPanel.LoadAssetAsync<GameObject>().Completed += (asyncOperationHandle) =>
+                {
+                    AdPanels adPanels = Instantiate(asyncOperationHandle.Result, mainPanel.transform).GetComponent<AdPanels>();
+
+                    loadingPanel = adPanels.LoadingPanel;
+                    messageBox = adPanels.messageBox;
+                    tapToResumePanel = adPanels.tapToResumePanel;
+
+                };
+                _SettingsUI.LoadAssetAsync<GameObject>().Completed += (asyncOperationHandle) =>
+                {
+                    GameObject GO = Instantiate(asyncOperationHandle.Result, mainPanel.transform);
+                    GO.transform.SetSiblingIndex(3);
+                };
+                _UIWeaponProgress.LoadAssetAsync<GameObject>().Completed += (asyncOperationHandle) =>
+                {
+                    uiWeaponProgress = Instantiate(asyncOperationHandle.Result, mainPanel.transform).GetComponent<UIWeaponProgress>();
+                    uiWeaponProgress.transform.SetSiblingIndex(3);
+
+                    enteringPanel.transform.SetAsLastSibling();
+                };
+
+
+            }, 1f);
+
+            this.CallWithDelay(() =>
+            {
+                enteringPanel.transform.SetAsLastSibling();
+                _UpgradeButtonPanel.LoadAssetAsync<GameObject>().Completed += (asyncOperationHandle) =>
+                {
+                    GameObject GO = Instantiate(asyncOperationHandle.Result, tapToStartPanel.transform);
+                    foreach (UpgradeButton upgradeButton in GO.GetComponentsInChildren<UpgradeButton>())
+                    {
+                        upgradeButtons.Add(upgradeButton);
+                    }
+
+                    this.CallWithDelay(() =>
+                    {
+                        SceneManager.LoadSceneAsync(2);
+                    }, 1);
+                };
+            }, 2f);
         }
 
         public void OpenFinishingPanel()
