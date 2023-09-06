@@ -12,14 +12,12 @@ public class TestScript : MonoBehaviour
         {
             if (UIManager.Instance == null)
             {
-
-
                 canvasRefrence.LoadAssetAsync<GameObject>().Completed += (asyncOperationHandle) =>
                 {
                     this.CallWithDelay(() =>
                     {
                         Instantiate(asyncOperationHandle.Result);
-                    }, 1);
+                    }, 1.5f);
                 };
             }
 
